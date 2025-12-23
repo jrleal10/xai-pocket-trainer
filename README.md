@@ -6,7 +6,7 @@
 
 ## 🚀 Acesso Rápido
 
-**URL de Produção**: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+**URL de Produção**: https://interviewxaiwebapp.vercel.app/
 
 👉 **Clique no link acima** para acessar o app agora mesmo!
 
@@ -31,7 +31,7 @@ O **xAI Pocket Trainer** é seu treinador pessoal de bolso para a entrevista fin
 ### 1. Abrir o App
 
 **Opção A: Acessar via navegador** (Desktop ou Mobile)
-- **URL**: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+- **URL**: https://interviewxaiwebapp.vercel.app/
 - Abra em Chrome, Edge ou Safari
 - Funciona em qualquer dispositivo
 

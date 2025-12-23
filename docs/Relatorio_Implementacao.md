@@ -51,7 +51,7 @@
 - **Desenvolvedor Inicial**: Claude (Anthropic AI Assistant)
 - **Deadline**: 29/12/2025 17:00 BRT (entrevista do João na xAI)
 - **Dispositivo Alvo**: Android Chrome
-- **URL Produção**: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+- **URL Produção**: https://interviewxaiwebapp.vercel.app
 - **GitHub Repo**: https://github.com/jrleal10/xai-pocket-trainer
 - **Plano Completo**: `C:\Users\joaor\.claude\plans\stateful-waddling-sky.md`
 - **PRD**: `C:\Projetos\interview_xai_web_app\docs\PRD_xAI_Pocket_Trainer.md`
@@ -162,7 +162,7 @@ Nenhum problema - implementação direta.
 #### 🔗 Para Outro Dev Continuar Daqui
 
 1. **Verificar se proteção está ativa**:
-   - Abrir: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app/robots.txt
+   - Abrir: https://interviewxaiwebapp.vercel.app/robots.txt
    - Deve mostrar conteúdo do arquivo robots.txt
    - Abrir DevTools → Network → verificar header `X-Robots-Tag` na resposta HTTP
 
@@ -334,11 +334,11 @@ Nenhum problema - implementação direta.
 #### 🔗 Para Outro Dev Continuar Daqui
 
 1. **Testar FASE 2 em Android**:
-   - Abrir URL: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app/#pitch
+   - Abrir URL: https://interviewxaiwebapp.vercel.app/#pitch
    - Testar timer 45s, 60s, 90s
    - Verificar vibração funciona ao entrar no amarelo e vermelho
    - Testar navegação entre prompts
-   - Abrir URL: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app/#objections
+   - Abrir URL: https://interviewxaiwebapp.vercel.app/#objections
    - Completar sessão de 10 objeções
    - Verificar score tracking correto
 
@@ -381,7 +381,7 @@ Nenhum problema - implementação direta.
 - Login no Vercel CLI
 - Deploy para Vercel produção
 - Conexão Vercel ↔ GitHub configurada (deploy automático)
-- URL de produção ativa: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+- URL de produção ativa: https://interviewxaiwebapp.vercel.app
 
 #### ⚙️ Como Foi Feito
 - **.gitignore**: Criado com exclusões padrão (node_modules, .env, .vercel, .claude, etc.)
@@ -452,7 +452,7 @@ Nenhum problema - implementação direta.
 #### 🔗 Para Outro Dev Continuar Daqui
 1. **URLs importantes**:
    - Repo GitHub: https://github.com/jrleal10/xai-pocket-trainer
-   - App Produção: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+   - App Produção: https://interviewxaiwebapp.vercel.app
    - Vercel Dashboard: https://vercel.com/jrleal10s-projects/interview_xai_web_app
 
 2. **Deploy automático está ativo**:
