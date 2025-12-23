@@ -491,6 +491,180 @@
     }
 
     /* ============================================
+       SECTION 7.5: TIMER MODE STYLES
+       ============================================ */
+
+    .timer-container {
+      text-align: center;
+      padding: var(--spacing-xl) 0;
+    }
+
+    .time-selector {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: center;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .time-selector .btn {
+      flex: 1;
+      max-width: 100px;
+    }
+
+    .time-selector .btn.selected {
+      background: var(--accent-secondary);
+      border: 2px solid var(--accent-primary);
+    }
+
+    .prompt-display {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-xl);
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .prompt-text {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--text-primary);
+    }
+
+    .timer-display-large {
+      font-family: 'SF Mono', 'Roboto Mono', monospace;
+      font-size: 5rem;
+      font-weight: 700;
+      margin: var(--spacing-xl) 0;
+      transition: color 0.3s ease;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .progress-fill {
+      height: 100%;
+      transition: width 0.1s linear, background 0.3s ease;
+      border-radius: 6px;
+    }
+
+    .timer-phase-green {
+      background: var(--color-success);
+    }
+
+    .timer-phase-green .timer-display-large {
+      color: var(--color-success);
+    }
+
+    .timer-phase-green .progress-fill {
+      background: var(--color-success);
+    }
+
+    .timer-phase-yellow {
+      background: var(--color-warning);
+    }
+
+    .timer-phase-yellow .timer-display-large {
+      color: var(--color-warning);
+    }
+
+    .timer-phase-yellow .progress-fill {
+      background: var(--color-warning);
+    }
+
+    .timer-phase-red {
+      background: var(--color-error);
+      animation: pulse-bg 0.5s ease-in-out infinite;
+    }
+
+    .timer-phase-red .timer-display-large {
+      color: var(--color-error);
+      animation: pulse-text 0.5s ease-in-out infinite;
+    }
+
+    .timer-phase-red .progress-fill {
+      background: var(--color-error);
+    }
+
+    @keyframes pulse-bg {
+      0%, 100% { background: var(--bg-primary); }
+      50% { background: rgba(239, 68, 68, 0.2); }
+    }
+
+    @keyframes pulse-text {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .wrap-up-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-error);
+      margin-top: var(--spacing-md);
+      animation: pulse-text 0.5s ease-in-out infinite;
+    }
+
+    .review-section {
+      margin-top: var(--spacing-xl);
+    }
+
+    .checklist {
+      text-align: left;
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: var(--spacing-lg);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .checklist-item {
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.875rem;
+    }
+
+    .checklist-item:last-child {
+      border-bottom: none;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      margin-right: var(--spacing-sm);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .ideal-script {
+      background: var(--bg-secondary);
+      border-left: 4px solid var(--accent-primary);
+      padding: var(--spacing-lg);
+      margin: var(--spacing-lg) 0;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      font-size: 0.938rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-lg);
+    }
+
+    .btn-group .btn {
+      flex: 1;
+    }
+
+    /* ============================================
        SECTION 8: LOADING STATE
        ============================================ */
 
@@ -656,9 +830,63 @@
     <div class="container">
       <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
       <h1 class="text-center">⏱️ 45-Second Pitch</h1>
-      <div class="card text-center">
-        <h2>Em breve!</h2>
-        <p class="text-muted">Feature disponível na FASE 2</p>
+
+      <!-- Time Selection Screen -->
+      <div id="pitch-setup" class="timer-container">
+        <p class="text-muted text-center">Escolha o tempo de prática:</p>
+        <div class="time-selector">
+          <button class="time-btn" data-seconds="45">45s</button>
+          <button class="time-btn active" data-seconds="60">60s</button>
+          <button class="time-btn" data-seconds="90">90s</button>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+          <h3 id="current-prompt-title">Prompt 1 de 8</h3>
+          <div class="prompt-display" id="prompt-text">Tell me about yourself</div>
+        </div>
+
+        <button class="btn btn-primary" id="start-timer-btn" style="margin-top: 2rem; width: 100%; font-size: 1.25rem; padding: 1rem;">
+          START
+        </button>
+      </div>
+
+      <!-- Timer Running Screen -->
+      <div id="pitch-running" class="timer-container" style="display: none;">
+        <div class="prompt-display" id="running-prompt">Tell me about yourself</div>
+
+        <div class="timer-display-large" id="timer-display">60</div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="timer-progress"></div>
+        </div>
+
+        <div id="wrap-up-message" style="display: none; color: var(--color-error); font-weight: 700; margin-top: 1rem; font-size: 1.25rem;">
+          WRAP UP!
+        </div>
+      </div>
+
+      <!-- Review Screen -->
+      <div id="pitch-review" class="timer-container" style="display: none;">
+        <h2 class="text-center" style="color: var(--accent-primary); margin-bottom: 2rem;">⏱️ Time's Up!</h2>
+
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">✅ Checklist</h3>
+          <div id="review-checklist" class="review-checklist">
+            <!-- Checklist items will be inserted here -->
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">📝 Script Ideal</h3>
+          <div class="ideal-script" id="ideal-script-content">
+            <!-- Ideal script will be inserted here -->
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-secondary" id="try-again-btn">Tentar Novamente</button>
+          <button class="btn btn-primary" id="next-prompt-btn">Próximo Prompt</button>
+        </div>
       </div>
     </div>
   </div>
@@ -667,9 +895,64 @@
     <div class="container">
       <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
       <h1 class="text-center">💣 Objection Handling</h1>
-      <div class="card text-center">
-        <h2>Em breve!</h2>
-        <p class="text-muted">Feature disponível na FASE 2</p>
+
+      <!-- Question Screen -->
+      <div id="objection-question" class="timer-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h3 id="objection-number">Objeção 1 de 10</h3>
+          <div id="objection-timer" style="font-size: 1.5rem; font-weight: 700; color: var(--color-warning);">5</div>
+        </div>
+
+        <div class="card" style="background: var(--bg-secondary); padding: 2rem; margin-bottom: 2rem;">
+          <p id="objection-text" style="font-size: 1.125rem; line-height: 1.6; font-weight: 500;"></p>
+        </div>
+
+        <div id="objection-options" style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Options will be inserted here -->
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+          <span id="objection-score" class="text-muted">Score: 0/0</span>
+        </div>
+      </div>
+
+      <!-- Feedback Screen -->
+      <div id="objection-feedback" class="timer-container" style="display: none;">
+        <div id="feedback-result" style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">
+          <!-- ✅ Correto! / ⚠️ Parcial / ❌ Errado -->
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">💡 Explicação</h3>
+          <p id="feedback-explanation" style="line-height: 1.6;"></p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">📝 Script Ideal</h3>
+          <div class="ideal-script" id="feedback-ideal-script"></div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+          <span id="feedback-score" class="text-muted" style="display: block; margin-bottom: 1rem;">Score: 0/0</span>
+          <button class="btn btn-primary" id="next-objection-btn" style="width: 100%; max-width: 300px;">
+            Próxima Objeção
+          </button>
+        </div>
+      </div>
+
+      <!-- Session Complete Screen -->
+      <div id="objection-complete" class="timer-container" style="display: none; text-align: center;">
+        <h2 style="color: var(--accent-primary); margin-bottom: 2rem;">🎉 Sessão Completa!</h2>
+
+        <div class="card">
+          <h3 style="font-size: 3rem; margin-bottom: 0.5rem;" id="final-score-display">0/10</h3>
+          <p class="text-muted">Corretas</p>
+        </div>
+
+        <div class="btn-group" style="margin-top: 2rem;">
+          <button class="btn btn-secondary" onclick="navigateTo('dashboard')">Voltar</button>
+          <button class="btn btn-primary" id="restart-objections-btn">Tentar Novamente</button>
+        </div>
       </div>
     </div>
   </div>
@@ -796,6 +1079,363 @@
       {id: 'D6', category: 'dos-donts', front: 'End Statements', back: "Downward inflection. Sounds confident. Don't trail off or upspeak."}
     ];
 
+    // 45-Second Pitch Prompts - From PRD Section 4.3.6
+    const pitchPrompts = [
+      {
+        id: 1,
+        prompt: "Tell me about yourself",
+        checklist: [
+          "Mentioned Joule (5 years, daily fundamental analysis)?",
+          "Mentioned ABC (validation project)?",
+          "Stated availability/readiness?",
+          "Under 60 seconds?",
+          "No apologies, 'man', or 'you know'?"
+        ],
+        idealScript: `5 years of daily fundamental analysis at Joule—a GARP fund in Brazil. I was in the investment committee doing DCF models, debating earnings quality, challenging theses.
+
+Before that, at ABC-Brasil, I validated their credit rating model. They had 7 fundamental ratios but didn't know which were predictive. I analyzed 5 years of data against actual defaults. Found 5 ratios were useful, 2 weren't. Built a logistic regression model. Central Bank approved it.
+
+Now I'm ready to start immediately. 100% available. This role at xAI is exactly what I want—applying first-principles thinking to teach finance through AI.`
+      },
+      {
+        id: 2,
+        prompt: "Why xAI?",
+        checklist: [
+          "Mentioned 'first-principles thinking'?",
+          "Connected to your background?",
+          "Showed understanding of xAI's mission?",
+          "Expressed genuine excitement?",
+          "Avoided generic answers?"
+        ],
+        idealScript: `First-principles thinking.
+
+xAI is building AI from the ground up using reasoning, not pattern-matching. That's exactly what I did at ABC: took 7 ratios, didn't trust conventional wisdom, validated each one against real defaults.
+
+This is a rare door into AI for someone with 20+ years of finance. I don't want to join some fintech that uses GPT via API. I want to BUILD the thing that teaches finance. That's only possible here.`
+      },
+      {
+        id: 3,
+        prompt: "Tell me about your fundamental analysis experience",
+        checklist: [
+          "Mentioned Joule specifics (5 years, investment committee)?",
+          "Gave concrete example (ratio, red flag, or story)?",
+          "Showed depth beyond surface-level?",
+          "Connected to xAI's needs?",
+          "Concise and confident?"
+        ],
+        idealScript: `5 years at Joule doing daily equity analysis in the investment committee.
+
+GARP strategy—Growth at Reasonable Price. We'd triangulate: EV/EBITDA, EV/EBIT, EV/FCF. Sacred rule: "Growth only matters if ROIC > WACC."
+
+One red flag I learned to spot: revenue up but cash flow from operations down. Usually means they're extending payment terms to juice sales. Or capitalizing expenses. The market eventually catches it.
+
+That validation mindset—proving things with data rather than trusting headlines—is exactly what AI tutoring needs for finance.`
+      },
+      {
+        id: 4,
+        prompt: "What's your most relevant experience for this role?",
+        checklist: [
+          "Led with ABC validation project?",
+          "Explained the validation process?",
+          "Connected to AI training?",
+          "Mentioned specific numbers (7 ratios, 5 predictive)?",
+          "Under 60 seconds?"
+        ],
+        idealScript: `The ABC rating model validation.
+
+Central Bank said our model was too judgmental. So I gathered 5 years of financial data and matched it against actual defaults.
+
+Analyzed 7 fundamental ratios one by one:
+- Interest Coverage → Highly predictive
+- Net Debt/EBITDA → Predictive
+- ROE → NOT predictive (can be gamed with leverage)
+- ROIC → Predictive
+- And so on...
+
+Found 5 were useful, 2 weren't. Built a logistic regression model with weights. Central Bank approved and praised the rigor.
+
+That validation process—testing whether concepts actually predict outcomes—is EXACTLY what training AI to tutor finance requires. You can't just feed it textbook formulas. You need someone who knows what works in practice.`
+      },
+      {
+        id: 5,
+        prompt: "Tell me about the ABC rating model project",
+        checklist: [
+          "Explained the problem (Central Bank objection)?",
+          "Described your solution (data validation)?",
+          "Gave specific results (5/7 ratios predictive)?",
+          "Mentioned outcome (Central Bank approval)?",
+          "Connected to xAI?"
+        ],
+        idealScript: `ABC had a credit rating model using 7 fundamental ratios: Interest Coverage, Net Debt/EBITDA, ROE, ROIC, Cash Conversion Cycle, Gross Margin, Operating Margin.
+
+Central Bank said it was too judgmental—we couldn't prove which ratios mattered.
+
+So I gathered 5 years of financial statements from our corporate clients and matched them against who actually defaulted.
+
+Tested each ratio:
+✅ Interest Coverage: Companies with <2x almost always defaulted
+✅ Net Debt/EBITDA: High leverage predicted trouble
+❌ ROE: NOT predictive (private companies game this with leverage)
+✅ ROIC: Very predictive
+❌ Gross Margin: Alone, not useful
+
+Built logistic regression with the 5 useful ratios. Central Bank approved. Model ran for years.
+
+This taught me: in finance, conventional wisdom often fails. You validate with data. That's what xAI needs for Grok.`
+      },
+      {
+        id: 6,
+        prompt: "You've done credit and equity analysis. How are they different?",
+        checklist: [
+          "Mentioned Modigliani-Miller?",
+          "Explained 'two views of same company'?",
+          "Showed depth beyond surface answer?",
+          "Avoided saying credit is 'easier' or 'harder'?",
+          "Confident and concise?"
+        ],
+        idealScript: `Modigliani-Miller principle: debt and equity are two views of the same company.
+
+Credit asks: "Will they pay me back?" Focus on downside protection, covenants, asset coverage.
+
+Equity asks: "Will this grow?" Focus on upside, ROIC > WACC, terminal value assumptions.
+
+But you're analyzing the same cash flows. If you understand enterprise value and capital structure, you can do both.
+
+At Joule, I'd decompose: EV = Market Cap + Net Debt. Equity is a residual claim. Credit is senior. But both depend on the business generating cash.
+
+At ABC, I used the same fundamental analysis—just focused on "can they cover interest?" instead of "will they grow earnings?"`
+      },
+      {
+        id: 7,
+        prompt: "Why are you leaving Joule?",
+        checklist: [
+          "Framed positively (moving TOWARD xAI, not AWAY from Joule)?",
+          "Expressed respect for Joule?",
+          "Emphasized deliberate choice?",
+          "Connected to career transition at 45?",
+          "No negativity or complaints?"
+        ],
+        idealScript: `I'm not leaving because something's wrong at Joule—it's been an incredible 5 years. +38% YTD, rigorous investment process, learned a ton.
+
+But at 45, this is my last chance to move into AI. If I wait 2-3 more years, that door closes.
+
+xAI is the only place where a finance practitioner can contribute to BUILDING the AI, not just using it. I don't want to join a fintech that calls OpenAI's API. I want to be where the reasoning is happening.
+
+This is a deliberate, one-time career move. I've transitioned out of Joule. I'm 100% available and ready to start immediately.`
+      },
+      {
+        id: 8,
+        prompt: "Do you have any questions for me?",
+        checklist: [
+          "Asked closing question (concerns about background)?",
+          "Showed confidence and openness?",
+          "Avoided generic questions?",
+          "Ended strong?",
+          "Ready to address concerns directly?"
+        ],
+        idealScript: `Yes—Jeffrey, I know we have limited time.
+
+Is there anything about my background that concerns you, or any question I can address right now?
+
+[PAUSE - let him respond]
+
+[If no concerns:]
+"Great. I'm excited about this role and ready to start immediately."`
+      }
+    ];
+
+    // Objection Handling Questions - From PRD Section 4.5.4 + Section 12.3
+    const objections = [
+      {
+        id: 1,
+        objection: "Why should we hire you instead of someone with a CFA?",
+        options: [
+          { text: "I haven't taken the CFA, but I can study for it if needed", score: 0 },
+          { text: "I've applied these concepts for 20 years with real money at stake", score: 2 },
+          { text: "The CFA is not that important for AI training work", score: 0 }
+        ],
+        correctIndex: 1,
+        explanation: "The CFA tests if you can pass an exam. Your experience tests if you can apply concepts when real money is at stake. That's what xAI needs: someone who knows what works in practice.",
+        idealScript: `I haven't taken the CFA, but I've APPLIED these concepts for 20 years with real money at stake.
+
+The CFA tests if you can pass an exam. My experience tests if you can actually use ROIC, WACC, DCF—when a wrong model costs the fund millions.
+
+At Joule, I wasn't regurgitating textbook formulas. I was in the investment committee defending: "This company's ROIC is 18%, WACC is 12%, trading at 8x EV/EBITDA—we should buy."
+
+For training Grok to tutor finance, you need someone who knows what actually predicts outcomes. That's validation, not memorization.`
+      },
+      {
+        id: 2,
+        objection: "You're 45. Won't you get bored doing data labeling?",
+        options: [
+          { text: "I won't get bored, I'm very motivated", score: 0 },
+          { text: "This isn't data labeling—it's validating what finance concepts AI should learn", score: 2 },
+          { text: "I'll work on other projects too, not just this", score: 1 }
+        ],
+        correctIndex: 1,
+        explanation: "Reframe the role. You're not 'labeling data'—you're validating financial knowledge for AI. That's exactly what you did at ABC with the rating model.",
+        idealScript: `This isn't data labeling—it's validating what finance concepts AI should learn.
+
+That's exactly what I did at ABC: Central Bank said our rating model was too judgmental. I validated 7 ratios against actual defaults. Found 5 were predictive, 2 weren't.
+
+Here, I'd be doing the same: testing if Grok's understanding of ROIC, DCF, earnings quality actually matches what works in practice.
+
+At 45, I'm not looking for novelty. I'm looking for IMPACT. Teaching AI to understand finance correctly—that's a 10-year project I want to commit to.`
+      },
+      {
+        id: 3,
+        objection: "Why are you really leaving Joule? There must be a problem.",
+        options: [
+          { text: "There's no problem, I just want to try something new", score: 0 },
+          { text: "Joule is great, but at 45, this is my last window to move into AI", score: 2 },
+          { text: "I've learned everything I can at Joule and need a new challenge", score: 1 }
+        ],
+        correctIndex: 1,
+        explanation: "Be honest but positive. Joule is excellent, but the AI opportunity has a time limit. Frame it as a deliberate career choice, not dissatisfaction.",
+        idealScript: `Joule is great—+38% YTD, rigorous process, learned a ton. There's no problem.
+
+But at 45, if I want to move into AI, this is my last window. In 2-3 years, that door closes.
+
+xAI is the only place where a finance practitioner can contribute to BUILDING the AI, not just using it via API.
+
+This is a deliberate, one-time career move. I've transitioned out of Joule cleanly. I'm 100% available and ready to start immediately.`
+      },
+      {
+        id: 4,
+        objection: "We have people with PhDs. You'll be the least educated person on the team.",
+        options: [
+          { text: "I learn quickly and can keep up", score: 0 },
+          { text: "PhDs are valuable, but this role needs someone who's lived finance daily for 20 years", score: 2 },
+          { text: "Education doesn't matter as much as experience", score: 1 }
+        ],
+        correctIndex: 1,
+        explanation: "Acknowledge their expertise but highlight your unique value: practical validation of financial concepts.",
+        idealScript: `PhDs are valuable—I respect that expertise.
+
+But this role needs someone who's lived finance daily for 20 years. Someone who knows that "Revenue ↑ but CFO ↓" is a red flag because they've seen companies fail from it.
+
+A PhD can explain Modigliani-Miller theoretically. I can explain why it matters when you're deciding if debt or equity is mispriced.
+
+At ABC, I validated which ratios predict defaults. At Joule, I validated which companies' growth is sustainable. That's the validation xAI needs for Grok.
+
+Different skill sets. Complementary.`
+      },
+      {
+        id: 5,
+        objection: "Your English isn't perfect. That might be a problem for writing training data.",
+        options: [
+          { text: "I'll work on improving my English", score: 0 },
+          { text: "My English is clear for technical finance. I've written reports for 20 years.", score: 2 },
+          { text: "I can have someone review my writing", score: 1 }
+        ],
+        correctIndex: 1,
+        explanation: "Never apologize for your English. Emphasize that technical finance communication is clear and you've done it professionally for decades.",
+        idealScript: `My English is clear for technical finance. I've written investment committee memos, rating reports, and client analyses for 20 years.
+
+For training Grok, you don't need literary prose. You need: "ROIC > WACC means value creation." "DSO rising faster than revenue = collection risk."
+
+That's technical precision. That's what I do.
+
+If there's a specific concern about my writing, I'm happy to do a sample task. But I've communicated complex finance in English daily for two decades.`
+      },
+      {
+        id: 6,
+        objection: "This role is in Palo Alto. You're in Brazil. How will that work?",
+        options: [
+          { text: "I can work remotely or relocate if needed", score: 1 },
+          { text: "I'm relocating to the US. Timing is flexible based on when you need me.", score: 2 },
+          { text: "Many companies work remotely now, it shouldn't be a problem", score: 0 }
+        ],
+        correctIndex: 1,
+        explanation: "Show commitment and flexibility. You're willing to relocate, and you can adapt to their timeline.",
+        idealScript: `I'm relocating to the US. Timing is flexible based on when you need me.
+
+If you need me to start remotely while I arrange relocation—I can do that. I'm in Brazil (UTC-3), so overlap with Palo Alto is manageable.
+
+If you need me on-site from day 1—I can arrange that too. My Joule transition is complete. I'm 100% available.
+
+Location is not a blocker. I'm committed to making this work.`
+      },
+      {
+        id: 7,
+        objection: "You've been at Joule for 5 years. Before that, 15 years at ABC. You don't job-hop. Why start now?",
+        options: [
+          { text: "I'm not job-hopping, this is a special opportunity", score: 1 },
+          { text: "At 45, this isn't job-hopping—it's a deliberate, one-time career transition into AI", score: 2 },
+          { text: "I stay long-term when I'm committed, and I'm committed to xAI", score: 1 }
+        ],
+        correctIndex: 1,
+        explanation: "Reframe as a strength. Your stability shows commitment. This move is exceptional and deliberate.",
+        idealScript: `Exactly—at 45, this isn't job-hopping. It's a deliberate, one-time career transition.
+
+I stayed at ABC for 15 years because I was building something: their credit risk framework. I stayed at Joule for 5 years because the GARP strategy was world-class.
+
+Now I'm moving to xAI because at 45, this is my last chance to contribute to building AI. If I don't do this now, I'll be analyzing stocks until retirement.
+
+My track record shows: when I commit, I stay. I'm committing to xAI long-term—this is a 10-year decision for me.`
+      },
+      {
+        id: 8,
+        objection: "We need someone who can start immediately. Can you really do that?",
+        options: [
+          { text: "Yes, I can start within 2-3 weeks", score: 1 },
+          { text: "Yes. I've transitioned out of Joule. I'm 100% available and ready to start immediately.", score: 2 },
+          { text: "I'll need to give notice, but I'll make it work", score: 0 }
+        ],
+        correctIndex: 1,
+        explanation: "Remove all doubt. You're ready NOW. No notice period, no delays.",
+        idealScript: `Yes. I've transitioned out of Joule cleanly. I'm 100% available.
+
+No notice period. No loose ends. If you say "start Monday," I'll be there Monday.
+
+I took this transition seriously because I'm serious about xAI. I didn't want to be in a position where I'm negotiating notice periods or wrapping up projects.
+
+I'm ready to start immediately.`
+      },
+      {
+        id: 9,
+        objection: "Sell me on why I should hire a Partner from a Brazilian fund to do AI work. (Sales Guy Test)",
+        options: [
+          { text: "I have unique experience that combines finance and validation skills", score: 1 },
+          { text: "You should hire me because I can validate if Grok's finance knowledge actually works—I've done it for 20 years with real money at stake", score: 2 },
+          { text: "I'm passionate about AI and willing to learn whatever is needed", score: 0 }
+        ],
+        correctIndex: 1,
+        explanation: "This is a test of confidence and clarity. Give a direct, compelling answer focused on your unique value proposition.",
+        idealScript: `You should hire me because I can validate if Grok's finance knowledge actually works—and I've done exactly that for 20 years with real money at stake.
+
+At ABC, I validated 7 financial ratios against real defaults. Found 5 predictive, 2 not. Built a model. Central Bank approved.
+
+At Joule, I validated companies' growth stories. "ROIC > WACC?" "Revenue up but CFO down—why?" Millions rode on getting it right.
+
+For training Grok to tutor finance, you need someone who knows: What predicts outcomes? What's textbook BS? What actually matters when money's at risk?
+
+That's me. That's what I've done daily for 20 years. And I can start immediately.`
+      },
+      {
+        id: 10,
+        objection: "This role involves a lot of repetitive work. You'll get bored in 3 months. (Boredom Test)",
+        options: [
+          { text: "I don't get bored easily, I'm very disciplined", score: 0 },
+          { text: "I spent 15 years analyzing the same 200 companies at ABC. I don't get bored—I get precise.", score: 2 },
+          { text: "I'll find ways to make the work interesting", score: 0 }
+        ],
+        correctIndex: 1,
+        explanation: "Use your track record as proof. You've done long-term, detail-oriented work and thrived.",
+        idealScript: `I spent 15 years at ABC analyzing credit risk for the same portfolio of 200 companies. Quarterly reviews. Same ratios. Same spreadsheets.
+
+I didn't get bored—I got precise. I learned which tiny changes in DSO predicted trouble 6 months later.
+
+At Joule, I analyzed the same 40-stock portfolio for 5 years. Daily investment committee. Same questions: "ROIC > WACC?" "Is growth sustainable?"
+
+Repetitive? Yes. Boring? No. Because precision matters. One ratio wrong = millions lost.
+
+For xAI, teaching Grok to understand ROIC correctly—that's repetitive validation work. But if Grok gets it wrong, it teaches millions of students wrong.
+
+I'm built for this. I don't get bored. I get it right.`
+      }
+    ];
+
     // ============================================
     // SECTION 2: STATE MANAGEMENT
     // ============================================
@@ -807,7 +1447,19 @@
       filteredCards: [...flashcardsData],
       reviewNeeded: [],
       knownCards: [],
-      isCardFlipped: false
+      isCardFlipped: false,
+      // Timer state
+      selectedTime: 60,
+      currentPromptIndex: 0,
+      timerRunning: false,
+      timerStartTime: null,
+      timerInterval: null,
+      // Objections state
+      currentObjectionIndex: 0,
+      objectionsAnswered: 0,
+      objectionsCorrect: 0,
+      objectionTimer: null,
+      objectionTimeRemaining: 5
     };
 
     // ============================================
@@ -830,6 +1482,10 @@
         // Initialize view-specific logic
         if (viewId === 'flashcards') {
           initFlashcards();
+        } else if (viewId === 'pitch') {
+          initPitchTimer();
+        } else if (viewId === 'objections') {
+          initObjections();
         }
       }
     }
@@ -1044,6 +1700,331 @@
           markAsKnown();
         }
       }
+    }
+
+    // ============================================
+    // SECTION 6.5: 45-SECOND PITCH TIMER LOGIC
+    // ============================================
+
+    function initPitchTimer() {
+      // Reset to setup screen
+      document.getElementById('pitch-setup').style.display = 'block';
+      document.getElementById('pitch-running').style.display = 'none';
+      document.getElementById('pitch-review').style.display = 'none';
+
+      // Update prompt display
+      updatePromptDisplay();
+
+      // Setup time selector buttons
+      document.querySelectorAll('.time-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          state.selectedTime = parseInt(this.getAttribute('data-seconds'));
+        });
+      });
+
+      // Setup START button
+      document.getElementById('start-timer-btn').addEventListener('click', startTimer);
+
+      // Setup review buttons
+      document.getElementById('try-again-btn').addEventListener('click', () => {
+        initPitchTimer();
+      });
+
+      document.getElementById('next-prompt-btn').addEventListener('click', () => {
+        state.currentPromptIndex = (state.currentPromptIndex + 1) % pitchPrompts.length;
+        initPitchTimer();
+      });
+    }
+
+    function updatePromptDisplay() {
+      const prompt = pitchPrompts[state.currentPromptIndex];
+      document.getElementById('current-prompt-title').textContent =
+        `Prompt ${state.currentPromptIndex + 1} de ${pitchPrompts.length}`;
+      document.getElementById('prompt-text').textContent = prompt.prompt;
+      document.getElementById('running-prompt').textContent = prompt.prompt;
+    }
+
+    function startTimer() {
+      // Hide setup, show running screen
+      document.getElementById('pitch-setup').style.display = 'none';
+      document.getElementById('pitch-running').style.display = 'block';
+
+      // Initialize timer
+      state.timerRunning = true;
+      state.timerStartTime = performance.now();
+      const duration = state.selectedTime * 1000; // Convert to milliseconds
+
+      // Initialize display
+      document.getElementById('timer-display').textContent = state.selectedTime;
+      document.getElementById('timer-progress').style.width = '0%';
+      document.getElementById('wrap-up-message').style.display = 'none';
+
+      // Reset timer classes
+      const timerDisplay = document.getElementById('timer-display');
+      const progressBar = document.getElementById('timer-progress');
+      timerDisplay.className = 'timer-display-large';
+      progressBar.className = 'progress-bar';
+
+      let hasVibratedYellow = false;
+      let hasVibratedRed = false;
+
+      // Update timer using requestAnimationFrame for accuracy
+      function updateTimer() {
+        if (!state.timerRunning) return;
+
+        const elapsed = performance.now() - state.timerStartTime;
+        const remaining = Math.max(0, duration - elapsed);
+        const remainingSeconds = Math.ceil(remaining / 1000);
+        const progressPercent = (elapsed / duration) * 100;
+
+        // Update display
+        document.getElementById('timer-display').textContent = remainingSeconds;
+        document.getElementById('timer-progress').style.width = `${Math.min(100, progressPercent)}%`;
+
+        // Color phases based on progress
+        if (progressPercent < 60) {
+          // Green phase (0-60%)
+          timerDisplay.classList.remove('timer-phase-yellow', 'timer-phase-red');
+          timerDisplay.classList.add('timer-phase-green');
+          progressBar.classList.remove('progress-yellow', 'progress-red');
+          progressBar.classList.add('progress-green');
+        } else if (progressPercent < 85) {
+          // Yellow phase (60-85%)
+          timerDisplay.classList.remove('timer-phase-green', 'timer-phase-red');
+          timerDisplay.classList.add('timer-phase-yellow');
+          progressBar.classList.remove('progress-green', 'progress-red');
+          progressBar.classList.add('progress-yellow');
+
+          // Vibrate once when entering yellow
+          if (!hasVibratedYellow && navigator.vibrate) {
+            navigator.vibrate(200);
+            hasVibratedYellow = true;
+          }
+        } else {
+          // Red phase (85-100%)
+          timerDisplay.classList.remove('timer-phase-green', 'timer-phase-yellow');
+          timerDisplay.classList.add('timer-phase-red');
+          progressBar.classList.remove('progress-green', 'progress-yellow');
+          progressBar.classList.add('progress-red');
+          document.getElementById('wrap-up-message').style.display = 'block';
+
+          // Vibrate pattern when entering red
+          if (!hasVibratedRed && navigator.vibrate) {
+            navigator.vibrate([100, 50, 100, 50, 100]);
+            hasVibratedRed = true;
+          }
+        }
+
+        // Check if timer is done
+        if (remaining <= 0) {
+          state.timerRunning = false;
+          showReview();
+        } else {
+          requestAnimationFrame(updateTimer);
+        }
+      }
+
+      // Start the timer loop
+      requestAnimationFrame(updateTimer);
+    }
+
+    function stopTimer() {
+      state.timerRunning = false;
+      if (state.timerInterval) {
+        clearInterval(state.timerInterval);
+        state.timerInterval = null;
+      }
+    }
+
+    function showReview() {
+      // Hide running screen, show review screen
+      document.getElementById('pitch-running').style.display = 'none';
+      document.getElementById('pitch-review').style.display = 'block';
+
+      // Get current prompt
+      const prompt = pitchPrompts[state.currentPromptIndex];
+
+      // Populate checklist
+      const checklistContainer = document.getElementById('review-checklist');
+      checklistContainer.innerHTML = '';
+      prompt.checklist.forEach(item => {
+        const checkItem = document.createElement('div');
+        checkItem.className = 'checklist-item';
+        checkItem.innerHTML = `<span class="checkbox">☐</span> ${item}`;
+        checklistContainer.appendChild(checkItem);
+      });
+
+      // Populate ideal script
+      document.getElementById('ideal-script-content').textContent = prompt.idealScript;
+    }
+
+    // ============================================
+    // SECTION 6.6: OBJECTION HANDLING LOGIC
+    // ============================================
+
+    function initObjections() {
+      // Reset state
+      state.currentObjectionIndex = 0;
+      state.objectionsAnswered = 0;
+      state.objectionsCorrect = 0;
+
+      // Show question screen
+      document.getElementById('objection-question').style.display = 'block';
+      document.getElementById('objection-feedback').style.display = 'none';
+      document.getElementById('objection-complete').style.display = 'none';
+
+      // Setup restart button
+      const restartBtn = document.getElementById('restart-objections-btn');
+      if (restartBtn) {
+        restartBtn.addEventListener('click', initObjections);
+      }
+
+      // Show first question
+      showObjectionQuestion();
+    }
+
+    function showObjectionQuestion() {
+      const objection = objections[state.currentObjectionIndex];
+
+      // Update display
+      document.getElementById('objection-number').textContent =
+        `Objeção ${state.currentObjectionIndex + 1} de ${objections.length}`;
+      document.getElementById('objection-text').textContent = objection.objection;
+      document.getElementById('objection-score').textContent =
+        `Score: ${state.objectionsCorrect}/${state.objectionsAnswered}`;
+
+      // Clear and populate options
+      const optionsContainer = document.getElementById('objection-options');
+      optionsContainer.innerHTML = '';
+
+      objection.options.forEach((option, index) => {
+        const optionBtn = document.createElement('button');
+        optionBtn.className = 'btn btn-secondary';
+        optionBtn.style.textAlign = 'left';
+        optionBtn.style.padding = '1rem';
+        optionBtn.textContent = String.fromCharCode(65 + index) + '. ' + option.text;
+        optionBtn.addEventListener('click', () => selectAnswer(index));
+        optionsContainer.appendChild(optionBtn);
+      });
+
+      // Start 5-second countdown
+      startObjectionTimer();
+    }
+
+    function startObjectionTimer() {
+      state.objectionTimeRemaining = 5;
+      document.getElementById('objection-timer').textContent = state.objectionTimeRemaining;
+
+      // Clear existing timer
+      if (state.objectionTimer) {
+        clearInterval(state.objectionTimer);
+      }
+
+      // Countdown
+      state.objectionTimer = setInterval(() => {
+        state.objectionTimeRemaining--;
+        document.getElementById('objection-timer').textContent = state.objectionTimeRemaining;
+
+        if (state.objectionTimeRemaining <= 0) {
+          clearInterval(state.objectionTimer);
+          // Auto-select first option (wrong answer) on timeout
+          selectAnswer(-1); // -1 indicates timeout
+        }
+      }, 1000);
+    }
+
+    function selectAnswer(selectedIndex) {
+      // Stop timer
+      if (state.objectionTimer) {
+        clearInterval(state.objectionTimer);
+        state.objectionTimer = null;
+      }
+
+      // Disable all option buttons
+      document.querySelectorAll('#objection-options button').forEach(btn => {
+        btn.disabled = true;
+      });
+
+      // Show feedback
+      showObjectionFeedback(selectedIndex);
+    }
+
+    function showObjectionFeedback(selectedIndex) {
+      const objection = objections[state.currentObjectionIndex];
+      state.objectionsAnswered++;
+
+      // Hide question, show feedback
+      document.getElementById('objection-question').style.display = 'none';
+      document.getElementById('objection-feedback').style.display = 'block';
+
+      // Determine result
+      let result, resultColor, score;
+
+      if (selectedIndex === -1) {
+        // Timeout
+        result = '⏱️ Tempo Esgotado!';
+        resultColor = 'var(--color-error)';
+        score = 0;
+      } else {
+        score = objection.options[selectedIndex].score;
+
+        if (selectedIndex === objection.correctIndex) {
+          result = '✅ Correto!';
+          resultColor = 'var(--accent-primary)';
+          state.objectionsCorrect++;
+        } else if (score === 1) {
+          result = '⚠️ Parcial';
+          resultColor = 'var(--color-warning)';
+        } else {
+          result = '❌ Errado';
+          resultColor = 'var(--color-error)';
+        }
+      }
+
+      // Display result
+      const resultDiv = document.getElementById('feedback-result');
+      resultDiv.textContent = result;
+      resultDiv.style.color = resultColor;
+
+      // Display explanation
+      document.getElementById('feedback-explanation').textContent = objection.explanation;
+
+      // Display ideal script
+      document.getElementById('feedback-ideal-script').textContent = objection.idealScript;
+
+      // Update score
+      document.getElementById('feedback-score').textContent =
+        `Score: ${state.objectionsCorrect}/${state.objectionsAnswered}`;
+
+      // Setup next button
+      const nextBtn = document.getElementById('next-objection-btn');
+      nextBtn.onclick = nextObjection;
+    }
+
+    function nextObjection() {
+      state.currentObjectionIndex++;
+
+      if (state.currentObjectionIndex >= objections.length) {
+        // Session complete
+        showObjectionComplete();
+      } else {
+        // Show next question
+        document.getElementById('objection-feedback').style.display = 'none';
+        document.getElementById('objection-question').style.display = 'block';
+        showObjectionQuestion();
+      }
+    }
+
+    function showObjectionComplete() {
+      // Hide feedback, show complete screen
+      document.getElementById('objection-feedback').style.display = 'none';
+      document.getElementById('objection-complete').style.display = 'block';
+
+      // Display final score
+      document.getElementById('final-score-display').textContent =
+        `${state.objectionsCorrect}/${objections.length}`;
     }
 
     // ============================================
