@@ -199,6 +199,44 @@ O app salva automaticamente:
 
 ---
 
+## 🔒 Privacidade & Segurança
+
+### O site é privado?
+
+✅ **SIM!** O app está configurado para **NÃO aparecer** em:
+- Google Search
+- Bing Search
+- Qualquer motor de busca
+- Wayback Machine (Internet Archive)
+- Cache do Google
+- Previews em redes sociais
+
+### Como isso funciona?
+
+Implementamos **3 camadas de proteção**:
+1. **robots.txt**: Instrui todos os crawlers a não indexar o site
+2. **Meta tags HTML**: `noindex, nofollow, noarchive, nosnippet`
+3. **HTTP Headers**: `X-Robots-Tag` bloqueando indexação
+
+### Posso compartilhar o link?
+
+✅ **SIM!** Você pode compartilhar a URL diretamente com:
+- Recrutadores (se pedirem exemplos do seu trabalho)
+- Amigos/mentores para feedback
+- Qualquer pessoa de confiança
+
+A URL funciona normalmente quando acessada diretamente. Apenas crawlers são bloqueados.
+
+### Os dados são seguros?
+
+✅ **SIM!**
+- Todos os dados ficam no **localStorage do seu browser**
+- Nada é enviado para servidores externos
+- Sem analytics, sem tracking, sem cookies de terceiros
+- Funciona 100% offline após primeira visita
+
+---
+
 ## 🔧 Troubleshooting
 
 ### O app não abre

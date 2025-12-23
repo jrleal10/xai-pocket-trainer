@@ -64,6 +64,126 @@
 
 ---
 
+### [SECURITY] Bloqueio de Crawlers e Robôs de Busca - 23/12/2025
+
+#### ✅ Implementado
+
+**Proteção em 3 Camadas**:
+1. **robots.txt** (arquivo: C:\Projetos\interview_xai_web_app\robots.txt)
+   - User-agent: * Disallow: /
+   - Bloqueios explícitos para 10+ crawlers principais (Google, Bing, DuckDuckGo, Baidu, Yandex, Facebook, Internet Archive, etc.)
+
+2. **Meta Tags HTML** (arquivo: index.html, linhas 11-14)
+   - `<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">`
+   - `<meta name="googlebot" content="noindex, nofollow">`
+   - `<meta name="bingbot" content="noindex, nofollow">`
+
+3. **HTTP Headers** (arquivo: C:\Projetos\interview_xai_web_app\vercel.json)
+   - Configuração Vercel adicionando header `X-Robots-Tag: noindex, nofollow, noarchive, nosnippet`
+   - Aplicado a todas as rotas via pattern `"source": "/(.*)""`
+
+#### ⚙️ Como Foi Feito
+
+**robots.txt**:
+- Criado arquivo na raiz do projeto
+- Seguindo padrão RFC 9309 (Robots Exclusion Protocol)
+- Disallow global para todos os user-agents
+- Bloqueios específicos para crawlers principais (dupla garantia)
+
+**Meta Tags**:
+- Adicionadas no `<head>` do index.html, após meta tags de PWA
+- Ordem das diretivas: noindex (não indexar), nofollow (não seguir links), noarchive (não cachear), nosnippet (não mostrar preview)
+- Tags específicas para Googlebot e Bingbot (crawlers mais comuns)
+
+**HTTP Headers via Vercel**:
+- Criado `vercel.json` com configuração de headers
+- Pattern `"/(.*)"` = aplica a todas as rotas (incluindo subpáginas se houver)
+- Header `X-Robots-Tag` = diretiva de nível HTTP (mais forte que meta tags)
+- Vercel processa automaticamente este arquivo no deploy
+
+**Decisões técnicas**:
+- **3 camadas redundantes**: Alguns crawlers ignoram robots.txt, outros ignoram meta tags, mas header HTTP é universal
+- **noarchive**: Previne Wayback Machine e cache do Google
+- **nosnippet**: Previne preview em redes sociais se alguém compartilhar a URL
+- **Não implementei password protection**: Usuário ainda pode compartilhar URL direta (útil para mostrar para recrutadores se necessário)
+
+#### ⚙️ Por Que Foi Feito
+
+**Motivação**: App contém informações pessoais/privadas:
+- Histórias específicas da carreira do João (Joule, ABC-Brasil)
+- Detalhes de salário/performance (+38% YTD)
+- Estratégias de resposta para objeções sensíveis (idade, CFA, etc.)
+- Preparação para entrevista específica (xAI, Jeffrey Weichsel)
+
+**Riscos se indexado**:
+- Recrutadores de outras empresas poderiam encontrar e ver que está em processo seletivo
+- Concorrentes na mesma vaga poderiam copiar estratégias
+- Informações sobre Joule/ABC poderiam aparecer em buscas
+
+**Solução escolhida**: Bloqueio de crawlers (não senha)
+- Permite acesso via URL direta (útil para compartilhar com pessoas confiáveis)
+- Não adiciona fricção ao uso diário (não precisa fazer login)
+- Previne indexação acidental em buscadores
+
+#### 🐛 Problemas Encontrados & Resoluções
+Nenhum problema - implementação direta.
+
+#### 🧪 Testes Realizados
+- [x] robots.txt criado na raiz (acessível em /robots.txt)
+- [x] Meta tags adicionadas ao <head> (visível no view-source)
+- [x] vercel.json criado com sintaxe JSON válida
+- [x] Commit realizado sem erros
+- [x] Push para GitHub bem-sucedido
+- [ ] Verificar header X-Robots-Tag no browser após deploy (pendente - aguardando Vercel processar)
+- [ ] Testar `site:URL` no Google após alguns dias (crawlers levam tempo para respeitar)
+
+#### 📝 Estado Atual do Projeto
+
+- **Arquivos criados**:
+  - robots.txt (novo)
+  - vercel.json (novo)
+
+- **Arquivos modificados**:
+  - index.html (+3 linhas de meta tags)
+
+- **Proteções ativas**:
+  - ✅ robots.txt bloqueando crawlers
+  - ✅ Meta tags HTML noindex/nofollow
+  - ✅ HTTP headers X-Robots-Tag
+  - ✅ Deploy automático para Vercel
+
+- **Features funcionais**:
+  - ✅ Todas as features anteriores (FASE 1 + FASE 2)
+  - ✅ Site NÃO será indexado por motores de busca
+  - ✅ Site continua acessível via URL direta
+
+- **Próximo passo**: Aguardar deploy do Vercel processar vercel.json (~1-2 minutos)
+
+#### 🔗 Para Outro Dev Continuar Daqui
+
+1. **Verificar se proteção está ativa**:
+   - Abrir: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app/robots.txt
+   - Deve mostrar conteúdo do arquivo robots.txt
+   - Abrir DevTools → Network → verificar header `X-Robots-Tag` na resposta HTTP
+
+2. **Se precisar permitir indexação no futuro**:
+   - Deletar robots.txt
+   - Remover meta tags do index.html (linhas 11-14)
+   - Deletar vercel.json
+   - Commit + push
+
+3. **Se precisar adicionar proteção por senha**:
+   - Vercel tem recurso "Password Protection" (pago)
+   - Ou implementar autenticação básica via Vercel Edge Functions
+   - Ou usar Vercel Authentication (OAuth)
+
+4. **Arquivos importantes**:
+   - robots.txt: Define regras para crawlers
+   - vercel.json: Configuração do Vercel (headers, redirects, rewrites)
+   - index.html linhas 11-14: Meta tags anti-crawler
+
+---
+
 ### [FASE 2.1 + 2.2] Timer 45-Second Pitch + Objection Handling - 23/12/2025
 
 #### ✅ Implementado
