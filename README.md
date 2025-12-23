@@ -4,6 +4,14 @@
 > **Data da Entrevista**: 29 de dezembro de 2025 às 17:00 BRT
 > **Entrevistador**: Jeffrey Weichsel (Human Data Manager)
 
+## 🚀 Acesso Rápido
+
+**URL de Produção**: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+
+👉 **Clique no link acima** para acessar o app agora mesmo!
+
+💡 **Dica**: Salve este link nos favoritos do seu celular para acesso rápido
+
 ---
 
 ## 🎯 O que é este app?
@@ -22,16 +30,21 @@ O **xAI Pocket Trainer** é seu treinador pessoal de bolso para a entrevista fin
 
 ### 1. Abrir o App
 
-**Opção A: No navegador (temporário)**
-- Abra `C:\Projetos\interview_xai_web_app\index.html` no Chrome ou Edge
-- Ou, após deploy, acesse a URL fornecida
+**Opção A: Acessar via navegador** (Desktop ou Mobile)
+- **URL**: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+- Abra em Chrome, Edge ou Safari
+- Funciona em qualquer dispositivo
 
-**Opção B: Instalar como PWA (recomendado)**
-1. Abra o app no Chrome/Edge do celular
-2. Toque no menu (3 pontos)
-3. Selecione "Adicionar à tela inicial"
+**Opção B: Instalar como PWA** (Recomendado - Mobile)
+1. Acesse a URL acima no Chrome/Edge do celular
+2. Toque no menu (3 pontos verticais)
+3. Selecione **"Adicionar à tela inicial"** ou **"Instalar app"**
 4. O app aparecerá como ícone no seu celular
 5. Funciona **offline** após instalação!
+
+**Opção C: Desenvolvimento local** (apenas para desenvolvedores)
+- Abra `C:\Projetos\interview_xai_web_app\index.html` diretamente no navegador
+- Ou clone o repositório: https://github.com/jrleal10/xai-pocket-trainer
 
 ---
 
