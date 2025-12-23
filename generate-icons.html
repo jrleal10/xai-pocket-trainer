@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xAI Trainer - Icon Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #10a37f;
+    }
+    .preview {
+      margin: 20px 0;
+    }
+    canvas {
+      border: 2px solid #10a37f;
+      margin: 10px;
+    }
+    button {
+      background: #10a37f;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin: 10px;
+    }
+    button:hover {
+      background: #0d8a6a;
+    }
+    .status {
+      margin-top: 20px;
+      color: #10a37f;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>xAI Pocket Trainer - Icon Generator</h1>
+  <p>This page will generate the PWA icons for the xAI Pocket Trainer app.</p>
+
+  <div class="preview">
+    <h2>Preview:</h2>
+    <canvas id="icon-192"></canvas>
+    <canvas id="icon-512"></canvas>
+  </div>
+
+  <button onclick="generateAndDownloadIcons()">Generate & Download Icons</button>
+
+  <div class="status" id="status"></div>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      canvas.width = size;
+      canvas.height = size;
+
+      // Background
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillRect(0, 0, size, size);
+
+      // Border
+      ctx.strokeStyle = '#10a37f';
+      ctx.lineWidth = size * 0.03;
+      ctx.strokeRect(ctx.lineWidth / 2, ctx.lineWidth / 2, size - ctx.lineWidth, size - ctx.lineWidth);
+
+      // Draw "xAI" text
+      ctx.fillStyle = '#10a37f';
+      ctx.font = `bold ${size * 0.35}px Arial, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('xAI', size / 2, size * 0.42);
+
+      // Draw "PT" text (Pocket Trainer)
+      ctx.font = `${size * 0.15}px Arial, sans-serif`;
+      ctx.fillText('POCKET TRAINER', size / 2, size * 0.7);
+    }
+
+    function generateAndDownloadIcons() {
+      const status = document.getElementById('status');
+      status.textContent = 'Generating icons...';
+
+      // Generate 192x192 icon
+      const canvas192 = document.getElementById('icon-192');
+      drawIcon(canvas192, 192);
+
+      // Generate 512x512 icon
+      const canvas512 = document.getElementById('icon-512');
+      drawIcon(canvas512, 512);
+
+      status.textContent = 'Icons generated! Preparing downloads...';
+
+      // Download 192x192
+      setTimeout(() => {
+        canvas192.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'icon-192.png';
+          a.click();
+          URL.revokeObjectURL(url);
+          status.textContent = 'Downloaded icon-192.png! Downloading icon-512.png...';
+
+          // Download 512x512
+          setTimeout(() => {
+            canvas512.toBlob(blob => {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'icon-512.png';
+              a.click();
+              URL.revokeObjectURL(url);
+              status.textContent = '✅ Both icons downloaded successfully! Move them to the icons/ folder.';
+            }, 'image/png');
+          }, 500);
+        }, 'image/png');
+      }, 100);
+    }
+
+    // Generate preview on load
+    window.addEventListener('load', () => {
+      const canvas192 = document.getElementById('icon-192');
+      const canvas512 = document.getElementById('icon-512');
+      drawIcon(canvas192, 192);
+      drawIcon(canvas512, 512);
+    });
+  </script>
+</body>
+</html>

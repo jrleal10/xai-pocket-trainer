@@ -1,0 +1,157 @@
+Entrevistador da Primeira Entrevista, data da entrevista: 29/Dez/2025
+
+Jeffrey Weichsel
+LinkedIn: https://www.linkedin.com/in/jeffrey-weichsel/
+
+
+Jeffrey Weichsel 
+  2nd degree connection
+Member of Program Staff at xAI
+
+xAI
+
+Connecticut College
+Palo Alto, California, United States
+
+Experience:
+xAI
+Full-time · 1 yr
+Member of Program Staff
+Oct 2025 - Present · 3 mos
+Palo Alto, California, United States · On-site
+Human Data Manager - Finance
+Jun 2025 - Oct 2025 · 5 mos
+Palo Alto, California, United States · On-site
+Skills: Artificial Intelligence (AI) · Project Management · Machine Learning · Data Annotation · Finance
+Human Data Team Lead
+Jan 2025 - Jun 2025 · 6 mos
+Remote
+• Lead a team of 15 AI tutors in the delivery of high-quality training data across diverse domains, including crypto and user-reported error detection.
+• Design and implement onboarding pipelines, project workflows, and rubric development processes to ensure data consistency and accuracy.
+• Collaborate cross-functionally with QA, operations, and engineering to standardize annotation practices and optimize instruction delivery.
+• Drive quality strategy through performance audits, feedback loops, and iterative rubric refinement.
+• Contribute directly to LLM model performance by identifying annotation blind spots and surfacing actionable data improvements.
+• Lead a team of 15 AI tutors in the delivery of high-quality training data across diverse domains, including crypto and user-reported error detection. • Design and implement onboarding pipelines, project workflows, and rubric development processes to ensure data consistency and accuracy. • Collaborate cross-functionally with QA, operations, and engineering to standardize annotation practices and optimize instruction delivery. • Drive quality strategy through performance audits, feedback loops, and iterative rubric refinement. • Contribute directly to LLM model performance by identifying annotation blind spots and surfacing actionable data improvements.
+Skills: Artificial Intelligence (AI) · Team Management · Quality Assurance · Team Leadership
+
+Scale AI
+1 yr 9 mos
+Remote
+Queue Manager
+Full-time
+Feb 2024 - Jan 2025 · 1 yr
+• Led pilot and experimental AI labeling projects with a focus on contributor onboarding, rubric design, and operational scaling.
+• Created benchmark tasks to assess and improve contributor performance, enabling more consistent and factual LLM training data.
+• Collaborated with Central QA to refine rubrics, align on edge cases, and deliver reliable outputs at scale.
+• Introduced process improvements that increased throughput while maintaining accuracy.
+• Led pilot and experimental AI labeling projects with a focus on contributor onboarding, rubric design, and operational scaling. • Created benchmark tasks to assess and improve contributor performance, enabling more consistent and factual LLM training data. • Collaborated with Central QA to refine rubrics, align on edge cases, and deliver reliable outputs at scale. • Introduced process improvements that increased throughput while maintaining accuracy.
+Skills: Artificial Intelligence (AI)
+Subject Matter Expert (Finance) at Scale AI
+Contract
+Jun 2023 - Feb 2024 · 9 mos
+New York City Metropolitan Area
+• Built and managed a QA audit team for finance and economics projects; improved contributor quality and training outcomes across multiple verticals.
+• Developed domain-specific screening pipelines to identify and certify qualified expert taskers.
+• Oversaw rubric iteration and quality calibration across projects; conducted audits of audits to maintain high performance standards.
+• Identified and documented reproducible blind spots in model behavior, contributing to rubric evolution.
+• Built and managed a QA audit team for finance and economics projects; improved contributor quality and training outcomes across multiple verticals. • Developed domain-specific screening pipelines to identify and certify qualified expert taskers. • Oversaw rubric iteration and quality calibration across projects; conducted audits of audits to maintain high performance standards. • Identified and documented reproducible blind spots in model behavior, contributing to rubric evolution.
+Skills: Finance · Artificial Intelligence (AI) · Project Management · Human Resources (HR)
+Expert Tasker
+Freelance
+May 2023 - Jun 2023 · 2 mos
+• Completed expert-level annotation and ranking tasks in finance and economics.
+• Promoted to reviewer based on quality metrics and subject matter expertise.
+• Completed expert-level annotation and ranking tasks in finance and economics. • Promoted to reviewer based on quality metrics and subject matter expertise.
+Skills: Artificial Intelligence (AI) · Finance · Economics
+
+President
+Weichsel Consulting
+Jan 2018 - Apr 2023 · 5 yrs 4 mos
+Greater New York City Area
+
+Director Emerging Markets Fixed Income/CEO/Chief Compliance Officer
+Otkritie Capital US Inc.
+Oct 2013 - Jan 2018 · 4 yrs 4 mos
+New York, NY
+Started New York Emerging Markets Fixed Income desk from scratch.
+Series 24 principal
+Ran US Broker Dealer of Otkritie Capital as CEO and Chief Compliance Officer
+Managed regulatory exams by FINRA and SEC with no deficiencies.
+Started New York Emerging Markets Fixed Income desk from scratch. Series 24 principal Ran US Broker Dealer of Otkritie Capital as CEO and Chief Compliance Officer Managed regulatory exams by FINRA and SEC with no deficiencies.
+
+Emerging Markets Fixed Income Sales
+Maxim Group
+Apr 2013 - Sep 2013 · 6 mos
+Greater New York City Area
+Covered US institutional emerging markets investors and middle markets trading Latam, Asian, Russian and CIS bonds.
+
+Emerging Markets Fixed Income FX and Derivatives Sales
+Troika Dialog
+May 2011 - Sep 2012 · 1 yr 5 mos
+New York City Metropolitan Area
+Sold Russian and other CIS Eurobonds and local currency debt to North and South American institutional clients. Successfully placed Eurobond deals totaling over $15 billion USD in the United States.
+
+Alfa-Bank
+3 yrs 9 mos
+Emerging Markets Fixed Income Sales
+Mar 2009 - May 2011 · 2 yrs 3 mos
+New York City Metropolitan Area
+Successfully launched Alfa Bank's New York Fixed Income sales desk. Sold Russian, Ukrainian and Kazakh Eurobonds and local currency debt to US long only and hedge fund clients. 
+Emerging Markets Fixed Income Sales
+Sep 2007 - Mar 2009 · 1 yr 7 mos
+Moscow, Moscow City, Russia
+Built out Alfa's European, Asian, North American and domestic fixed income distribution selling Russian, Ukrainian and Kazakh debt to institutional clients out of Alfa Bank's Moscow office.
+
+Internship
+Debevoise & Plimpton
+Jun 2006 - Aug 2006 · 3 mos
+Moscow, Moscow City, RussiaMoscow, Moscow City, Russia
+Internship in the Moscow branch of Debevoise and Plimpton fulfilling the internship requirement of MGIMO Master's degree program.
+
+Project Assistant
+Debevoise & Plimpton
+May 2003 - Aug 2003 · 4 mos
+New York City Metropolitan Area
+Paid internship
+
+Project Assistant
+Debevoise & Plimpton
+Nov 2002 - Feb 2003 · 4 mos
+New York City Metropolitan Area
+Paid internship
+
+
+Education:
+Connecticut College
+BA, International Relations
+2000 - 2004
+Minor in Russian. Studied abroad for a semester in Mysore, India via SATA (Study Abroad, Teach Abroad) and Irkutsk, Russia via Middlebury College.
+
+Moscow State Institute of International Relations (University) MFA Russia MGIMO
+MA, World Politics
+2005 - 2007
+All classes in Russian.
+
+Dalian Normal University
+Chinese Language
+2005 - 2005
+Studied Chinese Language for 5 weeks during summer.
+
+Irkutsk State Linguistic University
+Russian and Chinese
+2004 - 2005
+Studied Russian and Chinese for two semesters after graduating from college.
+
+Licenses & certifications:
+Series 24
+FINRA
+Issued Feb 2014
+
+Series 55
+FINRA
+
+Series 63
+FINRA
+
+Series 7
+FINRA

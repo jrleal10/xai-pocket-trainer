@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+    <rect width="512" height="512" fill="#0a0a0a"/>
+    <rect x="25.6" y="25.6" width="460.8" height="460.8" fill="none" stroke="#10a37f" stroke-width="15.36"/>
+    <text x="50%" y="42%" text-anchor="middle" font-family="Arial, sans-serif" font-size="179.2" font-weight="bold" fill="#10a37f">xAI</text>
+    <text x="50%" y="70%" text-anchor="middle" font-family="Arial, sans-serif" font-size="61.44" fill="#10a37f">POCKET TRAINER</text>
+  </svg>
