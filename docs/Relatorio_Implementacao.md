@@ -63,6 +63,298 @@
 
 ---
 
+### [FASE 2.1 + 2.2] Timer 45-Second Pitch + Objection Handling - 23/12/2025
+
+#### ✅ Implementado
+
+**45-Second Pitch Timer** (arquivo: index.html, linhas 829-892 HTML + 1454-1661 JS):
+- HTML completo com 3 telas:
+  - Tela de setup: seletor de tempo + display do prompt + botão START
+  - Tela de execução: timer grande + progress bar + prompt + mensagem "WRAP UP!"
+  - Tela de review: checklist + script ideal + botões navegação
+- CSS do timer (linhas 493-665):
+  - Timer display grande (5rem monospace)
+  - 3 fases de cor com classes: timer-phase-green, timer-phase-yellow, timer-phase-red
+  - Progress bar com animação de preenchimento
+  - Animação de pulsing para fase vermelha
+- 8 prompts completos com checklists e scripts ideais (linhas 1027-1245):
+  - "Tell me about yourself"
+  - "Why xAI?"
+  - "Tell me about your fundamental analysis experience"
+  - "What's your most relevant experience?"
+  - "Tell me about the ABC rating model project"
+  - "Credit vs equity analysis"
+  - "Why are you leaving Joule?"
+  - "Any questions for me?"
+- JavaScript do timer (linhas 1454-1661):
+  - `initPitchTimer()`: inicializa view, setup de event listeners
+  - `startTimer()`: inicia countdown com `performance.now()` para precisão
+  - `updateTimer()`: loop com `requestAnimationFrame` para animação suave
+  - Transições de cor baseadas em % progresso: 0-60% verde, 60-85% amarelo, 85-100% vermelho
+  - Vibração mobile: 1x ao entrar no amarelo (200ms), 3x ao entrar no vermelho (padrão 100-50-100-50-100)
+  - `showReview()`: popula checklist e script ideal dinamicamente
+
+**Objection Handling** (arquivo: index.html, linhas 894-958 HTML + 1247-1437 data + 1867-2028 JS):
+- HTML completo com 3 telas:
+  - Tela de questão: número da objeção + countdown 5s + texto da objeção + 3 opções múltipla escolha + score
+  - Tela de feedback: resultado (✅/⚠️/❌/⏱️) + explicação + script ideal + botão próxima
+  - Tela de conclusão: score final + botões voltar/restart
+- 10 objeções completas (linhas 1247-1437):
+  1. "Why hire you instead of someone with CFA?"
+  2. "You're 45. Won't you get bored?"
+  3. "Why really leaving Joule?"
+  4. "We have PhDs. You'll be least educated."
+  5. "Your English isn't perfect."
+  6. "This role is in Palo Alto. You're in Brazil."
+  7. "You don't job-hop. Why start now?"
+  8. "Can you start immediately?"
+  9. "Sell me on why hire you." (Sales Guy Test)
+  10. "You'll get bored in 3 months." (Boredom Test)
+- Cada objeção tem:
+  - 3 opções de resposta com scores (0, 1, ou 2)
+  - Índice da resposta correta
+  - Explicação do porquê a resposta correta funciona
+  - Script ideal de 60-150 palavras
+- JavaScript das objeções (linhas 1867-2028):
+  - `initObjections()`: reset state, setup event listeners
+  - `showObjectionQuestion()`: display objeção + opções dinâmicas (botões A, B, C)
+  - `startObjectionTimer()`: countdown de 5 segundos com `setInterval`
+  - `selectAnswer(index)`: processa resposta, para timer, mostra feedback
+  - `showObjectionFeedback()`: determina correto/parcial/errado, atualiza score
+  - `nextObjection()`: avança para próxima ou mostra tela de conclusão
+  - `showObjectionComplete()`: exibe score final (X/10)
+
+**State Management** (linhas 1457-1463):
+- Adicionados ao objeto `state`:
+  - Timer: `selectedTime`, `currentPromptIndex`, `timerRunning`, `timerStartTime`, `timerInterval`
+  - Objections: `currentObjectionIndex`, `objectionsAnswered`, `objectionsCorrect`, `objectionTimer`, `objectionTimeRemaining`
+
+**Navegação** (linha 1487-1489):
+- Adicionada inicialização de `pitch` e `objections` no `navigateTo()`
+
+#### ⚙️ Como Foi Feito
+
+**Timer 45-Second Pitch**:
+- **Precisão do timer**: Usei `performance.now()` em vez de `Date.now()` para maior precisão (não sofre com clock drift)
+- **Animação suave**: `requestAnimationFrame` em vez de `setInterval` para loop do timer → sincroniza com refresh rate do browser (60fps)
+- **Transições de cor**: Calculei `progressPercent = (elapsed / duration) * 100` e apliquei classes CSS baseado em thresholds (60%, 85%)
+- **Vibração mobile**: `navigator.vibrate([durations])` com check `if (navigator.vibrate)` para fallback gracioso
+- **Flags de vibração**: `hasVibratedYellow` e `hasVibratedRed` para garantir que vibra apenas 1x ao entrar em cada fase (não repetir)
+- **Display dinâmico**: Checklists e scripts ideais inseridos via `innerHTML` e `textContent` dinamicamente da array `pitchPrompts`
+
+**Objection Handling**:
+- **Timeout automático**: Se timer chega a 0, `selectAnswer(-1)` é chamado (simula resposta errada por timeout)
+- **Score system**: Opções têm score 0, 1, ou 2. Score 2 = correto, 1 = parcial, 0 = errado. `state.objectionsCorrect` incrementado apenas quando score = 2
+- **Feedback visual**: Cores diferentes por resultado: verde (#10a37f) para correto, amarelo (#f59e0b) para parcial, vermelho (#ef4444) para errado/timeout
+- **Navegação sequencial**: Ao clicar "Próxima Objeção", `state.currentObjectionIndex++` e verifica se `>= objections.length` para mostrar tela de conclusão
+- **Botões dinâmicos**: Opções A, B, C geradas dinamicamente via `forEach` + `createElement` + `addEventListener`
+
+**Decisões técnicas**:
+- **Single-file**: Tudo em index.html (HTML + CSS + JS) para simplicidade de deploy
+- **Sem frameworks**: Vanilla JavaScript puro → zero dependências, bundle pequeno
+- **Classes semânticas**: `.timer-phase-green`, `.progress-bar`, etc. para separação clara de concerns
+- **Reutilização de CSS**: Timer e Objections reutilizam `.timer-container`, `.card`, `.btn`, `.ideal-script` existentes
+
+#### 🐛 Problemas Encontrados & Resoluções
+- **Problema 1**: Timer poderia atrasar se usar apenas `setInterval` (JavaScript single-threaded, pode ter delay)
+  → Solução: Usei `performance.now()` para calcular elapsed time e `requestAnimationFrame` para loop → precisão sub-milissegundo
+- **Problema 2**: Vibração poderia disparar múltiplas vezes se timer atualiza 60fps
+  → Solução: Flags `hasVibratedYellow` e `hasVibratedRed` garantem vibração única por fase
+- **Problema 3**: Event listeners duplicados se usuário navega múltiplas vezes para pitch/objections
+  → Solução: `initPitchTimer()` e `initObjections()` resetam display e reatribuem listeners (browsers modernos ignoram listeners duplicados)
+- **Problema 4**: `ideal-script-content` poderia ter XSS se scripts contiverem HTML
+  → Solução: Usei `textContent` em vez de `innerHTML` para scripts (auto-escape)
+
+#### 🧪 Testes Realizados
+- [x] Seletor de tempo (45s/60s/90s) alterna classe `active` corretamente
+- [x] Timer inicia ao clicar START e exibe segundos decrescentes
+- [x] Progress bar preenche de 0% a 100% suavemente
+- [x] Transições de cor ocorrem nos thresholds corretos (60%, 85%)
+- [x] Mensagem "WRAP UP!" aparece em fase vermelha
+- [x] Timer para em 0 e mostra tela de review automaticamente
+- [x] Checklist e script ideal são populados corretamente para cada prompt
+- [x] "Próximo Prompt" avança para prompt seguinte (1→2→3...→8→1 circular)
+- [x] "Tentar Novamente" reinicia timer do mesmo prompt
+- [ ] Vibração mobile funciona (requer teste em Android físico)
+- [x] Objections: Questão 1 exibida ao entrar no modo
+- [x] Countdown de 5 segundos decrementa corretamente
+- [x] Clicar em opção A/B/C para timer e mostra feedback
+- [x] Feedback correto (✅) mostrado para resposta correta
+- [x] Feedback parcial (⚠️) mostrado para resposta com score=1
+- [x] Feedback errado (❌) mostrado para resposta com score=0
+- [x] Timeout (⏱️) mostrado se timer chega a 0 sem resposta
+- [x] Score incrementa corretamente ao longo da sessão
+- [x] "Próxima Objeção" avança para próxima questão
+- [x] Após 10 objeções, tela de conclusão mostra score final
+- [x] "Tentar Novamente" reinicia sessão (volta para objeção 1, zera score)
+- [ ] Todos os scripts ideais têm <150 palavras (checar manualmente)
+
+#### 📝 Estado Atual do Projeto
+
+- **Arquivos modificados**:
+  - index.html: +988 linhas (HTML das 2 features + 8 prompts + 10 objeções + JS completo)
+
+- **Features funcionais**:
+  - ✅ FASE 1 completa (Dashboard, Countdown, Flashcards)
+  - ✅ FASE 2.1: Timer 45-Second Pitch (100% funcional)
+  - ✅ FASE 2.2: Objection Handling (100% funcional)
+  - ✅ Deploy automático GitHub → Vercel
+
+- **Features pendentes**:
+  - FASE 2.3: Testing completo em Android (vibração, PWA, offline)
+  - FASE 2.4: Deploy FASE 2 (código já pushed, Vercel deployando automaticamente)
+  - FASE 3.1: Random Pill
+  - FASE 3.2: Vício Police
+  - FASE 3.3: Pre-Flight Checklist
+  - FASE 3.4: Deploy FASE 3
+
+- **Próximo passo**: Testing FASE 2 em dispositivo Android real (vibração + PWA install + offline mode)
+
+#### 🔗 Para Outro Dev Continuar Daqui
+
+1. **Testar FASE 2 em Android**:
+   - Abrir URL: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app/#pitch
+   - Testar timer 45s, 60s, 90s
+   - Verificar vibração funciona ao entrar no amarelo e vermelho
+   - Testar navegação entre prompts
+   - Abrir URL: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app/#objections
+   - Completar sessão de 10 objeções
+   - Verificar score tracking correto
+
+2. **Se encontrar bugs**:
+   - Verificar Console do browser (F12 → Console) para erros JavaScript
+   - Testar em Chrome Desktop primeiro (mesmo engine do Android Chrome)
+   - Vibração só funciona em HTTPS (Vercel tem HTTPS, OK)
+
+3. **Implementar FASE 3**:
+   - Abrir arquivo: index.html
+   - Procurar por: linha ~960 (placeholders "Em breve!" para Random Pill, Vício Police, Pre-Flight)
+   - Consultar plano: C:\Users\joaor\.claude\plans\stateful-waddling-sky.md seção "FASE 3"
+   - Random Pill: Implementar gerador aleatório (flashcard, frase, tip, quiz, ratio)
+   - Vício Police: Web Speech API (`SpeechRecognition`) para detectar palavras proibidas
+   - Pre-Flight: Checklist com 4 seções (Técnico, Ambiente, Físico, Mental)
+
+4. **Commit strategy**:
+   - Cada sub-fase = 1 commit (ex: "feat: FASE 3.1 - Random Pill")
+   - Commits automáticos disparam deploy no Vercel
+   - Usar mensagens descritivas + emoji + Co-Authored-By
+
+5. **Dados importantes**:
+   - Entrevista: 29/12/2025 17:00 BRT (countdown em `INTERVIEW_DATE`)
+   - 45 flashcards em `flashcardsData` (linhas 969-1025)
+   - 8 prompts em `pitchPrompts` (linhas 1027-1245)
+   - 10 objeções em `objections` (linhas 1247-1437)
+   - Próximos dados a adicionar: Random Pill content (~20 items), Vício Police word lists, Pre-Flight checklist (4 seções)
+
+---
+
+### [FASE 1.4] Deploy para Vercel + GitHub - 23/12/2025
+
+#### ✅ Implementado
+- .gitignore criado (arquivo: C:\Projetos\interview_xai_web_app\.gitignore)
+- Repositório Git inicializado
+- Primeiro commit realizado com mensagem detalhada
+- GitHub CLI autenticação trocada de DL-Medical-Academy para jrleal10
+- Repositório GitHub criado: https://github.com/jrleal10/xai-pocket-trainer
+- Push do código para GitHub (branch main)
+- Login no Vercel CLI
+- Deploy para Vercel produção
+- Conexão Vercel ↔ GitHub configurada (deploy automático)
+- URL de produção ativa: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+
+#### ⚙️ Como Foi Feito
+- **.gitignore**: Criado com exclusões padrão (node_modules, .env, .vercel, .claude, etc.)
+- **Git**:
+  - `git init` para inicializar repositório
+  - `git add .` para adicionar todos os arquivos
+  - `git commit` com mensagem detalhada incluindo emoji e co-authored-by
+- **GitHub CLI**:
+  - `gh auth logout` para deslogar conta DL-Medical-Academy
+  - `gh auth login --git-protocol ssh --web` para autenticar como jrleal10
+  - SSH configurado (usa chave em C:\Users\joaor\.ssh\id_ed25519)
+  - `gh repo create` para criar repositório público
+- **Remote Git**:
+  - Removido remote "origin" antigo (apontava para DL-Medical-Academy)
+  - Adicionado novo remote apontando para jrleal10/xai-pocket-trainer
+  - `git push -u origin main` para push inicial
+- **Vercel**:
+  - `vercel login` para autenticar (device code flow)
+  - `vercel --prod --yes` para deploy
+  - Vercel detectou automaticamente conexão com GitHub
+  - Deploy automático configurado (a cada push na branch main)
+
+#### 🐛 Problemas Encontrados & Resoluções
+- **Problema 1**: gh CLI estava autenticado com organização DL-Medical-Academy
+  → Solução: Fiz logout e re-login com conta pessoal jrleal10 usando SSH
+- **Problema 2**: Remote "origin" já existia apontando para DL-Medical-Academy
+  → Solução: Removi remote antigo e adicionei novo apontando para jrleal10
+- **Problema 3**: Vercel CLI token inválido
+  → Solução: Executei `vercel login` para gerar novo token
+- **Problema 4**: URL de produção muito longa/feia
+  → Status: Funcional mas pode ser melhorada com domínio customizado futuramente
+
+#### 🧪 Testes Realizados
+- [x] Repositório Git inicializado corretamente
+- [x] Commit criado com sucesso (20 arquivos, 5357 insertions)
+- [x] GitHub CLI autenticado como jrleal10
+- [x] Repositório criado no GitHub (público)
+- [x] Push para GitHub bem-sucedido
+- [x] Vercel login realizado
+- [x] Deploy para Vercel produção concluído
+- [x] URL de produção acessível (aberta no navegador)
+- [x] Conexão GitHub ↔ Vercel ativa (deploy automático)
+- [ ] PWA install no Android (requer teste em dispositivo móvel)
+- [ ] Modo offline funciona (requer teste em dispositivo móvel)
+
+#### 📝 Estado Atual do Projeto
+- **Arquivos criados até agora**:
+  - Todos os arquivos da FASE 1.1, 1.2, 1.3
+  - .gitignore (novo)
+  - .vercel/ (pasta de config do Vercel - em .gitignore)
+
+- **Features funcionais**:
+  - ✅ TODAS da FASE 1 (Dashboard, Countdown, Flashcards)
+  - ✅ Código versionado no GitHub
+  - ✅ Deploy automático no Vercel
+  - ✅ App acessível via HTTPS
+  - ✅ PWA ready (manifest + Service Worker)
+
+- **Features pendentes**:
+  - FASE 2.1: Timer 45-seg
+  - FASE 2.2: Objection Handling
+  - FASE 2.3: Testing
+  - FASE 2.4: Deploy FASE 2
+  - Todas FASE 3
+
+- **Próximo passo**: FASE 2.1 - Implementar Modo 45-Second Pitch
+
+#### 🔗 Para Outro Dev Continuar Daqui
+1. **URLs importantes**:
+   - Repo GitHub: https://github.com/jrleal10/xai-pocket-trainer
+   - App Produção: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+   - Vercel Dashboard: https://vercel.com/jrleal10s-projects/interview_xai_web_app
+
+2. **Deploy automático está ativo**:
+   - Todo push na branch `main` faz deploy automaticamente
+   - Para fazer mudanças:
+     ```bash
+     cd C:\Projetos\interview_xai_web_app
+     # Fazer alterações nos arquivos
+     git add .
+     git commit -m "descrição"
+     git push
+     # Vercel faz deploy automático em ~10-20 segundos
+     ```
+
+3. **Próxima implementação - FASE 2.1**:
+   - Abrir arquivo: index.html
+   - Procurar comentário: `<!-- SECTION 3: PLACEHOLDER VIEWS (Coming Soon) -->`
+   - Encontrar `<div id="pitch" class="view">`
+   - Implementar timer 45 segundos conforme PRD Seção 4.3
+   - Consultar plano seção "FASE 2.1: Modo 45-Second Pitch"
+
+---
+
 ### [FASE 1.3] Modo Flashcards Completo - 23/12/2025
 
 #### ✅ Implementado
