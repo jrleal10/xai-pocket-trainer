@@ -11,10 +11,10 @@
 O **xAI Pocket Trainer** é seu treinador pessoal de bolso para a entrevista final na xAI. Ele te ajuda a:
 
 - ✅ **Memorizar** conceitos-chave, histórias e frases usando flashcards interativos
-- ⏱️ **Treinar concisão** com timer visual de 45 segundos (em breve)
-- 💣 **Praticar objeções** difíceis do Jeffrey (em breve)
-- 🚨 **Eliminar vícios** de linguagem como "man" e "you know" (em breve)
-- 📋 **Checklist final** para o dia da entrevista (em breve)
+- ✅ **Treinar concisão** com timer visual de 45 segundos (3 tempos: 45s/60s/90s)
+- ✅ **Praticar objeções** difíceis com quiz de 10 objeções + feedback instantâneo
+- 🔜 **Eliminar vícios** de linguagem como "man" e "you know" (em breve)
+- 🔜 **Checklist final** para o dia da entrevista (em breve)
 
 ---
 
@@ -84,23 +84,85 @@ O **xAI Pocket Trainer** é seu treinador pessoal de bolso para a entrevista fin
 
 ---
 
-## ⏱️ Modo 45-Second Pitch (Em breve - FASE 2)
+## ⏱️ Modo 45-Second Pitch
 
-Pratica respostas com timer visual:
-- Verde → Amarelo → Vermelho piscando
-- Vibração no celular para avisos
-- 8 prompts de entrevista
-- Checklist pós-resposta
+Pratica respostas com timer visual e feedback tátil:
+
+### Como Usar
+
+1. Toque em "45-Second Pitch" no dashboard
+2. Escolha o tempo: **45s**, **60s** ou **90s**
+3. Leia o prompt exibido
+4. Toque em **START** e comece a falar
+5. Observe as transições de cor:
+   - 🟢 **Verde** (0-60%): Zona segura, você tem tempo
+   - 🟡 **Amarelo** (60-85%): Atenção, comece a concluir (vibra 1x)
+   - 🔴 **Vermelho** (85-100%): WRAP UP! Finalize agora (vibra 3x)
+6. Quando o timer acabar, veja a tela de review com:
+   - ✅ **Checklist**: Você cobriu todos os pontos?
+   - 📝 **Script Ideal**: Compare com a resposta perfeita
+7. Escolha: **Tentar Novamente** ou **Próximo Prompt**
+
+### 8 Prompts Disponíveis
+
+1. Tell me about yourself
+2. Why xAI?
+3. Tell me about your fundamental analysis experience
+4. What's your most relevant experience?
+5. Tell me about the ABC rating model project
+6. Credit vs equity analysis
+7. Why are you leaving Joule?
+8. Any questions for me?
+
+### Dicas
+
+- Use 45s para forçar concisão máxima
+- Use 60s para prática equilibrada (recomendado)
+- Use 90s quando precisar de mais detalhes
+- A vibração funciona apenas em mobile (Android/iOS)
 
 ---
 
-## 💣 Modo Objection Handling (Em breve - FASE 2)
+## 💣 Modo Objection Handling
 
-Simula objeções difíceis do Jeffrey:
-- 10 objeções com múltipla escolha
-- 5 segundos para responder
-- Feedback instantâneo
-- Scripts ideais para cada objeção
+Simula objeções difíceis que você pode enfrentar na entrevista:
+
+### Como Usar
+
+1. Toque em "Objections" no dashboard
+2. Leia a objeção exibida
+3. Você tem **5 segundos** para escolher uma resposta (A, B ou C)
+4. O countdown aparece no canto superior direito
+5. Toque na opção que você escolheria
+6. Veja o feedback instantâneo:
+   - ✅ **Correto** (verde): Resposta ideal!
+   - ⚠️ **Parcial** (amarelo): Resposta OK, mas pode melhorar
+   - ❌ **Errado** (vermelho): Evite esta abordagem
+   - ⏱️ **Tempo Esgotado**: Pratique responder mais rápido
+7. Leia a **explicação** (por que a resposta correta funciona)
+8. Leia o **script ideal** completo
+9. Toque em **Próxima Objeção** para continuar
+10. Ao final das 10 objeções, veja seu score: X/10 corretas
+
+### 10 Objeções Disponíveis
+
+1. "Why should we hire you instead of someone with a CFA?"
+2. "You're 45. Won't you get bored doing data labeling?"
+3. "Why are you really leaving Joule? There must be a problem."
+4. "We have people with PhDs. You'll be the least educated person on the team."
+5. "Your English isn't perfect. That might be a problem for writing training data."
+6. "This role is in Palo Alto. You're in Brazil. How will that work?"
+7. "You've been at Joule for 5 years. Before that, 15 years at ABC. You don't job-hop. Why start now?"
+8. "We need someone who can start immediately. Can you really do that?"
+9. "Sell me on why I should hire a Partner from a Brazilian fund to do AI work." (Sales Guy Test)
+10. "This role involves a lot of repetitive work. You'll get bored in 3 months." (Boredom Test)
+
+### Dicas
+
+- Primeira tentativa: responda por instinto (teste sua intuição)
+- Segunda tentativa: memorize os scripts ideais
+- Meta: 8/10 ou mais corretas
+- Se errar, leia a explicação COM ATENÇÃO (explica o "porquê")
 
 ---
 
@@ -185,7 +247,7 @@ Se encontrar bugs ou tiver dúvidas:
 | Data | Feature | Status |
 |------|---------|--------|
 | **23/12** | Dashboard + Flashcards | ✅ **DISPONÍVEL** |
-| **24/12** | Timer 45-seg + Objections | 🔜 Em breve |
+| **23/12** | Timer 45-seg + Objections | ✅ **DISPONÍVEL** |
 | **26/12** | Random Pill + Vício Police + Pre-Flight | 🔜 Em breve |
 | **29/12** | **ENTREVISTA!** | 🎯 |
 
@@ -195,13 +257,15 @@ Se encontrar bugs ou tiver dúvidas:
 
 ### Dias 24-25 (Natal)
 - Use **Flashcards** em intervalos de 2-3 minutos
-- **Random Pill** (quando disponível) entre conversas familiares
+- Use **Timer 45-seg**: Pratique respostas concisas de 60s
+- Use **Objection Handling**: Teste suas respostas instintivas
 - Foco: memorizar histórias Joule e ABC
 
 ### Dias 26-28 (Preparação Focada)
-- **Timer 45-seg** (quando disponível): 3-4 sessões por dia
-- **Objection Handling**: Praticar todas as 10 objeções
-- **Vício Police**: Eliminar "man" e "you know"
+- **Timer 45-seg**: 3-4 sessões por dia (force 45s para máxima concisão)
+- **Objection Handling**: Pratique todas as 10 objeções até atingir 8/10 ou mais
+- **Random Pill** (quando disponível): Micro-learning entre atividades
+- **Vício Police** (quando disponível): Eliminar "man" e "you know"
 
 ### Dia 29 (Dia D)
 - **Manhã**: Pre-Flight Checklist completo

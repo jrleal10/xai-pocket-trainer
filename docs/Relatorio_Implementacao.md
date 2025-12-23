@@ -51,7 +51,8 @@
 - **Desenvolvedor Inicial**: Claude (Anthropic AI Assistant)
 - **Deadline**: 29/12/2025 17:00 BRT (entrevista do João na xAI)
 - **Dispositivo Alvo**: Android Chrome
-- **URL Produção**: [preencher após primeiro deploy]
+- **URL Produção**: https://interviewxaiweb-icq5axf1f-jrleal10s-projects.vercel.app
+- **GitHub Repo**: https://github.com/jrleal10/xai-pocket-trainer
 - **Plano Completo**: `C:\Users\joaor\.claude\plans\stateful-waddling-sky.md`
 - **PRD**: `C:\Projetos\interview_xai_web_app\docs\PRD_xAI_Pocket_Trainer.md`
 
