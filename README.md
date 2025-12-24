@@ -21,8 +21,9 @@ O **xAI Pocket Trainer** é seu treinador pessoal de bolso para a entrevista fin
 - ✅ **Memorizar** conceitos-chave, histórias e frases usando flashcards interativos
 - ✅ **Treinar concisão** com timer visual de 45 segundos (3 tempos: 45s/60s/90s)
 - ✅ **Praticar objeções** difíceis com quiz de 10 objeções + feedback instantâneo
-- 🔜 **Eliminar vícios** de linguagem como "man" e "you know" (em breve)
-- 🔜 **Checklist final** para o dia da entrevista (em breve)
+- ✅ **Micro-learning** com Random Pill (frases, tips, quiz, ratios aleatórios)
+- ✅ **Checklist final** para o dia da entrevista (Pre-Flight Checklist)
+- 🔜 **Eliminar vícios** de linguagem como "man" e "you know" (Vício Police - em breve)
 
 ---
 
@@ -179,6 +180,71 @@ Simula objeções difíceis que você pode enfrentar na entrevista:
 
 ---
 
+## 🎲 Modo Random Pill
+
+Micro-learning em 30-60 segundos - perfeito para momentos roubados durante o Natal!
+
+### Como Usar
+
+1. Toque em "RANDOM PILL" no dashboard
+2. O app sorteia automaticamente um conteúdo aleatório de 4 tipos:
+   - 💬 **Frase-Chave**: Uma das 7 frases essenciais para memorizar
+   - 💡 **Dica**: Tips comportamentais (não dizer "man", concisão, etc.)
+   - ❓ **Quiz**: Perguntas verdadeiro/falso sobre conceitos técnicos
+   - 📊 **Ratio do Dia**: Um ratio técnico aleatório dos flashcards
+3. Para quizzes: responda Verdadeiro ou Falso e veja feedback instantâneo
+4. Toque em "🔄 Nova Pill" para gerar outro conteúdo aleatório
+
+### Quando Usar
+
+- Durante o Natal (24-25/12): Intervalos de 1 minuto entre atividades familiares
+- Filas, esperas, pausas curtas
+- Antes de dormir: revisar 3-4 pills rapidamente
+- Manhã do dia 29: refresh rápido da memória
+
+### Dicas
+
+- Cada pill leva 30-60 segundos
+- Ideal para manter conceitos frescos na memória
+- Funciona offline
+- Shuffle automático garante variedade
+
+---
+
+## 📋 Modo Pre-Flight Checklist
+
+Checklist completo para 30-60 minutos antes da entrevista (dia 29).
+
+### Como Usar
+
+1. Toque em "Pre-Flight Checklist" no dashboard
+2. Complete os 16 itens do checklist em 4 categorias:
+   - 🔧 **TÉCNICO** (5 items): Câmera, microfone, internet, backup, fones
+   - 🏠 **AMBIENTE** (4 items): Silêncio, fundo, iluminação, porta fechada
+   - 💪 **FÍSICO** (3 items): Água, banheiro, roupa profissional
+   - 🧠 **MENTAL** (4 items): Respiração, reler histórias, mindset
+3. Marque cada checkbox conforme completa
+4. Veja a barra de progresso atualizar (X de 16 completos)
+5. Expanda as **mini-cards de revisão rápida**:
+   - Joule Story (resumo em 1 frase)
+   - ABC Story (resumo em 1 frase)
+   - EM Perspective (resumo em 1 frase)
+   - Closing Question (pergunta de fechamento)
+
+### Persistência
+
+- O progresso é salvo automaticamente no localStorage
+- Você pode sair e voltar - os checkboxes ficam marcados
+- Use "🔄 Reset Checklist" para começar do zero
+
+### Quando Usar
+
+- **Dia 29, 30-60 min antes das 17h**
+- Complete TUDO antes de abrir o Zoom/Meet
+- Garante que você não esqueceu nada crítico
+
+---
+
 ## 🚨 Modo Vício Police (Em breve - FASE 3)
 
 Detecta palavras proibidas em tempo real:
@@ -191,22 +257,13 @@ Detecta palavras proibidas em tempo real:
 
 ---
 
-## 📋 Pre-Flight Checklist (Em breve - FASE 3)
-
-Checklist para 30 minutos antes da entrevista:
-- Técnico: câmera, mic, internet, backup
-- Ambiente: silêncio, fundo, iluminação
-- Físico: água, banheiro, roupa
-- Mental: respiração, reler histórias, mindset
-
----
-
 ## 💾 Persistência de Dados
 
 O app salva automaticamente:
 - ✅ Cards marcados como "Revisar"
 - ✅ Cards marcados como "Sei Bem"
 - ✅ Última categoria selecionada
+- ✅ Progresso do Pre-Flight Checklist (checkboxes marcados)
 
 **Tudo fica no seu dispositivo** (localStorage). Nada vai para a nuvem.
 
@@ -299,7 +356,8 @@ Se encontrar bugs ou tiver dúvidas:
 |------|---------|--------|
 | **23/12** | Dashboard + Flashcards | ✅ **DISPONÍVEL** |
 | **23/12** | Timer 45-seg + Objections | ✅ **DISPONÍVEL** |
-| **26/12** | Random Pill + Vício Police + Pre-Flight | 🔜 Em breve |
+| **23/12** | Random Pill + Pre-Flight | ✅ **DISPONÍVEL** |
+| **26/12** | Vício Police (Speech Recognition) | 🔜 Em breve |
 | **29/12** | **ENTREVISTA!** | 🎯 |
 
 ---
@@ -307,20 +365,22 @@ Se encontrar bugs ou tiver dúvidas:
 ## 🎓 Dicas de Uso
 
 ### Dias 24-25 (Natal)
+- Use **Random Pill** em intervalos de 1 minuto (perfeito para Natal!)
 - Use **Flashcards** em intervalos de 2-3 minutos
 - Use **Timer 45-seg**: Pratique respostas concisas de 60s
 - Use **Objection Handling**: Teste suas respostas instintivas
 - Foco: memorizar histórias Joule e ABC
 
 ### Dias 26-28 (Preparação Focada)
+- **Random Pill**: 5-10 pills por dia entre atividades
 - **Timer 45-seg**: 3-4 sessões por dia (force 45s para máxima concisão)
 - **Objection Handling**: Pratique todas as 10 objeções até atingir 8/10 ou mais
-- **Random Pill** (quando disponível): Micro-learning entre atividades
 - **Vício Police** (quando disponível): Eliminar "man" e "you know"
 
 ### Dia 29 (Dia D)
-- **Manhã**: Pre-Flight Checklist completo
-- **30 min antes**: Revisar frases-chave favoritas
+- **Manhã**: Random Pill para refresh rápido
+- **30-60 min antes**: Pre-Flight Checklist completo (16 items)
+- **15 min antes**: Revisar frases-chave favoritas
 - **Durante**: Respirar, confiar no treino
 
 ---
@@ -330,7 +390,13 @@ Se encontrar bugs ou tiver dúvidas:
 - **45 flashcards** cobrindo todos os tópicos
 - **8 prompts** de prática de pitch
 - **10 objeções** difíceis com scripts ideais
-- **15+ frases-chave** rotativas no dashboard
+- **16 frases-chave** rotativas no dashboard
+- **7 frases** essenciais (Random Pill)
+- **8 tips** comportamentais (Random Pill)
+- **8 quiz questions** verdadeiro/falso (Random Pill)
+- **20 ratios técnicos** (Random Pill)
+- **16 items** de checklist (Pre-Flight)
+- **4 mini-cards** de revisão rápida (Pre-Flight)
 
 ---
 

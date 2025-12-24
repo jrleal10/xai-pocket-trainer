@@ -693,6 +693,187 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    /* ============================================
+       RANDOM PILL STYLES
+       ============================================ */
+
+    .pill-container {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: var(--spacing-lg);
+      margin-top: var(--spacing-lg);
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .pill-type-header {
+      background: var(--accent-primary);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .pill-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pill-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      text-align: center;
+      padding: var(--spacing-lg);
+    }
+
+    .pill-quiz-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .quiz-result {
+      margin-top: var(--spacing-md);
+      padding: var(--spacing-md);
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .quiz-result.correct {
+      background: var(--color-success);
+      color: white;
+    }
+
+    .quiz-result.wrong {
+      background: var(--color-error);
+      color: white;
+    }
+
+    .pill-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: var(--spacing-md);
+    }
+
+    /* ============================================
+       PRE-FLIGHT CHECKLIST STYLES
+       ============================================ */
+
+    .preflight-progress {
+      margin: var(--spacing-lg) 0;
+    }
+
+    .progress-bar {
+      background: var(--bg-secondary);
+      height: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .progress-fill {
+      background: var(--accent-primary);
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .checklist-sections {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .checklist-section h3 {
+      color: var(--accent-primary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm) 0;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checkbox-item input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .checkbox-item label {
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .mini-stories {
+      margin: var(--spacing-xl) 0;
+    }
+
+    .mini-card {
+      background: var(--bg-card);
+      padding: var(--spacing-md);
+      border-radius: 12px;
+      margin-bottom: var(--spacing-sm);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .mini-card:hover {
+      background: var(--bg-secondary);
+    }
+
+    .mini-card h4 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0;
+    }
+
+    .mini-content {
+      margin-top: var(--spacing-sm);
+      padding-top: var(--spacing-sm);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .mini-content.hidden {
+      display: none;
+    }
+
+    .closing-card {
+      background: var(--accent-primary);
+      color: white;
+      cursor: default;
+    }
+
+    .closing-card:hover {
+      background: var(--accent-primary);
+    }
+
+    .closing-question {
+      margin-top: var(--spacing-sm);
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -734,13 +915,13 @@
         <a href="#pitch" class="mode-btn">
           <div class="icon">⏱️</div>
           <div class="title">45-Sec Pitch</div>
-          <div class="duration">Em breve</div>
+          <div class="duration">8 prompts</div>
         </a>
 
         <a href="#objections" class="mode-btn">
           <div class="icon">💣</div>
           <div class="title">Objections</div>
-          <div class="duration">Em breve</div>
+          <div class="duration">10 objeções</div>
         </a>
 
         <a href="#vicio-police" class="mode-btn">
@@ -977,9 +1158,13 @@
     <div class="container">
       <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
       <h1 class="text-center">🎲 Random Pill</h1>
-      <div class="card text-center">
-        <h2>Em breve!</h2>
-        <p class="text-muted">Feature disponível na FASE 3</p>
+
+      <div class="pill-container">
+        <div class="pill-type-header" id="pill-type">Loading...</div>
+        <div class="pill-content" id="pill-content"></div>
+        <div class="pill-actions">
+          <button class="btn" onclick="generateRandomPill()">🔄 Nova Pill</button>
+        </div>
       </div>
     </div>
   </div>
@@ -988,10 +1173,68 @@
     <div class="container">
       <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
       <h1 class="text-center">📋 Pre-Flight Checklist</h1>
-      <div class="card text-center">
-        <h2>Em breve!</h2>
-        <p class="text-muted">Feature disponível na FASE 3</p>
+      <p class="text-center text-muted">29 de dezembro, antes das 17h</p>
+
+      <div class="preflight-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="preflight-progress" style="width: 0%"></div>
+        </div>
+        <p class="text-center"><span id="preflight-count">0</span> de 16 completos</p>
       </div>
+
+      <div class="checklist-sections">
+        <div class="checklist-section">
+          <h3>🔧 TÉCNICO</h3>
+          <div id="checklist-tecnico"></div>
+        </div>
+
+        <div class="checklist-section">
+          <h3>🏠 AMBIENTE</h3>
+          <div id="checklist-ambiente"></div>
+        </div>
+
+        <div class="checklist-section">
+          <h3>💪 FÍSICO</h3>
+          <div id="checklist-fisico"></div>
+        </div>
+
+        <div class="checklist-section">
+          <h3>🧠 MENTAL</h3>
+          <div id="checklist-mental"></div>
+        </div>
+      </div>
+
+      <div class="mini-stories">
+        <h2>📚 Revisão Rápida</h2>
+
+        <div class="mini-card" onclick="toggleMiniCard('joule')">
+          <h4>Joule Story <span id="joule-icon">▼</span></h4>
+          <div id="joule-content" class="mini-content hidden">
+            <p id="joule-text"></p>
+          </div>
+        </div>
+
+        <div class="mini-card" onclick="toggleMiniCard('abc')">
+          <h4>ABC Story <span id="abc-icon">▼</span></h4>
+          <div id="abc-content" class="mini-content hidden">
+            <p id="abc-text"></p>
+          </div>
+        </div>
+
+        <div class="mini-card" onclick="toggleMiniCard('em')">
+          <h4>EM Perspective <span id="em-icon">▼</span></h4>
+          <div id="em-content" class="mini-content hidden">
+            <p id="em-text"></p>
+          </div>
+        </div>
+
+        <div class="mini-card closing-card">
+          <h4>Closing Question</h4>
+          <p class="closing-question" id="closing-text"></p>
+        </div>
+      </div>
+
+      <button class="btn btn-error" onclick="resetPreflight()">🔄 Reset Checklist</button>
     </div>
   </div>
 
@@ -1442,6 +1685,80 @@ I'm built for this. I don't get bored. I get it right.`
     ];
 
     // ============================================
+    // RANDOM PILL DATA
+    // ============================================
+
+    const randomPillData = {
+      frases: [
+        "5 years of daily fundamental analysis at Joule",
+        "Validated 7 ratios against actual defaults—5 predictive, 2 not",
+        "That validation process is exactly what AI tutoring requires",
+        "Modigliani-Miller: debt and equity are two views of the same company",
+        "I can contribute immediately and bring differentiated expertise for future projects",
+        "Ready to start immediately, 100% available",
+        "Is there anything about my background that concerns you?"
+      ],
+      tips: [
+        "Don't say 'man' or 'you know'",
+        "Keep answers under 60 seconds",
+        "Lead with Joule and ABC, not credit",
+        "If you don't know, say so honestly then bridge to what you know",
+        "End statements with downward inflection—sounds confident",
+        "Pause instead of using filler words",
+        "Don't mention working from Joule's office",
+        "Jeffrey has EM background—mention Brazil's 15% rates if natural"
+      ],
+      quickQuiz: [
+        { q: "EV/EBITDA is capital-structure neutral", a: true },
+        { q: "You should apologize for your English", a: false },
+        { q: "PEG = P/E divided by Growth Rate", a: true },
+        { q: "At ABC, 7 of 7 ratios were predictive", a: false },
+        { q: "Jeffrey worked with EM Fixed Income until 2018", a: true },
+        { q: "The interview is 30 minutes long", a: false },
+        { q: "Adriana said current focus is risk management", a: false },
+        { q: "Modigliani-Miller says capital structure doesn't matter for firm value", a: true }
+      ]
+    };
+
+    // ============================================
+    // PRE-FLIGHT CHECKLIST DATA
+    // ============================================
+
+    const preFlightChecklist = {
+      tecnico: [
+        "Câmera testada e funcionando",
+        "Microfone testado e funcionando",
+        "Internet estável (speed test)",
+        "Backup de internet disponível (4G)",
+        "Fones de ouvido carregados"
+      ],
+      ambiente: [
+        "Ambiente silencioso",
+        "Fundo neutro/profissional",
+        "Iluminação adequada",
+        "Porta fechada, família avisada"
+      ],
+      fisico: [
+        "Água na mesa",
+        "Banheiro visitado",
+        "Roupa profissional"
+      ],
+      mental: [
+        "Respirações profundas (3x)",
+        "Reler histórias (Joule, ABC, EM)",
+        "Reler pergunta de fechamento",
+        "Mindset: 'Jeffrey quer me aprovar'"
+      ]
+    };
+
+    const miniStories = {
+      joule: "5 years, GARP fund, daily investment committee, DCF validation, multiples analysis, earnings quality debates. 'Prove it to me' culture. +38.64% YTD 2025.",
+      abc: "Validated 7 ratios against actual defaults. 5 predictive, 2 not. Built logistic regression model. Central Bank approved and praised the methodology.",
+      em: "Brazil: 15% interest rates, small private markets, structural equity discounts. Can help reduce US bias in Grok. Jeffrey has EM Fixed Income background (LatAm until 2018).",
+      closing: "Jeffrey, I know we have limited time. Is there anything about my background that concerns you, or any question I can address right now?"
+    };
+
+    // ============================================
     // SECTION 2: STATE MANAGEMENT
     // ============================================
 
@@ -1464,7 +1781,9 @@ I'm built for this. I don't get bored. I get it right.`
       objectionsAnswered: 0,
       objectionsCorrect: 0,
       objectionTimer: null,
-      objectionTimeRemaining: 5
+      objectionTimeRemaining: 5,
+      // Random Pill state
+      currentQuiz: null
     };
 
     // ============================================
@@ -1491,6 +1810,10 @@ I'm built for this. I don't get bored. I get it right.`
           initPitchTimer();
         } else if (viewId === 'objections') {
           initObjections();
+        } else if (viewId === 'random-pill') {
+          initRandomPill();
+        } else if (viewId === 'preflight') {
+          initPreFlight();
         }
       }
     }
@@ -2063,7 +2386,164 @@ I'm built for this. I don't get bored. I get it right.`
     }
 
     // ============================================
-    // SECTION 8: SERVICE WORKER REGISTRATION
+    // SECTION 7: RANDOM PILL FUNCTIONS
+    // ============================================
+
+    function initRandomPill() {
+      generateRandomPill();
+    }
+
+    function generateRandomPill() {
+      const types = ['frase', 'tip', 'quiz', 'ratio'];
+      const type = types[Math.floor(Math.random() * types.length)];
+
+      let content, header;
+
+      switch(type) {
+        case 'frase':
+          const frase = randomPillData.frases[Math.floor(Math.random() * randomPillData.frases.length)];
+          header = '💬 Frase-Chave';
+          content = `<p class="pill-text">"${frase}"</p>`;
+          break;
+
+        case 'tip':
+          const tip = randomPillData.tips[Math.floor(Math.random() * randomPillData.tips.length)];
+          header = '💡 Dica';
+          content = `<p class="pill-text">${tip}</p>`;
+          break;
+
+        case 'quiz':
+          const quiz = randomPillData.quickQuiz[Math.floor(Math.random() * randomPillData.quickQuiz.length)];
+          state.currentQuiz = quiz;
+          header = '❓ Quiz';
+          content = `
+            <p class="pill-text">${quiz.q}</p>
+            <div class="pill-quiz-buttons">
+              <button class="btn" onclick="answerQuiz(true)">Verdadeiro</button>
+              <button class="btn" onclick="answerQuiz(false)">Falso</button>
+            </div>
+            <div id="quiz-result" class="quiz-result"></div>
+          `;
+          break;
+
+        case 'ratio':
+          const ratioCards = flashcardsData.filter(c => c.category === 'tecnico');
+          if (ratioCards.length === 0) {
+            // Fallback if no technical cards found - try again
+            generateRandomPill();
+            return;
+          }
+          const ratio = ratioCards[Math.floor(Math.random() * ratioCards.length)];
+          header = '📊 Ratio do Dia';
+          content = `
+            <h3>${ratio.front}</h3>
+            <p class="pill-text">${ratio.back}</p>
+          `;
+          break;
+      }
+
+      document.getElementById('pill-type').textContent = header;
+      document.getElementById('pill-content').innerHTML = content;
+    }
+
+    function answerQuiz(answer) {
+      const correct = state.currentQuiz.a === answer;
+      const resultDiv = document.getElementById('quiz-result');
+
+      if (correct) {
+        resultDiv.innerHTML = '<p class="quiz-correct">✅ Correto!</p>';
+        resultDiv.className = 'quiz-result correct';
+      } else {
+        resultDiv.innerHTML = '<p class="quiz-wrong">❌ Errado!</p>';
+        resultDiv.className = 'quiz-result wrong';
+      }
+    }
+
+    // ============================================
+    // SECTION 8: PRE-FLIGHT CHECKLIST FUNCTIONS
+    // ============================================
+
+    function initPreFlight() {
+      // Load saved state
+      const saved = JSON.parse(localStorage.getItem('preflight-checks') || '{}');
+
+      // Render checklists
+      Object.keys(preFlightChecklist).forEach(section => {
+        const container = document.getElementById(`checklist-${section}`);
+        container.innerHTML = '';
+
+        preFlightChecklist[section].forEach((item, index) => {
+          const checked = saved[section] && saved[section][index] || false;
+
+          const div = document.createElement('div');
+          div.className = 'checkbox-item';
+          div.innerHTML = `
+            <input type="checkbox"
+                   id="${section}-${index}"
+                   ${checked ? 'checked' : ''}
+                   onchange="togglePreflightItem('${section}', ${index})">
+            <label for="${section}-${index}">${item}</label>
+          `;
+          container.appendChild(div);
+        });
+      });
+
+      // Populate mini stories
+      document.getElementById('joule-text').textContent = miniStories.joule;
+      document.getElementById('abc-text').textContent = miniStories.abc;
+      document.getElementById('em-text').textContent = miniStories.em;
+      document.getElementById('closing-text').textContent = miniStories.closing;
+
+      updatePreflightProgress();
+    }
+
+    function togglePreflightItem(section, index) {
+      const saved = JSON.parse(localStorage.getItem('preflight-checks') || '{}');
+
+      if (!saved[section]) saved[section] = {};
+
+      const checkbox = document.getElementById(`${section}-${index}`);
+      saved[section][index] = checkbox.checked;
+
+      localStorage.setItem('preflight-checks', JSON.stringify(saved));
+      updatePreflightProgress();
+    }
+
+    function updatePreflightProgress() {
+      const saved = JSON.parse(localStorage.getItem('preflight-checks') || '{}');
+      let total = 0;
+      let completed = 0;
+
+      Object.keys(preFlightChecklist).forEach(section => {
+        total += preFlightChecklist[section].length;
+        if (saved[section]) {
+          completed += Object.values(saved[section]).filter(Boolean).length;
+        }
+      });
+
+      const percent = Math.round((completed / total) * 100);
+
+      document.getElementById('preflight-progress').style.width = `${percent}%`;
+      document.getElementById('preflight-count').textContent = completed;
+    }
+
+    function toggleMiniCard(story) {
+      const content = document.getElementById(`${story}-content`);
+      const icon = document.getElementById(`${story}-icon`);
+
+      content.classList.toggle('hidden');
+      icon.textContent = content.classList.contains('hidden') ? '▼' : '▲';
+    }
+
+    function resetPreflight() {
+      if (!confirm('Tem certeza que quer resetar o checklist? Isso apagará todo o progresso.')) return;
+
+      localStorage.removeItem('preflight-checks');
+      initPreFlight();
+    }
+
+    // ============================================
+    // SECTION 9: SERVICE WORKER REGISTRATION
     // ============================================
 
     if ('serviceWorker' in navigator) {

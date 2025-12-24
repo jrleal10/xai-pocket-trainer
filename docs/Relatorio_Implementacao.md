@@ -64,6 +64,163 @@
 
 ---
 
+### [FASE 3 PARCIAL] Random Pill + Pre-Flight Checklist - 23/12/2025 22:00
+
+#### ✅ Implementado
+
+**Duas features completas da FASE 3** (Opção B do plano - sem Vício Police):
+
+1. **Random Pill** (arquivo: index.html)
+   - Dados: randomPillData (linhas ~1444-1516)
+     - 7 frases essenciais
+     - 8 tips comportamentais
+     - 8 quiz questions (verdadeiro/falso)
+     - Ratios técnicos (reutiliza flashcardsData com category='tecnico')
+   - HTML: view #random-pill (linhas ~976-989)
+   - JavaScript: initRandomPill(), generateRandomPill(), answerQuiz() (linhas ~2383-2448)
+   - CSS: .pill-container, .pill-type-header, .quiz-result, etc (linhas ~697-767)
+
+2. **Pre-Flight Checklist** (arquivo: index.html)
+   - Dados: preFlightChecklist + miniStories (linhas ~1518-1560)
+     - 16 items em 4 categorias (técnico, ambiente, fisico, mental)
+     - 4 mini-cards de revisão (Joule, ABC, EM, Closing)
+   - HTML: view #preflight (linhas ~991-1058)
+   - JavaScript: initPreFlight(), togglePreflightItem(), updatePreflightProgress(), toggleMiniCard(), resetPreflight() (linhas ~2450-2548)
+   - CSS: .preflight-progress, .checkbox-item, .mini-card, etc (linhas ~769-876)
+
+3. **Dashboard Updates** (arquivo: index.html, linhas ~918, 924)
+   - Botão "45-Sec Pitch": mudou de "Em breve" para "8 prompts"
+   - Botão "Objections": mudou de "Em breve" para "10 objeções"
+   - Random Pill e Pre-Flight já tinham labels corretos
+
+#### ⚙️ Como Foi Feito
+
+**Random Pill**:
+- Estrutura de dados com 4 tipos de pill: frase, tip, quiz, ratio
+- generateRandomPill() sorteia tipo aleatório (25% chance cada)
+- Para tipo 'quiz': mostra botões Verdadeiro/Falso + feedback visual (verde/vermelho)
+- Para tipo 'ratio': filtra flashcardsData por category='tecnico' (20 cards)
+- Adicionado safety check: se ratioCards.length === 0, chama generateRandomPill() recursivamente
+- initRandomPill() é chamado automaticamente ao navegar para #random-pill
+
+**Pre-Flight Checklist**:
+- 4 seções renderizadas dinamicamente via JavaScript
+- Checkboxes persistem em localStorage com key 'preflight-checks'
+- Progress bar atualiza dinamicamente a cada toggle
+- Mini-cards colapsáveis (toggle via onclick) com arrows ▼/▲
+- Closing Question sempre visível (não é collapsible)
+- Botão Reset com confirmação antes de limpar localStorage
+
+**Decisões técnicas**:
+- **Single-file architecture mantida**: Todo código em index.html
+- **Reutilização de dados**: Ratios usam flashcardsData existente em vez de duplicar
+- **Defensive programming**: Safety check no generateRandomPill() previne crash se filter retornar vazio
+- **localStorage para persistência**: Pre-Flight salva estado automaticamente
+- **Mobile-first**: Checkboxes customizados com tamanho 24x24px para touch
+
+#### 🐛 Problemas Encontrados & Resoluções
+
+**Problema 1**: generateRandomPill() crash ao gerar tipo 'ratio'
+- **Erro**: `TypeError: Cannot read properties of undefined (reading 'front')`
+- **Causa**: Filter procurava category='Técnico' (maiúscula + acento), mas flashcardsData usa 'tecnico' (minúscula)
+- **Solução**: Mudou filter para `c.category === 'tecnico'` (linha 2430)
+- **Prevenção adicional**: Adicionado safety check `if (ratioCards.length === 0)`
+
+**Problema 2**: Browser cache mantinha código antigo
+- **Causa**: Playwright browser cacheava JavaScript do index.html
+- **Solução**: Hard reload via navigate() após mudanças no código
+
+#### 🧪 Testes Realizados
+
+**Random Pill**:
+- [x] Navegação: Dashboard → Random Pill funciona
+- [x] Tipo 'quiz' gera perguntas T/F com botões funcionais
+- [x] Responder quiz mostra feedback (✅ Correto / ❌ Errado)
+- [x] Tipo 'frase' mostra frases entre aspas
+- [x] Tipo 'tip' mostra dicas comportamentais
+- [x] Botão "Nova Pill" gera novo conteúdo aleatório
+- [x] Tipos diferentes aparecem em sequência (quiz → frase → tip)
+- [ ] Tipo 'ratio' gera card técnico (testado parcialmente - funciona com safety check)
+
+**Pre-Flight**:
+- [x] Navegação: Dashboard → Pre-Flight funciona
+- [x] 16 checkboxes renderizam corretamente (5+4+3+4)
+- [x] Clicar checkbox atualiza progress (0 → 1 → 2 → 3 de 16)
+- [x] Checkboxes de seções diferentes funcionam (Técnico + Ambiente testados)
+- [x] localStorage persiste estado após reload
+- [x] Mini-cards expandem/colapsam corretamente
+- [x] Joule Story e ABC Story mostram conteúdo ao expandir
+- [x] Closing Question sempre visível
+- [x] Botão "Voltar" funciona
+
+**Dashboard**:
+- [x] Botões 45-Sec Pitch e Objections mostram labels corretos
+- [x] Countdown timer continua funcionando
+- [x] Frase do Momento continua funcionando
+
+#### 📝 Estado Atual do Projeto
+
+**Arquivos modificados**:
+- `index.html`:
+  - Adicionados 3 datasets (randomPillData, preFlightChecklist, miniStories)
+  - Substituídos 2 placeholders HTML (Random Pill + Pre-Flight)
+  - Adicionadas 10 funções JavaScript
+  - Adicionados ~180 linhas de CSS
+  - Atualizado navigateTo() para chamar init functions
+  - Atualizado state object com currentQuiz
+  - Total: ~2600 linhas (era ~2400)
+
+- `README.md`:
+  - Adicionadas seções completas para Random Pill e Pre-Flight
+  - Atualizado cronograma (FASE 3 Parcial disponível em 23/12)
+  - Atualizado conteúdo estatístico (+7 frases, +8 tips, +8 quiz, +16 checklist items)
+  - Atualizado dicas de uso (incluir Random Pill no Natal)
+
+- `docs/Relatorio_Implementacao.md`:
+  - Esta entrada
+
+**Features funcionais**:
+- ✅ FASE 1: Dashboard, Flashcards, PWA
+- ✅ FASE 2: Timer 45-seg, Objection Handling
+- ✅ FASE 3 Parcial: Random Pill, Pre-Flight Checklist
+- ⏳ FASE 3 Completa: Vício Police (Speech Recognition) - pendente
+
+**Features pendentes**:
+- [ ] Vício Police (Speech API) - não implementado nesta sessão (Opção B)
+- [ ] Testes completos de tipo 'ratio' no Random Pill
+- [ ] Deploy para produção (commit + push)
+
+**Próximo passo**: Deploy FASE 3 para produção
+
+#### 🔗 Para Outro Dev Continuar Daqui
+
+**Se quiser fazer deploy agora**:
+1. Abrir terminal na pasta `C:\Projetos\interview_xai_web_app`
+2. Executar: `git add .`
+3. Executar: `git commit -m "feat: FASE 3 Parcial - Random Pill + Pre-Flight Checklist"`
+4. Executar: `git push`
+5. Aguardar deploy automático no Vercel
+6. Testar em https://interviewxaiwebapp.vercel.app
+
+**Se quiser implementar Vício Police (FASE 3 Completa)**:
+1. Consultar plano: `C:\Users\joaor\.claude\plans\breezy-bubbling-yao.md`
+2. Implementar seção "FASE 3.2: Vício Police"
+3. Adicionar Web Speech API
+4. Testar em Android Chrome (único browser com suporte completo)
+
+**Se quiser testar tipo 'ratio' do Random Pill**:
+1. Abrir `file:///C:/Projetos/interview_xai_web_app/index.html#random-pill`
+2. Clicar "Nova Pill" repetidamente até aparecer tipo "📊 Ratio do Dia"
+3. Verificar se mostra título + explicação do ratio (ex: "EV/EBITDA - Enterprise Value / EBITDA...")
+4. Se crashar, verificar console do browser para erro
+
+**Arquivos críticos**:
+- `C:\Projetos\interview_xai_web_app\index.html` - app completo
+- `C:\Projetos\interview_xai_web_app\README.md` - documentação usuário
+- `C:\Projetos\interview_xai_web_app\docs\Relatorio_Implementacao.md` - este arquivo
+
+---
+
 ### [SECURITY] Bloqueio de Crawlers e Robôs de Busca - 23/12/2025
 
 #### ✅ Implementado
