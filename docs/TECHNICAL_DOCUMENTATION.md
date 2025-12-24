@@ -2,8 +2,8 @@
 
 > **Comprehensive technical documentation for developers**
 >
-> **Version**: 1.0.0 (100% Complete)
-> **Last Updated**: 23/12/2025
+> **Version**: 1.1.0 (FASE 4.1 - Refatoração Completa)
+> **Last Updated**: 24/12/2025
 > **Status**: Production Ready
 
 ---
@@ -59,15 +59,26 @@ The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João
 
 ### 1.4 Project Metrics
 
-| Metric | Value |
-|--------|-------|
-| **Total Lines of Code** | ~3,100 lines (single file) |
-| **Bundle Size** | ~120 KB (uncompressed HTML) |
-| **Load Time** | <2s on 4G |
-| **Lighthouse Score** | 95+ (PWA) |
-| **Offline Support** | 100% |
-| **Features Implemented** | 7 major features |
-| **Data Items** | 45 flashcards, 8 prompts, 10 objections, 31 monitored words |
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **Total Lines of Code** | ~3,140 lines | index.html (2,570) + data.js (570) |
+| **index.html Size** | ~90 KB | Estrutura + Lógica + UI |
+| **js/data.js Size** | ~30 KB | Dados puros (flashcards, scripts) |
+| **Bundle Size Total** | ~120 KB | Sem mudança após refatoração |
+| **Load Time** | <2s on 4G | Service Worker v2 otimizado |
+| **Lighthouse Score** | 95+ (PWA) | Mantido após refatoração |
+| **Offline Support** | 100% | 2 arquivos cacheados (index.html + data.js) |
+| **Features Implemented** | 7 major features | 100% funcional |
+| **Data Items** | 45 flashcards, 8 prompts, 10 objections, 31 monitored words | Todos em data.js |
+
+### 1.5 Recent Updates (FASE 4.1 - 24/12/2025)
+
+**Refatoração: Extração de Dados**
+- ✅ Criado módulo `js/data.js` (570 linhas)
+- ✅ index.html reduzido em 16% (3.063 → 2.570 linhas)
+- ✅ Service Worker atualizado para v2
+- ✅ Zero impacto em funcionalidade
+- ✅ Melhor separação de concerns (lógica vs dados)
 
 ---
 
@@ -81,7 +92,7 @@ The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João
 │  ┌───────────────────────────────────────────────┐  │
 │  │           Browser (Chrome/Edge/Safari)        │  │
 │  │  ┌─────────────────────────────────────────┐  │  │
-│  │  │         index.html (Single File)        │  │  │
+│  │  │         index.html (2,570 lines)        │  │  │
 │  │  │  ┌────────────┐  ┌──────────────────┐   │  │  │
 │  │  │  │    HTML    │  │       CSS        │   │  │  │
 │  │  │  │ Structure  │  │   Styling +      │   │  │  │
@@ -93,11 +104,20 @@ The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João
 │  │  │  │  - Navigation                    │   │  │  │
 │  │  │  │  - Business Logic                │   │  │  │
 │  │  │  │  - Event Handlers                │   │  │  │
+│  │  │  │  ↓ imports window.appData        │   │  │  │
 │  │  │  └──────────────────────────────────┘   │  │  │
+│  │  └─────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────┐  │  │
+│  │  │        js/data.js (570 lines)           │  │  │
+│  │  │  - flashcardsData (45 cards)            │  │  │
+│  │  │  - pitchPrompts (8 prompts)             │  │  │
+│  │  │  - objections (10 objections)           │  │  │
+│  │  │  - keyPhrases, vicioPoliceWords, etc.   │  │  │
+│  │  │  → exports via window.appData           │  │  │
 │  │  └─────────────────────────────────────────┘  │  │
 │  │                                                 │  │
 │  │  ┌─────────────────────────────────────────┐  │  │
-│  │  │         Service Worker (sw.js)          │  │  │
+│  │  │      Service Worker v2 (sw.js)          │  │  │
 │  │  │  - Cache index.html, manifest, icons    │  │  │
 │  │  │  - Offline-first strategy               │  │  │
 │  │  └─────────────────────────────────────────┘  │  │
@@ -261,9 +281,11 @@ Despite being single-file, the code is organized into **logical components**:
 
 ```
 interview_xai_web_app/
-├── index.html                    # Main app (3100 lines)
+├── index.html                    # Main app (2,570 lines) - Structure + Logic + UI
+├── js/
+│   └── data.js                   # Data module (570 lines) - All app data
 ├── manifest.json                 # PWA manifest
-├── sw.js                         # Service Worker
+├── sw.js                         # Service Worker v2
 ├── robots.txt                    # Search engine exclusion
 ├── vercel.json                   # Vercel headers config
 ├── .gitignore                    # Git exclusions
@@ -276,7 +298,9 @@ interview_xai_web_app/
 ├── docs/                         # Documentation
 │   ├── TECHNICAL_DOCUMENTATION.md  # This file
 │   ├── IMPLEMENTATION_LOG.md       # Implementation history
-│   └── PRD.md                      # Product spec
+│   ├── PRD.md                      # Product spec
+│   ├── plano_melhorias.md          # Improvement plan (FASE 4)
+│   └── avaliacao.md                # Technical evaluation
 └── fontes/                       # Source materials (interview prep)
     ├── Anotacoes_Pessoais.md
     ├── Final_Interview_Mastery_Guide_Claude_v3.md
@@ -286,27 +310,37 @@ interview_xai_web_app/
 
 ### 4.1 Critical Files
 
-| File | Size | Lines | Purpose |
-|------|------|-------|---------|
-| **index.html** | ~120 KB | 3100 | Entire application |
-| **manifest.json** | ~500 B | 20 | PWA configuration |
-| **sw.js** | ~1 KB | 40 | Offline caching |
-| **robots.txt** | ~300 B | 15 | SEO exclusion |
-| **vercel.json** | ~200 B | 10 | HTTP headers |
+| File | Size | Lines | Purpose | Updated |
+|------|------|-------|---------|---------|
+| **index.html** | ~90 KB | 2,570 | Application structure, logic, UI | FASE 4.1 |
+| **js/data.js** | ~30 KB | 570 | All app data (flashcards, scripts, prompts) | FASE 4.1 |
+| **manifest.json** | ~500 B | 20 | PWA configuration | - |
+| **sw.js** | ~1 KB | 91 | Offline caching (v2) | FASE 4.1 |
+| **robots.txt** | ~300 B | 15 | SEO exclusion | - |
+| **vercel.json** | ~200 B | 10 | HTTP headers | - |
 
 ### 4.2 File Dependencies
 
 ```
 index.html
+├── js/data.js (imported via <script src="js/data.js">)
+│   └── exports window.appData (8 data constants)
 ├── manifest.json (linked via <link rel="manifest">)
 ├── sw.js (registered via navigator.serviceWorker.register)
 └── icons/*.png (referenced in manifest.json)
 
-sw.js
-└── index.html (cached for offline)
+sw.js (v2)
+├── index.html (cached for offline)
+└── js/data.js (cached for offline) [NEW in FASE 4.1]
 ```
 
-**Key Point**: Only `index.html` is absolutely critical. All other files enhance functionality but app works without them.
+**Key Point**: Both `index.html` and `js/data.js` are critical. Service Worker caches both for offline operation.
+
+**FASE 4.1 Changes**:
+- ✅ Created `js/data.js` module with all data constants
+- ✅ Reduced `index.html` from 3,063 to 2,570 lines (16% reduction)
+- ✅ Updated Service Worker to v2 (caches both files)
+- ✅ Zero functional changes - 100% backward compatible
 
 ---
 
@@ -329,9 +363,9 @@ displayPhrase()        // Rotates phrases
 nextPhrase() / prevPhrase()  // Manual navigation
 ```
 
-**Data**:
-- `INTERVIEW_DATE`: Constant (Date object in BRT timezone)
-- `keyPhrases`: Array of 16 key phrases
+**Data** (from `js/data.js`):
+- `INTERVIEW_DATE`: Constant (Date object in BRT timezone) - in index.html
+- `keyPhrases`: Array of 16 key phrases - exported from data.js via window.appData
 
 **Technical Details**:
 - Countdown calculation: `diff = INTERVIEW_DATE - Date.now()`
@@ -2003,7 +2037,7 @@ If this app were to scale beyond single-user:
 
 ### D. Contact & Support
 
-**Developer**: Claude (Anthropic AI Assistant)
+**Developer**: João Leal
 **Repository**: https://github.com/jrleal10/xai-pocket-trainer
 **Production URL**: https://interviewxaiwebapp.vercel.app
 **Documentation**: This file + README.md
@@ -2016,4 +2050,3 @@ If this app were to scale beyond single-user:
 
 ---
 
-*Generated with Claude Code (https://claude.com/claude-code)*

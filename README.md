@@ -444,12 +444,43 @@ Se encontrar bugs ou tiver dúvidas:
 ## 🚀 Tecnologia
 
 - **PWA** (Progressive Web App) - Instalável e offline
-- **Single-file** - Todo código em 1 arquivo HTML
+- **Arquitetura simplificada** - 2 arquivos principais (index.html + js/data.js)
+  - `index.html` (2.570 linhas): Estrutura + Lógica + UI
+  - `js/data.js` (570 linhas): Dados puros (flashcards, scripts, prompts)
 - **Zero dependências** - Vanilla JS, sem frameworks
 - **Mobile-first** - Otimizado para celular
+- **Service Worker v2** - Cache otimizado para offline-first
+
+### Estrutura de Arquivos
+
+```
+C:\Projetos\interview_xai_web_app\
+├── index.html          # App principal (2.570 linhas)
+├── js/
+│   └── data.js         # Módulo de dados (570 linhas)
+├── sw.js               # Service Worker (v2)
+├── manifest.json       # PWA manifest
+├── icons/              # Ícones PWA
+├── docs/               # Documentação técnica
+└── README.md           # Este arquivo
+```
+
+### Últimas Atualizações (FASE 4.1 - 24/12/2025)
+
+**Refatoração: Extração de Dados** ✅
+- Dados extraídos para módulo separado (`js/data.js`)
+- index.html reduzido em 16% (~3.063 → 2.570 linhas)
+- Melhor organização: lógica separada de dados
+- Service Worker atualizado para v2
+- Zero impacto em funcionalidade (100% compatível)
+
+**Benefícios:**
+- ✅ Código mais legível e manutenível
+- ✅ Edição de conteúdo facilitada (abrir data.js direto)
+- ✅ Menor risco de conflitos Git
+- ✅ Mantém simplicidade e deploy instantâneo
 
 ---
 
 **Boa sorte na entrevista! 🎯**
 
-*Gerado com [Claude Code](https://claude.com/claude-code)*

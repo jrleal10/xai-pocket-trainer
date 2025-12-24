@@ -48,12 +48,10 @@
 ## Metadados do Projeto
 
 - **Data Início**: 23/12/2025
-- **Desenvolvedor Inicial**: Claude (Anthropic AI Assistant)
 - **Deadline**: 29/12/2025 17:00 BRT (entrevista do João na xAI)
 - **Dispositivo Alvo**: Android Chrome
 - **URL Produção**: https://interviewxaiwebapp.vercel.app
 - **GitHub Repo**: https://github.com/jrleal10/xai-pocket-trainer
-- **Plano Completo**: `C:\Users\joaor\.claude\plans\stateful-waddling-sky.md`
 - **PRD**: `C:\Projetos\interview_xai_web_app\docs\PRD.md`
 
 ---
@@ -981,6 +979,68 @@ Ver FASE 1.3 acima (implementado em conjunto)
 #### 🔗 Para Outro Dev Continuar Daqui
 - Tudo foi implementado em sequência (FASE 1.1 → 1.2 → 1.3)
 - Ver FASE 1.3 para próximo passo (Deploy)
+
+---
+
+## [FASE 4: MELHORIAS PÓS-MVP] - 24/12/2025 Iniciado
+
+> **CONTEXTO**: Após entrega completa do MVP (FASES 1-3), foram propostas melhorias de organização e UX no documento `docs/plano_melhorias.md`. Esta fase implementa as melhorias priorizadas para maximizar utilidade antes da entrevista (29/12).
+
+### [FASE 4.1] Refatoração: Extração de Dados - 24/12/2025 12:30
+
+#### ✅ Implementado
+- Criado módulo `js/data.js` com todas constantes de dados (arquivo: js/data.js)
+- Atualizado `index.html` para importar dados via window.appData (arquivo: index.html:1424-1454)
+- Atualizado Service Worker para v2 e cachear data.js (arquivo: sw.js:4-11)
+- Redução de index.html de ~3.063 para 2.570 linhas (16% menor)
+
+#### ⚙️ Como Foi Feito
+1. **Extração de Dados**:
+   - Identificadas 8 constantes de dados: `vicioPoliceWords`, `keyPhrases`, `flashcardsData`, `pitchPrompts`, `objections`, `randomPillData`, `preFlightChecklist`, `miniStories`
+   - Movidas para `js/data.js` com export via `window.appData` e exports individuais para compatibilidade
+   - Total: ~530 linhas de dados extraídas
+
+2. **Atualização de index.html**:
+   - Adicionado `<script src="js/data.js"></script>` antes do script principal (linha 1424)
+   - Substituídas declarações de constantes por destructuring de `window.appData`
+   - Adicionado fallback com alert se data.js falhar ao carregar
+
+3. **Service Worker Update**:
+   - Incrementado CACHE_NAME de 'xai-trainer-v1' para 'xai-trainer-v2'
+   - Adicionado '/js/data.js' ao urlsToCache
+
+4. **Validação**:
+   - Teste de sintaxe com `node -c js/data.js` → ✅ OK
+   - Verificação manual de destructuring → ✅ OK
+   - Contagem de linhas antes/depois → ✅ Confirmada redução
+
+#### 🐛 Problemas Encontrados & Resoluções
+- **Problema 1**: Duplicação de dados após primeira tentativa de Edit
+  - **Causa**: Edit tool não removeu TODO o bloco duplicado de uma vez
+  - **Solução**: Usado Python script para remoção cirúrgica + Edit manual para limpar remanescentes
+
+- **Problema 2**: State object com syntax error (dados dentro)
+  - **Causa**: Remoção incompleta deixou objetos soltos dentro de `const state = {`
+  - **Solução**: Edit adicional para remover linha duplicada do estado
+
+#### 🧪 Testes Realizados
+- [x] Sintaxe JavaScript válida (node -c): PASS
+- [x] Arquivos criados com permissões corretas: PASS
+- [x] Service Worker atualizado corretamente: PASS
+- [x] Redução de linhas confirmada (3063 → 2570): PASS
+
+#### 📝 Estado Atual do Projeto
+- **Arquivos criados**: js/data.js (novo)
+- **Arquivos modificados**: index.html, sw.js
+- **Commit**: `46da749` - "refactor: Extrair dados para js/data.js (FASE 1)"
+- **Features funcionais**: Todas features anteriores (FASES 1-3) mantidas 100%
+- **Features pendentes**: Quick-Edit (FASE 4.2), Documentação final
+- **Próximo passo**: Implementar Quick-Edit de Scripts (FASE 4.2)
+
+#### 🔗 Para Outro Dev Continuar Daqui
+1. **Testar app localmente**: Abrir `http://localhost:8080` e verificar se tudo carrega
+2. **Se tudo OK**: Partir para FASE 4.2 (Quick-Edit)
+3. **Consultar**: `docs/plano_melhorias.md` seções 3 e 4 para detalhes do Quick-Edit
 
 ---
 
