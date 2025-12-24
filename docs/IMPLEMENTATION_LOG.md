@@ -54,7 +54,7 @@
 - **URL Produção**: https://interviewxaiwebapp.vercel.app
 - **GitHub Repo**: https://github.com/jrleal10/xai-pocket-trainer
 - **Plano Completo**: `C:\Users\joaor\.claude\plans\stateful-waddling-sky.md`
-- **PRD**: `C:\Projetos\interview_xai_web_app\docs\PRD_xAI_Pocket_Trainer.md`
+- **PRD**: `C:\Projetos\interview_xai_web_app\docs\PRD.md`
 
 ---
 
@@ -224,7 +224,7 @@ Nenhum problema significativo encontrado durante implementação.
 **Arquivos críticos**:
 - `C:\Projetos\interview_xai_web_app\index.html` - app completo
 - `C:\Projetos\interview_xai_web_app\README.md` - documentação usuário (atualizada)
-- `C:\Projetos\interview_xai_web_app\docs\Relatorio_Implementacao.md` - este arquivo
+- `C:\Projetos\interview_xai_web_app\docs\IMPLEMENTATION_LOG.md` - este arquivo
 
 ---
 
@@ -340,7 +340,7 @@ Nenhum problema significativo encontrado durante implementação.
   - Atualizado conteúdo estatístico (+7 frases, +8 tips, +8 quiz, +16 checklist items)
   - Atualizado dicas de uso (incluir Random Pill no Natal)
 
-- `docs/Relatorio_Implementacao.md`:
+- `docs/IMPLEMENTATION_LOG.md`:
   - Esta entrada
 
 **Features funcionais**:
@@ -381,7 +381,7 @@ Nenhum problema significativo encontrado durante implementação.
 **Arquivos críticos**:
 - `C:\Projetos\interview_xai_web_app\index.html` - app completo
 - `C:\Projetos\interview_xai_web_app\README.md` - documentação usuário
-- `C:\Projetos\interview_xai_web_app\docs\Relatorio_Implementacao.md` - este arquivo
+- `C:\Projetos\interview_xai_web_app\docs\IMPLEMENTATION_LOG.md` - este arquivo
 
 ---
 
@@ -845,7 +845,7 @@ Nenhum problema - implementação direta.
   - generate-icons.html (utilitário)
   - create-icons.js (utilitário)
   - create-png-icons.js (utilitário)
-  - docs/Relatorio_Implementacao.md
+  - docs/IMPLEMENTATION_LOG.md
 
 - **Features funcionais**:
   - ✅ Dashboard completo
@@ -919,7 +919,7 @@ Ver FASE 1.3 acima (implementado em conjunto)
 ### [FASE 1.1] Setup & Infraestrutura - 23/12/2025
 
 #### ✅ Implementado
-- docs/Relatorio_Implementacao.md criado com template completo (arquivo: C:\Projetos\interview_xai_web_app\docs\Relatorio_Implementacao.md)
+- docs/IMPLEMENTATION_LOG.md criado com template completo (arquivo: C:\Projetos\interview_xai_web_app\docs\IMPLEMENTATION_LOG.md)
 - Pasta icons/ criada (C:\Projetos\interview_xai_web_app\icons\)
 - manifest.json criado (C:\Projetos\interview_xai_web_app\manifest.json)
 - sw.js criado (C:\Projetos\interview_xai_web_app\sw.js)
@@ -970,7 +970,7 @@ Ver FASE 1.3 acima (implementado em conjunto)
   - create-png-icons.js (utilitário)
   - index.html (completo com FASE 1.1, 1.2, 1.3)
   - README.md (completo)
-  - docs/Relatorio_Implementacao.md (este arquivo)
+  - docs/IMPLEMENTATION_LOG.md (este arquivo)
 
 - **Features funcionais**: Infraestrutura PWA completa
 

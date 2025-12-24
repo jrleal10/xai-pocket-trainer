@@ -386,7 +386,7 @@ A URL funciona normalmente quando acessada diretamente. Apenas crawlers são blo
 
 Se encontrar bugs ou tiver dúvidas:
 1. Verifique este README primeiro
-2. Veja o arquivo `docs/Relatorio_Implementacao.md` para detalhes técnicos
+2. Veja o arquivo `docs/IMPLEMENTATION_LOG.md` para detalhes técnicos
 3. Reporte issues ou peça ajuda
 
 ---
