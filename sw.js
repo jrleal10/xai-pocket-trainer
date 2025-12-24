@@ -1,11 +1,12 @@
 // xAI Pocket Trainer - Service Worker
 // Enables offline functionality and PWA installation
 
-const CACHE_NAME = 'xai-trainer-v2'; // Updated for data.js refactor
+const CACHE_NAME = 'xai-trainer-v3'; // Updated for main.js refactor
 const urlsToCache = [
   '/',
   '/index.html',
-  '/js/data.js', // Added: Data module
+  '/js/data.js',
+  '/js/main.js', // Added: Main app logic
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png'
