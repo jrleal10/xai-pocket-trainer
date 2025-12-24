@@ -874,6 +874,142 @@
       font-size: 1.1rem;
       line-height: 1.6;
     }
+
+    /* ==========================================
+       Vício Police Styles
+       ========================================== */
+    .vicio-practice {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .vicio-prompt-display {
+      background: var(--bg-card);
+      padding: var(--spacing-lg);
+      border-radius: 12px;
+      font-size: 1.2rem;
+      text-align: center;
+      border-left: 4px solid var(--accent-primary);
+    }
+
+    .vicio-status {
+      text-align: center;
+      font-size: 1.2rem;
+      padding: var(--spacing-sm);
+      animation: pulse 2s infinite;
+    }
+
+    .transcript-box {
+      background: var(--bg-secondary);
+      padding: var(--spacing-md);
+      border-radius: 8px;
+      min-height: 200px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .vicio-alerts {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+      min-height: 50px;
+    }
+
+    .alert-banner {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: 8px;
+      font-weight: 600;
+      animation: slideIn 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .alert-forbidden {
+      background: var(--color-error);
+      color: white;
+      animation: pulse 0.5s, slideIn 0.3s;
+    }
+
+    .alert-desired {
+      background: var(--color-success);
+      color: white;
+    }
+
+    .vicio-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .stat-block {
+      background: var(--bg-card);
+      padding: var(--spacing-md);
+      border-radius: 12px;
+    }
+
+    .stat-block h3 {
+      font-size: 1rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .stat-count {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: var(--spacing-sm) 0;
+    }
+
+    .stat-list {
+      list-style: none;
+      padding: 0;
+      margin: var(--spacing-sm) 0 0 0;
+    }
+
+    .stat-list li {
+      padding: var(--spacing-xs) 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    .stat-list li:last-child {
+      border-bottom: none;
+    }
+
+    .vicio-results-actions {
+      display: flex;
+      gap: var(--spacing-sm);
+      justify-content: center;
+      margin-top: var(--spacing-md);
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .vicio-stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-count {
+        font-size: 2rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -927,7 +1063,7 @@
         <a href="#vicio-police" class="mode-btn">
           <div class="icon">🚨</div>
           <div class="title">Vício Police</div>
-          <div class="duration">Em breve</div>
+          <div class="duration">Speech Recognition</div>
         </a>
 
         <a href="#random-pill" class="mode-btn random-pill-btn">
@@ -1147,9 +1283,51 @@
     <div class="container">
       <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
       <h1 class="text-center">🚨 Vício Police</h1>
-      <div class="card text-center">
-        <h2>Em breve!</h2>
-        <p class="text-muted">Feature disponível na FASE 3</p>
+
+      <!-- Tela Inicial -->
+      <div id="vicio-start" class="card text-center">
+        <p>Detecta palavras proibidas enquanto você pratica respostas.</p>
+        <p class="text-muted">Requer conexão internet estável.</p>
+        <button class="btn btn-large" onclick="startVicioPolice()">🎤 Iniciar Prática</button>
+      </div>
+
+      <!-- Tela de Prática -->
+      <div id="vicio-practice" class="vicio-practice hidden">
+        <div class="vicio-prompt-display" id="vicio-prompt"></div>
+
+        <div class="vicio-status" id="vicio-status">
+          🎤 Conectando ao Gemini...
+        </div>
+
+        <div class="transcript-box" id="vicio-transcript"></div>
+
+        <div id="vicio-alerts" class="vicio-alerts"></div>
+
+        <button class="btn btn-error" onclick="stopVicioPolice()">⏹️ Parar</button>
+      </div>
+
+      <!-- Tela de Resultados -->
+      <div id="vicio-results" class="hidden">
+        <h2>📊 Summary</h2>
+
+        <div class="vicio-stats-grid">
+          <div class="stat-block stat-error">
+            <h3>❌ Palavras Proibidas</h3>
+            <div class="stat-count" id="forbidden-count">0</div>
+            <ul id="forbidden-list" class="stat-list"></ul>
+          </div>
+
+          <div class="stat-block stat-success">
+            <h3>✅ Palavras-Chave Usadas</h3>
+            <div class="stat-count" id="desired-count">0</div>
+            <ul id="desired-list" class="stat-list"></ul>
+          </div>
+        </div>
+
+        <div class="vicio-results-actions">
+          <button class="btn" onclick="startVicioPolice()">🔄 Nova Prática</button>
+          <button class="btn" onclick="navigateTo('dashboard')">← Dashboard</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1248,6 +1426,25 @@
     // ============================================
 
     const INTERVIEW_DATE = new Date('2025-12-29T17:00:00-03:00');
+
+    // Gemini Live API Configuration
+    const GEMINI_API_KEY = 'AIzaSyC0qCmiyVqyJQ3dqrgp6loA4hcq7a7bjZM';
+    const GEMINI_WS_URL = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent';
+
+    // Vício Police Word Lists
+    const vicioPoliceWords = {
+      forbidden: [
+        "man", "you know", "basically", "like", "um", "uh", "sorry",
+        "apologize", "poor english", "my english", "kind of", "sort of",
+        "i think", "maybe", "i guess"
+      ],
+      desired: [
+        "joule", "abc", "fundamental analysis", "validation", "central bank",
+        "seven ratios", "five predictive", "modigliani miller", "garp",
+        "earnings quality", "dcf", "investment committee", "emerging markets",
+        "fifteen percent", "ready to start", "immediately"
+      ]
+    };
 
     // Key phrases for "Frase do Momento"
     const keyPhrases = [
@@ -1783,7 +1980,15 @@ I'm built for this. I don't get bored. I get it right.`
       objectionTimer: null,
       objectionTimeRemaining: 5,
       // Random Pill state
-      currentQuiz: null
+      currentQuiz: null,
+      // Vício Police state
+      vicioWebSocket: null,
+      vicioMediaRecorder: null,
+      vicioAudioStream: null,
+      vicioTranscript: '',
+      vicioStats: { forbidden: {}, desired: {} },
+      vicioIsListening: false,
+      vicioCurrentPrompt: null
     };
 
     // ============================================
@@ -1814,6 +2019,8 @@ I'm built for this. I don't get bored. I get it right.`
           initRandomPill();
         } else if (viewId === 'preflight') {
           initPreFlight();
+        } else if (viewId === 'vicio-police') {
+          initVicioPolice();
         }
       }
     }
@@ -2556,6 +2763,286 @@ I'm built for this. I don't get bored. I get it right.`
             console.log('Service Worker registration failed:', error);
           });
       });
+    }
+
+    // ==========================================
+    // SECTION 10: VÍCIO POLICE (Gemini Live API)
+    // ==========================================
+
+    function initVicioPolice() {
+      // Reset state
+      state.vicioTranscript = '';
+      state.vicioStats = { forbidden: {}, desired: {} };
+      state.vicioIsListening = false;
+
+      // Show start screen
+      document.getElementById('vicio-start').classList.remove('hidden');
+      document.getElementById('vicio-practice').classList.add('hidden');
+      document.getElementById('vicio-results').classList.add('hidden');
+    }
+
+    async function startVicioPolice() {
+      try {
+        // Reset stats
+        state.vicioStats = { forbidden: {}, desired: {} };
+        state.vicioTranscript = '';
+
+        // Pick random prompt from pitchPrompts
+        const randomPrompt = pitchPrompts[Math.floor(Math.random() * pitchPrompts.length)];
+        state.vicioCurrentPrompt = randomPrompt;
+
+        // Show practice view
+        document.getElementById('vicio-start').classList.add('hidden');
+        document.getElementById('vicio-results').classList.add('hidden');
+        document.getElementById('vicio-practice').classList.remove('hidden');
+
+        document.getElementById('vicio-prompt').textContent = randomPrompt.prompt;
+        document.getElementById('vicio-transcript').textContent = '';
+        document.getElementById('vicio-alerts').innerHTML = '';
+        document.getElementById('vicio-status').textContent = '🎤 Conectando ao Gemini...';
+
+        // 1. Request microphone permission
+        state.vicioAudioStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            channelCount: 1,
+            sampleRate: 16000,
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        });
+
+        document.getElementById('vicio-status').textContent = '🎤 Conectado! Ouvindo...';
+
+        // 2. Connect to Gemini Live API via WebSocket
+        const wsUrl = `${GEMINI_WS_URL}?key=${GEMINI_API_KEY}`;
+        state.vicioWebSocket = new WebSocket(wsUrl);
+
+        state.vicioWebSocket.onopen = () => {
+          console.log('Gemini WebSocket connected');
+
+          // Send initial setup message
+          state.vicioWebSocket.send(JSON.stringify({
+            setup: {
+              model: 'models/gemini-2.0-flash-exp',
+              generationConfig: {
+                responseModalities: ['TEXT']
+              }
+            }
+          }));
+
+          // Start audio capture
+          startAudioCapture();
+        };
+
+        state.vicioWebSocket.onmessage = handleGeminiResponse;
+
+        state.vicioWebSocket.onerror = (error) => {
+          console.error('WebSocket error:', error);
+          showVicioError('Erro na conexão com Gemini. Verifique sua internet.');
+        };
+
+        state.vicioWebSocket.onclose = () => {
+          console.log('Gemini WebSocket closed');
+        };
+
+        state.vicioIsListening = true;
+
+      } catch (error) {
+        console.error('Failed to start Vício Police:', error);
+        showVicioError('Erro ao acessar microfone. Verifique as permissões no navegador.');
+      }
+    }
+
+    function startAudioCapture() {
+      // Setup MediaRecorder to capture audio chunks
+      state.vicioMediaRecorder = new MediaRecorder(state.vicioAudioStream, {
+        mimeType: 'audio/webm;codecs=opus',
+        audioBitsPerSecond: 16000
+      });
+
+      state.vicioMediaRecorder.ondataavailable = async (event) => {
+        if (event.data.size > 0 && state.vicioWebSocket && state.vicioWebSocket.readyState === WebSocket.OPEN) {
+          // Convert audio blob to base64
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64Audio = reader.result.split(',')[1];
+
+            // Send audio chunk to Gemini
+            state.vicioWebSocket.send(JSON.stringify({
+              realtimeInput: {
+                mediaChunks: [{
+                  mimeType: 'audio/webm;codecs=opus',
+                  data: base64Audio
+                }]
+              }
+            }));
+          };
+          reader.readAsDataURL(event.data);
+        }
+      };
+
+      // Capture audio in 100ms chunks for near-real-time
+      state.vicioMediaRecorder.start(100);
+    }
+
+    function handleGeminiResponse(event) {
+      const response = JSON.parse(event.data);
+
+      // Extract transcript from serverContent
+      if (response.serverContent?.modelTurn?.parts) {
+        for (const part of response.serverContent.modelTurn.parts) {
+          if (part.text) {
+            const newText = part.text;
+            state.vicioTranscript += ' ' + newText;
+
+            // Update transcript display
+            updateTranscriptDisplay(state.vicioTranscript);
+
+            // Detect forbidden/desired words in new text
+            detectWords(newText);
+          }
+        }
+      }
+    }
+
+    function updateTranscriptDisplay(transcript) {
+      const transcriptBox = document.getElementById('vicio-transcript');
+      transcriptBox.textContent = transcript.trim();
+
+      // Auto-scroll to bottom
+      transcriptBox.scrollTop = transcriptBox.scrollHeight;
+    }
+
+    function detectWords(text) {
+      const lowerText = text.toLowerCase();
+
+      // Check forbidden words
+      vicioPoliceWords.forbidden.forEach(word => {
+        if (lowerText.includes(word.toLowerCase())) {
+          showAlert('forbidden', word);
+          state.vicioStats.forbidden[word] = (state.vicioStats.forbidden[word] || 0) + 1;
+
+          // Vibrate on forbidden word
+          if (navigator.vibrate) {
+            navigator.vibrate(200);
+          }
+        }
+      });
+
+      // Check desired words
+      vicioPoliceWords.desired.forEach(word => {
+        if (lowerText.includes(word.toLowerCase())) {
+          showAlert('desired', word);
+          state.vicioStats.desired[word] = (state.vicioStats.desired[word] || 0) + 1;
+        }
+      });
+    }
+
+    function showAlert(type, word) {
+      const alertsDiv = document.getElementById('vicio-alerts');
+
+      const alert = document.createElement('div');
+      alert.className = `alert-banner alert-${type}`;
+
+      if (type === 'forbidden') {
+        alert.innerHTML = `⚠️ DETECTED: "<strong>${word}</strong>"`;
+      } else {
+        alert.innerHTML = `✅ GREAT: "<strong>${word}</strong>"`;
+      }
+
+      alertsDiv.appendChild(alert);
+
+      // Remove alert after 3 seconds
+      setTimeout(() => {
+        alert.style.opacity = '0';
+        setTimeout(() => alert.remove(), 300);
+      }, 3000);
+
+      // Keep only last 3 alerts visible
+      const alerts = alertsDiv.querySelectorAll('.alert-banner');
+      if (alerts.length > 3) {
+        alerts[0].remove();
+      }
+    }
+
+    function showVicioError(message) {
+      const statusDiv = document.getElementById('vicio-status');
+
+      statusDiv.textContent = '❌ ' + message;
+      statusDiv.style.color = 'var(--color-error)';
+    }
+
+    function stopVicioPolice() {
+      // Stop audio capture
+      if (state.vicioMediaRecorder && state.vicioMediaRecorder.state !== 'inactive') {
+        state.vicioMediaRecorder.stop();
+      }
+
+      // Stop audio stream
+      if (state.vicioAudioStream) {
+        state.vicioAudioStream.getTracks().forEach(track => track.stop());
+      }
+
+      // Close WebSocket
+      if (state.vicioWebSocket) {
+        state.vicioWebSocket.close();
+      }
+
+      state.vicioIsListening = false;
+
+      // Show results
+      showVicioSummary();
+    }
+
+    function showVicioSummary() {
+      // Hide practice view
+      document.getElementById('vicio-practice').classList.add('hidden');
+
+      // Show results view
+      document.getElementById('vicio-results').classList.remove('hidden');
+
+      // Populate forbidden words
+      const forbiddenList = document.getElementById('forbidden-list');
+      const forbiddenCount = document.getElementById('forbidden-count');
+
+      forbiddenList.innerHTML = '';
+      const forbiddenWords = Object.keys(state.vicioStats.forbidden);
+      forbiddenCount.textContent = forbiddenWords.length;
+
+      if (forbiddenWords.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'Nenhuma palavra proibida detectada! 🎉';
+        li.style.color = 'var(--color-success)';
+        forbiddenList.appendChild(li);
+      } else {
+        forbiddenWords.forEach(word => {
+          const li = document.createElement('li');
+          li.textContent = `"${word}" (${state.vicioStats.forbidden[word]}x)`;
+          forbiddenList.appendChild(li);
+        });
+      }
+
+      // Populate desired words
+      const desiredList = document.getElementById('desired-list');
+      const desiredCount = document.getElementById('desired-count');
+
+      desiredList.innerHTML = '';
+      const desiredWords = Object.keys(state.vicioStats.desired);
+      desiredCount.textContent = desiredWords.length;
+
+      if (desiredWords.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'Tente usar mais palavras-chave';
+        li.style.color = 'var(--text-muted)';
+        desiredList.appendChild(li);
+      } else {
+        desiredWords.forEach(word => {
+          const li = document.createElement('li');
+          li.textContent = `"${word}" (${state.vicioStats.desired[word]}x)`;
+          desiredList.appendChild(li);
+        });
+      }
     }
 
     // ============================================
