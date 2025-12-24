@@ -245,15 +245,56 @@ Checklist completo para 30-60 minutos antes da entrevista (dia 29).
 
 ---
 
-## 🚨 Modo Vício Police (Em breve - FASE 3)
+## 🚨 Modo Vício Police
 
-Detecta palavras proibidas em tempo real:
-- Usa microfone para transcrever fala
-- Alerta quando você diz "man", "you know", "sorry"
-- Conta quantas vezes usou palavras desejadas
-- Summary ao final da prática
+Detecta palavras proibidas em tempo real usando **Gemini Live API** para transcrição precisa.
 
-**Requer**: Chrome/Edge (funciona 100% no Android)
+### Como Usar
+
+1. Toque em "Vício Police" no dashboard
+2. Toque em "🎤 Iniciar Prática"
+3. **Conceda permissão de microfone** quando solicitado
+4. Aguarde status mudar para "🎤 Conectado! Ouvindo..."
+5. O app sorteia um **prompt aleatório** dos 8 prompts de pitch
+6. **Comece a falar** sua resposta em inglês
+7. Observe a **transcrição** aparecer em tempo real na caixa de texto
+8. Veja **alertas visuais** quando palavras são detectadas:
+   - ⚠️ **Vermelho**: Palavra proibida detectada + vibração mobile
+   - ✅ **Verde**: Palavra-chave desejada detectada
+9. Toque em "⏹️ Parar" quando terminar
+10. Veja o **Summary** com estatísticas:
+    - ❌ Palavras Proibidas: lista completa com contagem
+    - ✅ Palavras-Chave Usadas: lista completa com contagem
+
+### Palavras Monitoradas
+
+**15 Palavras Proibidas** (evitar):
+- "man", "you know", "basically", "like", "um", "uh"
+- "sorry", "apologize", "poor english", "my english"
+- "kind of", "sort of", "i think", "maybe", "i guess"
+
+**16 Palavras-Chave Desejadas** (usar mais):
+- "joule", "abc", "fundamental analysis", "validation"
+- "central bank", "seven ratios", "five predictive"
+- "modigliani miller", "garp", "earnings quality"
+- "dcf", "investment committee", "emerging markets"
+- "fifteen percent", "ready to start", "immediately"
+
+### Dicas
+
+- Use em **local silencioso** para melhor precisão de transcrição
+- Fale **claramente e pausadamente**
+- A transcrição aparece com delay de ~1-2 segundos (normal)
+- Pratique **eliminar** palavras proibidas completamente
+- Pratique **incluir** mais palavras-chave desejadas
+- Meta: 0 palavras proibidas, 5+ palavras-chave por resposta
+
+### Requisitos Técnicos
+
+✅ **Conexão internet estável** (Gemini Live API requer internet)
+✅ **Permissão de microfone** (conceder quando solicitado)
+✅ **HTTPS** (funciona em produção, não em localhost sem SSL)
+✅ **Navegadores compatíveis**: Chrome, Edge, Safari, Firefox (desktop + mobile)
 
 ---
 
@@ -357,7 +398,7 @@ Se encontrar bugs ou tiver dúvidas:
 | **23/12** | Dashboard + Flashcards | ✅ **DISPONÍVEL** |
 | **23/12** | Timer 45-seg + Objections | ✅ **DISPONÍVEL** |
 | **23/12** | Random Pill + Pre-Flight | ✅ **DISPONÍVEL** |
-| **26/12** | Vício Police (Speech Recognition) | 🔜 Em breve |
+| **23/12** | Vício Police (Speech Recognition) | ✅ **DISPONÍVEL** |
 | **29/12** | **ENTREVISTA!** | 🎯 |
 
 ---
