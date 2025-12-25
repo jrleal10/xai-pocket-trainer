@@ -428,13 +428,13 @@ Se encontrar bugs ou tiver dúvidas:
 
 ## 📊 Conteúdo
 
-- **45 flashcards** cobrindo todos os tópicos
-- **8 prompts** de prática de pitch
-- **10 objeções** difíceis com scripts ideais
+- **57 flashcards** cobrindo todos os tópicos (+12 novos cards sobre Jeffrey, RLHF, Quality of Earnings, AI Errors)
+- **11 prompts** de prática de pitch (+3 novos: EV/EBITDA, Diagnose Grok Error, Financial Puzzle)
+- **13 objeções** difíceis com scripts ideais (+3 novas: Credit Focus, US GAAP, AI/ML Experience)
 - **16 frases-chave** rotativas no dashboard
-- **7 frases** essenciais (Random Pill)
-- **8 tips** comportamentais (Random Pill)
-- **8 quiz questions** verdadeiro/falso (Random Pill)
+- **11 frases** essenciais (Random Pill) (+4 novas incluindo Safety Check e RLHF)
+- **13 tips** comportamentais (Random Pill) (+5 novos sobre Jeffrey, Adriana, Safety Check)
+- **16 quiz questions** verdadeiro/falso (Random Pill) (+8 novos sobre Jeffrey, ABC, Modigliani-Miller)
 - **20 ratios técnicos** (Random Pill)
 - **16 items** de checklist (Pre-Flight)
 - **4 mini-cards** de revisão rápida (Pre-Flight)
@@ -465,19 +465,26 @@ C:\Projetos\interview_xai_web_app\
 └── README.md           # Este arquivo
 ```
 
-### Últimas Atualizações (FASE 4.1 - 24/12/2025)
+### Últimas Atualizações (FASE Melhorias - 25/12/2025)
 
-**Refatoração: Extração de Dados** ✅
+**Expansão de Conteúdo** ✅
+- +12 novos flashcards (45 → 57): Jeffrey, RLHF, Quality of Earnings, AI Errors
+- +3 novas objeções (10 → 13): Credit Focus, US GAAP, AI/ML Experience
+- +3 novos pitch prompts (8 → 11): EV/EBITDA, Diagnose Grok Error, Financial Puzzle
+- Random Pill expandido: +4 frases, +5 tips, +8 quiz questions
+- Service Worker atualizado para v3
+- Todas melhorias baseadas nas fontes enriquecidas
+
+**FASE 4.1 - Refatoração: Extração de Dados** ✅
 - Dados extraídos para módulo separado (`js/data.js`)
 - index.html reduzido em 16% (~3.063 → 2.570 linhas)
 - Melhor organização: lógica separada de dados
-- Service Worker atualizado para v2
 - Zero impacto em funcionalidade (100% compatível)
 
 **Benefícios:**
+- ✅ Conteúdo mais rico e completo para preparação
 - ✅ Código mais legível e manutenível
 - ✅ Edição de conteúdo facilitada (abrir data.js direto)
-- ✅ Menor risco de conflitos Git
 - ✅ Mantém simplicidade e deploy instantâneo
 
 ---

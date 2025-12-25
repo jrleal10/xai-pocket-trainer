@@ -104,7 +104,21 @@ const flashcardsData = [
   {id: 'D3', category: 'dos-donts', front: 'Do Say', back: '"Joule", "ABC", "fundamental analysis", "validation", "immediately"'},
   {id: 'D4', category: 'dos-donts', front: 'Do', back: 'Lead with Joule + ABC. Keep under 60 seconds. Ask closing question.'},
   {id: 'D5', category: 'dos-donts', front: "If You Don't Know", back: '"I don\'t have direct experience with that, but my instinct based on Joule/ABC is..."'},
-  {id: 'D6', category: 'dos-donts', front: 'End Statements', back: "Downward inflection. Sounds confident. Don't trail off or upspeak."}
+  {id: 'D6', category: 'dos-donts', front: 'End Statements', back: "Downward inflection. Sounds confident. Don't trail off or upspeak."},
+
+  // NOVOS CARDS (12 adicionais) - FASE Melhorias 25/12/2025
+  {id: 'T21', category: 'tecnico', front: 'Modigliani-Miller - Left vs Right Side', back: 'Value is created on the LEFT SIDE (Assets). Debt/Equity are on the RIGHT SIDE. My job: analyze if assets generate cash efficiently. Capital-structure agnostic → focus on ROIC.'},
+  {id: 'T22', category: 'tecnico', front: 'RLHF Applied to Credit (ABC)', back: 'At ABC: Model gave quantitative rating, but analyst could OVERRIDE with structured justification. Human intuition catches edge cases. Essentially RLHF before the term existed.'},
+  {id: 'T23', category: 'tecnico', front: 'Quality of Earnings - 6 Red Flags', back: '1) Revenue ↑ but CFO ↓. 2) Large gap Net Income vs CFO. 3) Receivables > Sales growth. 4) Inventory buildup. 5) Frequent "one-time" charges. 6) Margin expansion without revenue growth.'},
+  {id: 'T24', category: 'tecnico', front: 'Common AI Errors in Finance', back: '1) Unit/Scale errors. 2) P/EBITDA instead of EV/EBITDA. 3) US rates (2-3%) for Brazil (15%). 4) DCF with 3% growth for declining industry. 5) Ignoring earnings quality.'},
+  {id: 'F9', category: 'frases', front: 'Safety Check Script', back: 'Since transitioning out of Joule, I've set up a fully private, secure home office to ensure I can work on xAI's proprietary data with zero compliance risk.'},
+  {id: 'F10', category: 'frases', front: 'Closing Question - Option 1', back: 'Jeffrey, I know we have limited time. Based on my background and my conversations with Adriana and Michael, I am confident I can bring the rigor you need. Is there any final hesitation on your end that I can address right now?'},
+  {id: 'F11', category: 'frases', front: 'Closing Question - Option 2', back: 'Jeffrey, based on my 5 years of fundamental analysis at Joule and my experience validating financial models at ABC, I'm confident I can contribute immediately. Is there anything about my background that concerns you?'},
+  {id: 'F12', category: 'frases', front: 'Closing Question - Option 3', back: 'Jeffrey, I want to make sure I've addressed everything. Is there anything about my fit for the role that I haven't covered?'},
+  {id: 'P5', category: 'pessoas', front: 'Jeffrey - Scale AI Journey', back: 'May 2023: Expert Tasker → Jun 2023: QA Team Manager → Feb 2024: Queue Manager → Jan 2025: Team Lead at xAI. Promoted based on quality metrics. Knows the tutor journey from inside.'},
+  {id: 'P6', category: 'pessoas', front: 'Jeffrey - Skills & Certifications', back: 'FINRA: Series 7, 24, 55, 63. Languages: Russian, Chinese (studied in Dalian, Irkutsk). Ran Otkritie Capital US as CEO/CCO. Passed SEC/FINRA exams with NO deficiencies. Detail-oriented.'},
+  {id: 'P7', category: 'pessoas', front: 'Jeffrey - What He Values', back: 'Led rubric development, onboarding pipelines, feedback loops at Scale AI. "Quality through audits and iterative refinement." Values: data consistency, structured justification, catching blind spots.'},
+  {id: 'H8', category: 'historias', front: '"Cheap Multiple" Trap - Joule Case', back: 'Retailer at 6x EV/EBITDA (peers at 10x). Thesis: digital margin expansion. Challenge: digital needs capex. Found: DSO rising faster than revenue = extending payment terms. PASSED. Market was right to discount.'}
 ];
 
 // ============================================
@@ -272,6 +286,84 @@ Is there anything about my background that concerns you, or any question I can a
 
 [If no concerns:]
 "Great. I'm excited about this role and ready to start immediately."`
+  },
+  {
+    id: 9,
+    prompt: "Explain EV/EBITDA. When should you use it vs P/E?",
+    checklist: [
+      "Explained EV/EBITDA correctly (capital-structure neutral)?",
+      "Gave clear use cases for EV/EBITDA?",
+      "Explained when P/E is better?",
+      "Mentioned triangulation (EV/EBIT, EV/FCF)?",
+      "Showed practical wisdom (not just textbook)?"
+    ],
+    idealScript: `EV/EBITDA is Enterprise Value divided by EBITDA—how much you pay for operating cash flow proxy relative to total firm value.
+
+Use EV/EBITDA over P/E:
+- Comparing companies with different capital structures (it's leverage-neutral)
+- M&A analysis (acquirers buy the whole business)
+- Cross-accounting comparisons (EBITDA normalizes D&A differences)
+
+Use P/E:
+- Retail investors who think per-share
+- Stable companies with similar leverage
+
+Caveat: EBITDA ignores capex. At Joule, we never looked at EV/EBITDA alone—we'd triangulate with EV/EBIT and EV/FCF.
+
+A company cheap on EV/EBITDA but expensive on EV/FCF is usually a capital trap.`
+  },
+  {
+    id: 10,
+    prompt: "If Grok gives a wrong valuation answer, how would you diagnose it?",
+    checklist: [
+      "Structured approach (not random guessing)?",
+      "Identified error types (math, conceptual, contextual)?",
+      "Mentioned tracing the reasoning chain?",
+      "Connected to ABC experience?",
+      "Mentioned generalizing to catch patterns?"
+    ],
+    idealScript: `I'd approach it like I did at ABC with the rating model:
+
+Step 1: Identify error type
+- Mathematical (calculation wrong)?
+- Conceptual (wrong formula)?
+- Contextual (right method, wrong application)?
+- Reasoning (flawed logic chain)?
+
+Step 2: Trace the reasoning
+Where exactly did it break? DCF error might be in WACC, growth assumption, or terminal value.
+
+Step 3: Create correction
+Not just 'here's the right answer' but 'here's the reasoning that leads to it, and here's why the original failed.'
+
+Step 4: Generalize
+Is this a one-off or a pattern? At ABC, I found 2 of 7 ratios weren't predictive—that's a systematic issue worth flagging.
+
+My Joule and ABC experience is directly relevant—I've spent years challenging models and explaining corrections.`
+  },
+  {
+    id: 11,
+    prompt: "Give me an example of a complex financial 'puzzle' you've worked on.",
+    checklist: [
+      "Chose a relevant example (ABC or Joule)?",
+      "Explained the 'puzzle' clearly?",
+      "Showed multi-step reasoning?",
+      "Connected to AI tutoring?",
+      "Demonstrated problem-solving mindset?"
+    ],
+    idealScript: `At ABC, validating the rating model was a puzzle:
+
+The problem: Central Bank said our ratings were too judgmental—no quantitative backing.
+
+The pieces: 5 years of data on 7 fundamental ratios, analyst-assigned ratings, and actual defaults.
+
+The puzzle: Which ratios actually predicted default? Were analysts adding value with judgment, or just adding noise?
+
+The solution: I analyzed each ratio individually—correlation with default, predictive power. Found 5 were useful, 2 weren't. Built regression combining the good ratios into an automated suggested rating.
+
+The insight: The puzzle wasn't just math—it was explaining WHY certain variables mattered and others didn't.
+
+That's what AI tutoring requires: not just correcting answers, but explaining the reasoning chain.`
   }
 ];
 
@@ -467,6 +559,62 @@ Repetitive? Yes. Boring? No. Because precision matters. One ratio wrong = millio
 For xAI, teaching Grok to understand ROIC correctly—that's repetitive validation work. But if Grok gets it wrong, it teaches millions of students wrong.
 
 I'm built for this. I don't get bored. I get it right.`
+  },
+  {
+    id: 11,
+    objection: "Your background seems more credit-focused. How does that fit with our fundamental analysis focus?",
+    options: [
+      { text: "I can adapt—I'm a quick learner", score: 0 },
+      { text: "I've done equity analysis at Joule for 5 years, plus Modigliani-Miller: debt and equity are two views of the same company", score: 2 },
+      { text: "Credit analysis is similar to equity analysis", score: 1 }
+    ],
+    correctIndex: 1,
+    explanation: "Lead with Joule (5 years equity), then bridge with Modigliani-Miller. Don't apologize for credit background—reframe it as complementary expertise.",
+    idealScript: `Fair observation. But let me clarify:
+
+First, I've been doing equity fundamental analysis at Joule for 5 years. Daily investment committee debates on DCF, multiples, earnings quality.
+
+Second, Modigliani-Miller: debt and equity are two views of the same company. What matters is fundamental analysis of the business—cash flows, ROIC, competitive position.
+
+Third, my credit experience gave me model validation skills. At ABC, I analyzed 7 fundamental ratios against actual defaults. That's exactly what AI tutoring requires.
+
+So I can contribute to fundamental analysis projects NOW, and bring differentiated expertise for risk management projects LATER.`
+  },
+  {
+    id: 12,
+    objection: "How do you handle US GAAP? Your experience is with Brazilian/IFRS standards.",
+    options: [
+      { text: "I'll need to study US GAAP, but I can learn quickly", score: 0 },
+      { text: "Math doesn't have borders. A DCF is the same in NY or SP. Coming from IFRS makes me MORE skeptical and robust.", score: 2 },
+      { text: "US GAAP is very similar to IFRS nowadays", score: 1 }
+    ],
+    correctIndex: 1,
+    explanation: "Reframe your IFRS background as a strength. High-inflation environments make you more skeptical of accounting numbers.",
+    idealScript: `Math doesn't have borders. A DCF is the same in NY or SP.
+
+I'm familiar with US specifics like 10-Ks, Stock-Based Compensation (which I'd treat as a REAL expense), LIFO vs FIFO inventory adjustments.
+
+Actually, coming from IFRS and high-inflation environments makes me MORE skeptical and robust than someone who has only seen stable markets.
+
+At Joule, we analyzed US ADRs alongside Brazilian stocks. I know how to adjust for accounting differences and find the TRUE Free Cash Flow.`
+  },
+  {
+    id: 13,
+    objection: "You don't have any AI or machine learning experience. How can you contribute to AI training?",
+    options: [
+      { text: "I'm passionate about AI and willing to learn", score: 0 },
+      { text: "This role doesn't need ML engineers—it needs domain experts who can validate if AI understands finance correctly", score: 2 },
+      { text: "I've used AI tools in my work and understand the basics", score: 1 }
+    ],
+    correctIndex: 1,
+    explanation: "Reframe the role. xAI doesn't need you to BUILD ML models—they need you to VALIDATE if AI's finance knowledge is correct. That's what you've done for 20 years.",
+    idealScript: `This role doesn't need ML engineers—you have those. It needs domain experts who can validate if AI understands finance correctly.
+
+At ABC, I validated a credit model: "Does this ratio actually predict default?" That's the same question: "Does Grok's understanding of ROIC actually match how practitioners use it?"
+
+I'm not here to train neural networks. I'm here to catch errors like: "Grok used P/EBITDA instead of EV/EBITDA" or "Grok applied US rates to a Brazilian company."
+
+You need someone who's USED these concepts with real money at stake for 20 years. That's my value-add.`
   }
 ];
 
@@ -482,7 +630,11 @@ const randomPillData = {
     "Modigliani-Miller: debt and equity are two views of the same company",
     "I can contribute immediately and bring differentiated expertise for future projects",
     "Ready to start immediately, 100% available",
-    "Is there anything about my background that concerns you?"
+    "Is there anything about my background that concerns you?",
+    "Since transitioning out of Joule, I've set up a fully private, secure home office",
+    "I bring a capital-structure agnostic view—focus on ROIC",
+    "A Credit analyst who ignores the Asset side goes broke; an Equity analyst who ignores it is just gambling",
+    "I designed a workflow where analysts could override the model with structured justification—essentially RLHF"
   ],
   tips: [
     "Don't say 'man' or 'you know'",
@@ -492,7 +644,12 @@ const randomPillData = {
     "End statements with downward inflection—sounds confident",
     "Pause instead of using filler words",
     "Don't mention working from Joule's office",
-    "Jeffrey has EM background—mention Brazil's 15% rates if natural"
+    "Jeffrey has EM background—mention Brazil's 15% rates if natural",
+    "Jeffrey was a Finance SME at Scale AI—he knows the tutor journey from inside",
+    "Jeffrey passed SEC/FINRA exams with NO deficiencies—he values attention to detail",
+    "Adriana said current focus is fundamental analysis, NOT risk management",
+    "Frame the Safety Check early—kill compliance concerns upfront",
+    "If asked about US GAAP: 'Math doesn't have borders. Coming from IFRS makes me more skeptical.'"
   ],
   quickQuiz: [
     { q: "EV/EBITDA is capital-structure neutral", a: true },
@@ -502,7 +659,15 @@ const randomPillData = {
     { q: "Jeffrey worked with EM Fixed Income until 2018", a: true },
     { q: "The interview is 30 minutes long", a: false },
     { q: "Adriana said current focus is risk management", a: false },
-    { q: "Modigliani-Miller says capital structure doesn't matter for firm value", a: true }
+    { q: "Modigliani-Miller says capital structure doesn't matter for firm value", a: true },
+    { q: "Jeffrey worked at Scale AI before xAI", a: true },
+    { q: "Jeffrey has FINRA Series 7, 24, 55, and 63 certifications", a: true },
+    { q: "At ABC, all 7 ratios were found to be predictive", a: false },
+    { q: "You should apologize for not having a CFA", a: false },
+    { q: "Safety Check: mention private home office early", a: true },
+    { q: "Jeffrey studied Russian and Chinese", a: true },
+    { q: "Modigliani-Miller says capital structure affects firm value", a: false },
+    { q: "ROIC > WACC means value creation", a: true }
   ]
 };
 

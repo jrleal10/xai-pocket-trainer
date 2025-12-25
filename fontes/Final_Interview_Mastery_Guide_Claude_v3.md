@@ -1,7 +1,7 @@
 # FINAL INTERVIEW MASTERY GUIDE — VERSION 4.0 (KILLER EDITION)
 ## xAI - AI Finance Tutor (Portfolio Management)
 ## Candidate: João Leal | Final Round Preparation
-## Interview: Jeffrey Weichsel | Dec 29, 2025
+## Interview: Jeffrey Weichsel | Jan 5, 2026
 
 ---
 

@@ -1,6 +1,6 @@
 # 15-MINUTE INTERVIEW SCRIPT — FINAL VERSION
 ## Jeffrey Weichsel — Human Data Manager, xAI
-## Dec 29, 2025 | 5:00-5:15pm BRT
+## Jan 5, 2026 | 5:00-5:15pm BRT
 
 ---
 
@@ -243,7 +243,7 @@ Esta é uma **entrevista de confirmação**, não eliminação:
 
 # CHECKLIST PRÉ-ENTREVISTA
 
-## 30 minutos antes:
+## 30 minutos antes (05/01 às 16:30):
 - [ ] Testar câmera, microfone, internet
 - [ ] Ambiente silencioso, fundo neutro
 - [ ] Água por perto
