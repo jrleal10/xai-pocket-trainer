@@ -2,8 +2,8 @@
 
 > **Comprehensive technical documentation for developers**
 >
-> **Version**: 1.1.0 (FASE 4.1 - Refatoração Completa)
-> **Last Updated**: 24/12/2025
+> **Version**: 1.2.0 (FASE Melhorias - Expansão de Conteúdo)
+> **Last Updated**: 25/12/2025
 > **Status**: Production Ready
 
 ---
@@ -61,22 +61,30 @@ The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| **Total Lines of Code** | ~3,140 lines | index.html (2,570) + data.js (570) |
+| **Total Lines of Code** | ~3,218 lines | index.html (2,570) + data.js (648) |
 | **index.html Size** | ~90 KB | Estrutura + Lógica + UI |
-| **js/data.js Size** | ~30 KB | Dados puros (flashcards, scripts) |
-| **Bundle Size Total** | ~120 KB | Sem mudança após refatoração |
-| **Load Time** | <2s on 4G | Service Worker v2 otimizado |
-| **Lighthouse Score** | 95+ (PWA) | Mantido após refatoração |
+| **js/data.js Size** | ~35 KB | Dados expandidos (+78 linhas) |
+| **Bundle Size Total** | ~125 KB | +5 KB após expansão de conteúdo |
+| **Load Time** | <2s on 4G | Service Worker v3 otimizado |
+| **Lighthouse Score** | 95+ (PWA) | Mantido após melhorias |
 | **Offline Support** | 100% | 2 arquivos cacheados (index.html + data.js) |
 | **Features Implemented** | 7 major features | 100% funcional |
-| **Data Items** | 45 flashcards, 8 prompts, 10 objections, 31 monitored words | Todos em data.js |
+| **Data Items** | 57 flashcards, 11 prompts, 13 objections, 31 monitored words | +27-38% conteúdo |
 
-### 1.5 Recent Updates (FASE 4.1 - 24/12/2025)
+### 1.5 Recent Updates (FASE Melhorias - 25/12/2025)
 
-**Refatoração: Extração de Dados**
-- ✅ Criado módulo `js/data.js` (570 linhas)
+**Expansão Massiva de Conteúdo**
+- ✅ Flashcards: 45 → 57 (+12 novos cards sobre Jeffrey, RLHF, Quality of Earnings, AI Errors)
+- ✅ Pitch Prompts: 8 → 11 (+3 novos: EV/EBITDA, Diagnose Grok Error, Financial Puzzle)
+- ✅ Objeções: 10 → 13 (+3 novas: Credit Focus, US GAAP, AI/ML Experience)
+- ✅ Random Pill: +4 frases, +5 tips, +8 quiz questions
+- ✅ Service Worker atualizado para v3
+- ✅ Baseado em análise profunda das fontes ricas (Anotações Pessoais, Sobre o Entrevistador, Guias)
+
+**FASE 4.1 - Refatoração: Extração de Dados** (24/12/2025)
+- ✅ Criado módulo `js/data.js` (570 linhas → 648 linhas)
 - ✅ index.html reduzido em 16% (3.063 → 2.570 linhas)
-- ✅ Service Worker atualizado para v2
+- ✅ Service Worker atualizado (v1 → v2 → v3)
 - ✅ Zero impacto em funcionalidade
 - ✅ Melhor separação de concerns (lógica vs dados)
 
