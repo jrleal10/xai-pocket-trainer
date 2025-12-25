@@ -1030,7 +1030,7 @@
         <div class="countdown-display" id="countdown-display">
           Loading...
         </div>
-        <div class="countdown-date">até 29/12/2025 às 17:00 BRT</div>
+        <div class="countdown-date">até 05/01/2026 às 17:00 BRT</div>
       </div>
 
       <div class="phrase-moment" id="phrase-moment" onclick="nextPhrase()">
@@ -1351,7 +1351,7 @@
     <div class="container">
       <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
       <h1 class="text-center">📋 Pre-Flight Checklist</h1>
-      <p class="text-center text-muted">29 de dezembro, antes das 17h</p>
+      <p class="text-center text-muted">05 de janeiro, antes das 17h</p>
 
       <div class="preflight-progress">
         <div class="progress-bar">
@@ -1428,30 +1428,15 @@
     // SECTION 1: CONSTANTS & DATA
     // ============================================
 
-    const INTERVIEW_DATE = new Date('2025-12-29T17:00:00-03:00');
+    const INTERVIEW_DATE = new Date('2026-01-05T17:00:00-03:00');
 
     // Gemini Live API Configuration
     const GEMINI_API_KEY = 'AIzaSyC0qCmiyVqyJQ3dqrgp6loA4hcq7a7bjZM';
     const GEMINI_WS_URL = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent';
 
-    // Data constants are now loaded from js/data.js
-    // Available via window.appData or directly (window.flashcardsData, window.pitchPrompts, etc.)
-    const {
-      keyPhrases,
-      flashcardsData,
-      pitchPrompts,
-      objections,
-      vicioPoliceWords,
-      randomPillData,
-      preFlightChecklist,
-      miniStories
-    } = window.appData || {};
-
-    // Fallback in case data.js fails to load (should never happen)
-    if (!flashcardsData) {
-      console.error('CRITICAL: js/data.js failed to load!');
-      alert('Erro ao carregar dados do app. Verifique se js/data.js existe.');
-    }
+    // Data constants are loaded from js/data.js
+    // They are available as global variables (keyPhrases, flashcardsData, etc.)
+    // and also via window.appData object
 
     // ============================================
     // SECTION 2: STATE MANAGEMENT
@@ -1461,7 +1446,7 @@
       currentView: 'dashboard',
       currentCardIndex: 0,
       currentPhraseIndex: 0,
-      filteredCards: [...flashcardsData],
+      filteredCards: [],  // Will be populated in initFlashcards()
       reviewNeeded: [],
       knownCards: [],
       isCardFlipped: false,
@@ -1594,6 +1579,10 @@
     // ============================================
 
     function initFlashcards() {
+      // Initialize filteredCards if empty (first time loading)
+      if (state.filteredCards.length === 0) {
+        state.filteredCards = [...flashcardsData];
+      }
       loadState();
       applyFilter();
       displayCurrentCard();
@@ -2548,6 +2537,13 @@
     // ============================================
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Validate data loaded correctly from js/data.js
+      if (!flashcardsData || !keyPhrases) {
+        console.error('CRITICAL: js/data.js failed to load!');
+        alert('Erro ao carregar dados do app. Verifique se js/data.js existe.');
+        return; // Stop execution if data didn't load
+      }
+
       // Load initial state
       loadState();
 

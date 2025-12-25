@@ -1,7 +1,7 @@
 # xAI Pocket Trainer
 
 > Progressive Web App para preparação da entrevista na xAI
-> **Data da Entrevista**: 29 de dezembro de 2025 às 17:00 BRT
+> **Data da Entrevista**: 05 de janeiro de 2026 às 17:00 BRT
 > **Entrevistador**: Jeffrey Weichsel (Human Data Manager)
 
 ## 🚀 Acesso Rápido
@@ -371,7 +371,7 @@ A URL funciona normalmente quando acessada diretamente. Apenas crawlers são blo
 ### Countdown mostra hora errada
 
 - Countdown é em **BRT (UTC-3)**
-- Data da entrevista: **29/12/2025 17:00 BRT**
+- Data da entrevista: **05/01/2026 17:00 BRT**
 - Verifique se o relógio do seu dispositivo está correto
 
 ### App não funciona offline
@@ -399,7 +399,7 @@ Se encontrar bugs ou tiver dúvidas:
 | **23/12** | Timer 45-seg + Objections | ✅ **DISPONÍVEL** |
 | **23/12** | Random Pill + Pre-Flight | ✅ **DISPONÍVEL** |
 | **23/12** | Vício Police (Speech Recognition) | ✅ **DISPONÍVEL** |
-| **29/12** | **ENTREVISTA!** | 🎯 |
+| **05/01** | **ENTREVISTA!** | 🎯 |
 
 ---
 

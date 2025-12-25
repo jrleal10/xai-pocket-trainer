@@ -160,7 +160,7 @@ O plano inicial é **excelente**: minimalista, direto e alinhado com "o mais sim
 O projeto **xAI Pocket Trainer** é um exemplo notável de **engenharia pragmática orientada a resultado**. Em menos de 24 horas, foi entregue um PWA completo, funcional e polido, que cumpre 100% dos requisitos do PRD. A decisão arquitetural central - **single-file architecture** - foi **absolutamente correta** para o contexto:
 
 **Justificativa da Arquitetura Atual:**
-- ✅ **Prazo crítico**: Entrevista em 6 dias (29/12/2025) - zero margem para over-engineering
+- ✅ **Prazo crítico**: Entrevista em 05/01/2026 - zero margem para over-engineering
 - ✅ **Usuário único**: João - não há necessidade de escalabilidade ou multi-tenancy
 - ✅ **Deploy instantâneo**: Sem build step = mudanças em produção em <30 segundos
 - ✅ **Debugging trivial**: Todo código visível em um único arquivo facilita troubleshooting de última hora
@@ -339,7 +339,7 @@ window.appData = {
 
 ### 6.4 Priorização de Implementação
 
-Considerando que a entrevista é dia **29/12/2025** (5 dias), aqui está a ordem recomendada:
+Considerando que a entrevista é dia **05/01/2026**, aqui está a ordem recomendada:
 
 #### 🔴 PRIORIDADE CRÍTICA (Fazer DIA 24/12)
 1. **Refatoração: Extração de Dados** → 30 minutos

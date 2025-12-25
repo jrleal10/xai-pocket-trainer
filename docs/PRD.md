@@ -8,7 +8,7 @@
 
 ## 1.1 Contexto
 
-João Leal está se preparando para a entrevista final na xAI (empresa de AI do Elon Musk) para a vaga de AI Finance Tutor. A entrevista será dia **29 de dezembro de 2025 às 17h BRT** com **Jeffrey Weichsel** (Human Data Manager) e durará apenas **15 minutos**.
+João Leal está se preparando para a entrevista final na xAI (empresa de AI do Elon Musk) para a vaga de AI Finance Tutor. A entrevista será dia **05 de janeiro de 2026 às 17h BRT** com **Jeffrey Weichsel** (Human Data Manager) e durará apenas **15 minutos**.
 
 O período de preparação coincide com o **Natal (24-25/12)**, o que limita o tempo disponível para estudo tradicional. João precisa de uma ferramenta que permita **micro-aprendizado** em intervalos curtos durante as festividades.
 
@@ -122,7 +122,7 @@ Um **Progressive Web App (PWA)** mobile-first que oferece:
 
 ### 4.1.2 Countdown Timer
 
-- **Destino:** 29 de dezembro de 2025, 17:00:00 BRT (UTC-3)
+- **Destino:** 05 de janeiro de 2026, 17:00:00 BRT (UTC-3)
 - **Formato:** "X dias, Y horas, Z minutos"
 - **Atualização:** A cada minuto
 - **Comportamento no dia D:** Muda para "HOJE! Faltam X horas" em destaque
@@ -758,7 +758,7 @@ Checklist para o dia 29, 30-60 minutos antes da entrevista.
 
 ```
 PRE-FLIGHT CHECKLIST
-29 de dezembro, antes das 17h
+05 de janeiro, antes das 17h
 
 TÉCNICO
 [ ] Câmera testada e funcionando
@@ -1292,7 +1292,7 @@ Ver arquivo separado: `Final_Interview_Mastery_Guide_V4_KILLER.md`
 ## 10.2 Countdown Target
 
 ```javascript
-const interviewDate = new Date('2025-12-29T17:00:00-03:00');
+const interviewDate = new Date('2026-01-05T17:00:00-03:00');
 ```
 
 ## 10.3 Assets Necessários
@@ -1306,7 +1306,7 @@ const interviewDate = new Date('2025-12-29T17:00:00-03:00');
 # 11. CONTATO
 
 **Produto para:** João Leal
-**Entrevista:** 29/12/2025 às 17h BRT
+**Entrevista:** 05/01/2026 às 17h BRT
 **Entrevistador:** Jeffrey Weichsel, xAI
 
 ---

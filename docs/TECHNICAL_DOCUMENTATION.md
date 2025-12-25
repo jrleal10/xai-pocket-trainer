@@ -32,7 +32,7 @@
 
 ### 1.1 Purpose
 
-The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João prepare for a final interview at xAI on December 29, 2025, at 17:00 BRT. The app provides comprehensive training tools including:
+The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João prepare for a final interview at xAI on January 5, 2026, at 17:00 BRT. The app provides comprehensive training tools including:
 
 - Flashcard memorization system
 - Pitch timer with visual feedback
@@ -44,7 +44,7 @@ The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João
 
 - **Target User**: Single user (João)
 - **Target Device**: Android Chrome (primary), but supports all modern browsers
-- **Deadline**: Interview on 29/12/2025 17:00 BRT
+- **Deadline**: Interview on 05/01/2026 17:00 BRT
 - **Constraint**: User needs to **USE** the app, not build it
 - **Strategy**: Incremental delivery in 3 phases (all completed on 23/12/2025)
 
@@ -352,7 +352,7 @@ sw.js (v2)
 **Hash Route**: `#dashboard` (default)
 
 **Responsibilities**:
-- Display countdown timer to interview (29/12/2025 17:00 BRT)
+- Display countdown timer to interview (05/01/2026 17:00 BRT)
 - Rotate key phrases every 30 seconds
 - Provide navigation to all 6 modes
 

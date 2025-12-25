@@ -62,6 +62,101 @@
 
 ---
 
+### [FASE 4.1 FIX] Correção de Bug + Atualização de Data - 25/12/2025 18:00
+
+#### ✅ Implementado
+
+**Correção crítica do bug de carregamento** após refatoração FASE 4.1 + atualização da data da entrevista:
+
+1. **Bug Identificado** (SyntaxError: Identifier 'keyPhrases' has already been declared)
+   - **Causa**: `js/data.js` declara variáveis como `const` no escopo global
+   - **Problema**: `index.html` tentava redeclarar as mesmas variáveis com `let`
+   - **Sintomas**: App travado em "Loading...", botões não funcionavam, console com SyntaxError
+
+2. **Correção Aplicada** (arquivo: index.html)
+   - **Linha 1437-1439**: Removidas declarações duplicadas `let keyPhrases, flashcardsData...`
+   - **Linha 2539-2545**: Removido destructuring de `window.appData` (variáveis já existem globalmente)
+   - **Linha 2541-2544**: Mantida apenas validação de dados carregados
+   - **Linha 1451**: Alterado `filteredCards: [...flashcardsData]` para `filteredCards: []`
+   - **Linha 1583-1587**: Adicionada inicialização de `filteredCards` em `initFlashcards()`
+
+3. **Atualização de Data da Entrevista**
+   - **Data anterior**: 29 de dezembro de 2025 às 17:00 BRT
+   - **Data nova**: 05 de janeiro de 2026 às 17:00 BRT
+   - **Motivo**: Reagendamento por conflito de viagem da equipe xAI
+
+4. **Arquivos Atualizados**:
+   - `index.html`: Constante INTERVIEW_DATE + 2 referências de UI (dashboard + pre-flight)
+   - `README.md`: 3 referências (header, troubleshooting, cronograma)
+   - `docs/TECHNICAL_DOCUMENTATION.md`: 3 referências
+   - `docs/PRD.md`: 5 referências
+   - `docs/plano_melhorias.md`: 2 referências
+
+#### ⚙️ Como Foi Feito
+
+**Análise do Bug:**
+- O `data.js` exporta variáveis de 3 formas:
+  1. Como `const` no escopo global (ex: `const keyPhrases = [...]`)
+  2. Via `window.appData` (objeto agregador)
+  3. Via `window.keyPhrases` (individual)
+- O `index.html` não precisa declarar as variáveis, elas já existem!
+- Solução: Remover declarações duplicadas, usar variáveis globais diretamente
+
+**Arquitetura Final:**
+```javascript
+// js/data.js
+const keyPhrases = [...];  // Global scope
+window.appData = { keyPhrases, ... };  // Agregador
+window.keyPhrases = keyPhrases;  // Individual
+
+// index.html
+// Nenhuma declaração necessária!
+// Variáveis já disponíveis globalmente via data.js
+```
+
+#### 🐛 Problemas Encontrados & Resoluções
+
+**Problema Inicial**: Timing de carregamento
+- **Tentativa 1**: Mover destructuring para DOMContentLoaded → FALHOU (ainda redeclarava)
+- **Solução Final**: Remover declarações completamente (variáveis já globais)
+
+#### 🧪 Testes Realizados
+
+- [x] SyntaxError resolvido (console limpo)
+- [x] Countdown mostra tempo correto até 05/01/2026
+- [x] Frase do Momento exibe frases aleatórias
+- [x] Botões de navegação funcionam (Flashcards, Pitch, etc)
+- [x] Flashcards carregam e exibem cards
+- [x] Todos os modos funcionam normalmente
+
+#### 📝 Estado Atual do Projeto
+
+- **Arquivos modificados**:
+  - index.html: 6 mudanças (correção bug + atualização data)
+  - README.md: 3 mudanças (atualização data)
+  - 4 arquivos em docs/: 13 mudanças totais (atualização data)
+
+- **Features funcionais**:
+  - ✅ Todas features das FASES 1-3 funcionando 100%
+  - ✅ Refatoração FASE 4.1 corrigida e estável
+  - ✅ Data da entrevista atualizada em todo o projeto
+
+- **Status**: App 100% funcional, pronto para uso até 05/01/2026
+
+#### 🔗 Para Outro Dev Continuar Daqui
+
+**Lições Aprendidas:**
+1. Quando usar módulos separados (`data.js`), cuidado com redeclarações
+2. Variáveis declaradas como `const` no escopo global de um `<script>` externo já estão disponíveis
+3. Não precisa `let` ou destructuring no arquivo principal se as variáveis já existem globalmente
+
+**Próximos passos**:
+- Deploy para produção (commit + push)
+- Testar em ambiente de produção (Vercel)
+- Continuar preparação para entrevista até 05/01/2026
+
+---
+
 ### [FASE 3.2] Vício Police com Gemini Live API - 23/12/2025 23:30
 
 #### ✅ Implementado
