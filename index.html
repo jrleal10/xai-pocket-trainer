@@ -1096,6 +1096,7 @@
       <div class="flashcard-controls">
         <select id="category-filter" onchange="filterByCategory()">
           <option value="all">Todas as Categorias</option>
+          <option value="killer">🏆 KILLER STORIES</option>
           <option value="tecnico">Técnico</option>
           <option value="historias">Histórias</option>
           <option value="pessoas">Pessoas</option>
@@ -1130,6 +1131,9 @@
       </div>
 
       <div class="flashcard-actions">
+        <button class="btn btn-secondary" onclick="speakCard()" style="flex: 0 0 50px; padding: 12px; font-size: 1.5rem;">
+          🔊
+        </button>
         <button class="btn swipe-left" onclick="markForReview()">
           ← Preciso Revisar
         </button>
@@ -1180,6 +1184,18 @@
 
         <div class="progress-bar-container">
           <div class="progress-bar" id="timer-progress"></div>
+        </div>
+
+        <!-- Panic Button Feature -->
+        <button id="panic-btn" class="btn btn-error" style="margin-top: 1rem; display: none;" onclick="showPanicBridge()">
+          🆘 PANIC BRIDGE
+        </button>
+        <div id="panic-overlay" style="display: none; background: rgba(0,0,0,0.9); position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 2rem; border-radius: 12px; z-index: 100; text-align: center;">
+          <h3 style="color: var(--color-warning); margin-bottom: 1.5rem;">BRIDGE PHRASES</h3>
+          <p class="panic-phrase" onclick="closePanic()" style="background: #333; padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; cursor: pointer;">"The core principle here is..."</p>
+          <p class="panic-phrase" onclick="closePanic()" style="background: #333; padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; cursor: pointer;">"Bringing it back to the Joule experience..."</p>
+          <p class="panic-phrase" onclick="closePanic()" style="background: #333; padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; cursor: pointer;">"What matters is the fundamental analysis..."</p>
+          <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="closePanic()">Close</button>
         </div>
 
         <div id="wrap-up-message" style="display: none; color: var(--color-error); font-weight: 700; margin-top: 1rem; font-size: 1.25rem;">
@@ -1425,6 +1441,35 @@
 
   <script>
     // ============================================
+    // SECTION 9: NEW FEATURES (TTS & PANIC)
+    // ============================================
+
+    function speakCard() {
+      if (!window.speechSynthesis) return;
+      
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+
+      const card = state.filteredCards[state.currentCardIndex];
+      const text = state.isCardFlipped ? card.back : card.front;
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.9; // Slightly slower for clarity
+      
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function showPanicBridge() {
+      document.getElementById('panic-overlay').style.display = 'block';
+      if (navigator.vibrate) navigator.vibrate(50);
+    }
+
+    function closePanic() {
+      document.getElementById('panic-overlay').style.display = 'none';
+    }
+
+    // ============================================
     // SECTION 1: CONSTANTS & DATA
     // ============================================
 
@@ -1662,6 +1707,16 @@
 
       if (filter === 'all') {
         state.filteredCards = [...flashcardsData];
+      } else if (filter === 'killer') {
+        // IDs of Killer Stories (Joule, ABC, EM, Jeffrey, Modigliani)
+        const killerIds = [
+          'H1', 'H2', 'H8',       // Joule
+          'H3', 'H4', 'F2', 'T22', // ABC
+          'H5', 'H6', 'P1', 'P5', 'P6', 'P7', // EM & Jeffrey
+          'T6', 'F5', 'T21',      // Modigliani
+          'F9', 'F10', 'F11'      // Safety & Closing
+        ];
+        state.filteredCards = flashcardsData.filter(card => killerIds.includes(card.id));
       } else {
         state.filteredCards = flashcardsData.filter(card => card.category === filter);
       }
@@ -1782,6 +1837,7 @@
       document.getElementById('timer-display').textContent = state.selectedTime;
       document.getElementById('timer-progress').style.width = '0%';
       document.getElementById('wrap-up-message').style.display = 'none';
+      document.getElementById('panic-btn').style.display = 'block'; // Show Panic Button
 
       // Reset timer classes
       const timerDisplay = document.getElementById('timer-display');
@@ -1864,6 +1920,7 @@
       // Hide running screen, show review screen
       document.getElementById('pitch-running').style.display = 'none';
       document.getElementById('pitch-review').style.display = 'block';
+      document.getElementById('panic-btn').style.display = 'none'; // Hide Panic Button
 
       // Get current prompt
       const prompt = pitchPrompts[state.currentPromptIndex];
