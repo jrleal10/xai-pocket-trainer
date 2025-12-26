@@ -1,7 +1,7 @@
 // xAI Pocket Trainer - Service Worker
 // Enables offline functionality and PWA installation
 
-const CACHE_NAME = 'xai-trainer-v3'; // Updated for melhorias content expansion
+const CACHE_NAME = 'xai-trainer-v4'; // Force cache refresh for Vercel deployment
 const urlsToCache = [
   '/',
   '/index.html',
