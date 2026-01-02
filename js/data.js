@@ -19,7 +19,38 @@ const vicioPoliceWords = {
     "joule", "abc", "fundamental analysis", "validation", "central bank",
     "seven ratios", "five predictive", "modigliani miller", "garp",
     "earnings quality", "dcf", "investment committee", "emerging markets",
-    "fifteen percent", "ready to start", "immediately"
+    "fifteen percent", "ready to start", "immediately",
+    "high impact", "meaningful", "new year", "resolution", "build the future"
+  ]
+};
+
+// ============================================
+// V3.0 - KEYWORD PRIORITY SYSTEM (Response Coach)
+// ============================================
+
+const keywordPriority = {
+  // GOLD: Palavras-chave de JOULE/EQUITY (prioridade máxima)
+  gold: [
+    "joule", "investment committee", "garp", "roic", "earnings quality",
+    "dcf", "free cash flow", "margin of safety"
+  ],
+
+  // BLUE: Ponte Modigliani-Miller (bridge credit↔equity)
+  blue: [
+    "modigliani", "miller", "capital-structure agnostic", "capital structure",
+    "left side", "assets", "right side"
+  ],
+
+  // GREEN: ABC/EM/Validation (diferenciação)
+  green: [
+    "abc", "validation", "central bank", "emerging markets",
+    "fifteen percent", "15%", "brazil"
+  ],
+
+  // ALERT: Termos de CRÉDITO (requerem ponte para equity!)
+  alert: [
+    "raroc", "basel", "pd", "lgd", "credit risk", "default",
+    "probability of default", "loss given default", "expected loss"
   ]
 };
 
@@ -118,7 +149,59 @@ const flashcardsData = [
   {id: 'P5', category: 'pessoas', front: 'Jeffrey - Scale AI Journey', back: 'May 2023: Expert Tasker → Jun 2023: QA Team Manager → Feb 2024: Queue Manager → Jan 2025: Team Lead at xAI. Promoted based on quality metrics. Knows the tutor journey from inside.'},
   {id: 'P6', category: 'pessoas', front: 'Jeffrey - Skills & Certifications', back: 'FINRA: Series 7, 24, 55, 63. Languages: Russian, Chinese (studied in Dalian, Irkutsk). Ran Otkritie Capital US as CEO/CCO. Passed SEC/FINRA exams with NO deficiencies. Detail-oriented.'},
   {id: 'P7', category: 'pessoas', front: 'Jeffrey - What He Values', back: 'Led rubric development, onboarding pipelines, feedback loops at Scale AI. "Quality through audits and iterative refinement." Values: data consistency, structured justification, catching blind spots.'},
-  {id: 'H8', category: 'historias', front: '"Cheap Multiple" Trap - Joule Case', back: 'Retailer at 6x EV/EBITDA (peers at 10x). Thesis: digital margin expansion. Challenge: digital needs capex. Found: DSO rising faster than revenue = extending payment terms. PASSED. Market was right to discount.'}
+  {id: 'H8', category: 'historias', front: '"Cheap Multiple" Trap - Joule Case', back: 'Retailer at 6x EV/EBITDA (peers at 10x). Thesis: digital margin expansion. Challenge: digital needs capex. Found: DSO rising faster than revenue = extending payment terms. PASSED. Market was right to discount.'},
+
+  // === V3.0 - JOULE RETAILER KILLER STORY (expanded version) ===
+  {id: 'H9', category: 'historias', isKillerStory: true, front: 'Joule Retailer Story - Full Version (V3.0)', back: `SITUAÇÃO: Brazilian retailer trading at 6x EV/EBITDA while peers traded at 10x. Looked cheap.
+
+TESE DO ANALISTA: Margin expansion from digital mix shift.
+
+MEU DESAFIO: "Digital requires fulfillment capex and customer acquisition costs. Show me ROIC, not just EBITDA margin."
+
+DESCOBERTA: We dug into working capital. DSO (Days Sales Outstanding) increasing faster than revenue—they were extending payment terms to hit sales targets.
+
+RESULTADO: The "cheap" multiple was the market correctly pricing deteriorating returns. We PASSED.
+
+CONEXÃO COM xAI: "This type of analytical dialogue—questioning, validating, catching inconsistencies—is exactly what AI tutoring requires."`},
+
+  // === V3.0 - JEFFREY PROFILE EXPANDED ===
+  {id: 'P8', category: 'pessoas', isKillerStory: true, front: 'Jeffrey Weichsel - Complete Profile (V3.0)', back: `CARGO ATUAL: Member of Program Staff @ xAI (ex-Human Data Manager)
+
+BACKGROUND:
+• 10 years EM Fixed Income Sales (Russia, LatAm) until 2018
+• Scale AI: Finance SME → Queue Manager (promoted on quality)
+• CEO/CCO at Otkritie Capital US
+
+CONEXÕES NATURAIS:
+✅ Emerging Markets - ele viveu isso, você vive isso
+✅ Fixed Income → ponte para seu crédito
+✅ LatAm - Brasil é o maior mercado da região
+
+O QUE ELE QUER SABER:
+• Você vai entregar? (não se você é PhD)
+• Você entende o trabalho de AI Tutoring?
+• Você é confiável para começar imediatamente?
+
+VALORES: Quality through audits, structured justification, catching blind spots`},
+
+  // === V3.0 - JEFFREY TWITTER CONTEXT (Jan 2026) ===
+  {id: 'P9', category: 'pessoas', isKillerStory: true, front: 'Jeffrey - Twitter Context (Jan 2026)', back: `POSTS RECENTES DO JEFFREY:
+
+• "2025 showed us what is possible. 2026 is the year we build the future."
+
+• "Your High Impact New Year's Resolution: Become an AI Tutor @xai and help train @grok"
+
+PALAVRAS-CHAVE PARA USAR NATURALMENTE:
+✅ "High impact"
+✅ "Build the future"
+✅ "New Year's resolution"
+✅ "Meaningful work"
+
+⚠️ NÃO mencionar que viu os tweets!
+✅ Ecoar o sentimento como se fosse seu próprio pensamento.
+
+CLOSING ATUALIZADO:
+"My New Year's resolution: apply 20 years of finance to something with real impact. Training Grok—that's meaningful work."`}
 ];
 
 // ============================================
@@ -364,6 +447,142 @@ The solution: I analyzed each ratio individually—correlation with default, pre
 The insight: The puzzle wasn't just math—it was explaining WHY certain variables mattered and others didn't.
 
 That's what AI tutoring requires: not just correcting answers, but explaining the reasoning chain.`
+  },
+  // === NOVOS PROMPTS V3.0 - EQUITY FOCUS ===
+  {
+    id: 12,
+    prompt: "Tell me about your equity experience",
+    category: 'equity',
+    isKiller: true,
+    checklist: [
+      "Mentioned '5 years at Joule'?",
+      "Explained GARP (Growth at Reasonable Price)?",
+      "Mentioned 'investment committee'?",
+      "Referenced DCF, multiples, earnings quality?",
+      "Gave concrete example?"
+    ],
+    idealScript: `For the last 5 years at Joule, I've participated daily in investment committee discussions.
+
+We're a GARP fund—Growth at Reasonable Price. Every thesis goes through rigorous fundamental analysis: DCF validation, multiple analysis, earnings quality checks.
+
+I don't just accept P/E ratios—I look at the divergence between Net Income and Operating Cash Flow. Revenue up but CFO down? Red flag.
+
+One example: We analyzed a retailer at 6x EV/EBITDA while peers traded at 10x. Looked cheap. But I challenged: digital requires fulfillment capex. We found DSO rising faster than revenue—they were extending payment terms to hit targets. We passed.
+
+That analytical dialogue—questioning, validating, catching inconsistencies—is what AI tutoring requires.`
+  },
+  {
+    id: 13,
+    prompt: "How do you bridge credit and equity?",
+    category: 'bridge',
+    isKiller: true,
+    checklist: [
+      "Mentioned Modigliani-Miller?",
+      "Explained 'left side of balance sheet'?",
+      "Mentioned ROIC as central metric?",
+      "Said 'capital-structure agnostic'?",
+      "Connected both naturally?"
+    ],
+    idealScript: `Modigliani-Miller: value is created on the left side of the balance sheet—the assets.
+
+Whether I hold debt or equity, I'm analyzing the same thing: is the company generating cash flow efficiently?
+
+A credit analyst who ignores assets goes broke. An equity analyst who ignores them is gambling. I'm capital-structure agnostic.
+
+At ABC, I analyzed: "Can they cover interest?" At Joule: "Is ROIC > WACC?" Same fundamentals, different lens.
+
+What matters is understanding the business, not whether you own the debt or the equity.`
+  },
+  {
+    id: 14,
+    prompt: "What's your emerging markets perspective?",
+    category: 'differentiation',
+    isKiller: true,
+    checklist: [
+      "Connected with Jeffrey's EM background?",
+      "Mentioned '15% yields in Brazil'?",
+      "Explained impact on equity markets?",
+      "Positioned as reducing US bias?",
+      "Framed as strength, not excuse?"
+    ],
+    idealScript: `Jeffrey, you know emerging markets from your fixed income days.
+
+Brazil has 15% government bond yields—completely different dynamics. When rates are that high, equity markets shrink and capital flows to bonds.
+
+A US-centric DCF fails here. The risk-free rate assumption changes everything.
+
+I can help Grok give contextual answers for users outside the 2% interest rate world. That's not just translation—it's fundamental understanding of how capital allocation changes with rates.
+
+Adriana mentioned reducing US bias. That's exactly what I bring.`
+  },
+  {
+    id: 15,
+    prompt: "Walk me through a DCF",
+    category: 'technical',
+    isKiller: false,
+    checklist: [
+      "Stated FCFF formula correctly?",
+      "Explained WACC calculation?",
+      "Mentioned Terminal Value methods?",
+      "Discussed sensitivity analysis?",
+      "Gave practical insight (60-80%)?"
+    ],
+    idealScript: `A DCF values a company as the present value of future cash flows.
+
+Step 1: Project Free Cash Flow to Firm—EBIT times (1 minus tax rate), plus D&A, minus CapEx, minus change in Net Working Capital.
+
+Step 2: Calculate WACC—weighted average cost of capital. Equity weight times cost of equity, plus debt weight times after-tax cost of debt.
+
+Step 3: Terminal Value. Either Gordon Growth model or exit multiple approach.
+
+Step 4: Discount everything back to present value.
+
+At Joule, we always ran sensitivity tables on growth and WACC assumptions. Terminal value is often 60-80% of the total DCF—you need to stress-test it.`
+  },
+  {
+    id: 16,
+    prompt: "When do you use EV/EBITDA vs P/E?",
+    category: 'technical',
+    isKiller: false,
+    checklist: [
+      "Explained EV/EBITDA is leverage-neutral?",
+      "Mentioned M&A use case?",
+      "Explained when P/E is appropriate?",
+      "Discussed triangulation?",
+      "Warned about capital traps?"
+    ],
+    idealScript: `EV/EBITDA for comparing companies with different capital structures—it's leverage-neutral. Also better for M&A since acquirers buy the whole business.
+
+P/E is fine for stable companies with similar leverage.
+
+But at Joule we never looked at EV/EBITDA alone—we triangulated with EV/EBIT and EV/FCF.
+
+A company cheap on EV/EBITDA but expensive on EV/FCF is usually a capital trap. EBITDA ignores capex.
+
+That's the kind of practical wisdom AI needs to learn—not just formulas, but when they mislead.`
+  },
+  {
+    id: 17,
+    prompt: "Closing statement",
+    category: 'closing',
+    isKiller: true,
+    checklist: [
+      "Mentioned New Year's resolution / high impact?",
+      "Mentioned 'meaningful work'?",
+      "Mentioned '5 years at Joule'?",
+      "Referenced ABC validation?",
+      "Said 'ready/contribute immediately'?",
+      "Asked direct closing question?"
+    ],
+    idealScript: `Jeffrey, I know we have limited time.
+
+My New Year's resolution this year is clear: apply my 20 years of finance experience to something with real impact.
+
+Training Grok to think rigorously about financial analysis—that's meaningful work.
+
+Based on my 5 years at Joule and my model validation at ABC, I'm ready to contribute immediately.
+
+Is there anything about my background I can clarify?`
   }
 ];
 
@@ -615,6 +834,105 @@ At ABC, I validated a credit model: "Does this ratio actually predict default?" 
 I'm not here to train neural networks. I'm here to catch errors like: "Grok used P/EBITDA instead of EV/EBITDA" or "Grok applied US rates to a Brazilian company."
 
 You need someone who's USED these concepts with real money at stake for 20 years. That's my value-add.`
+  },
+  // === NOVAS OBJEÇÕES V3.0 - EQUITY FOCUS ===
+  {
+    id: 14,
+    objection: "Your background seems more credit-focused. How does that fit with our fundamental analysis focus?",
+    options: [
+      { text: "Defend credit expertise extensively", score: 0 },
+      { text: "Bridge via Modigliani-Miller + highlight Joule equity experience", score: 2 },
+      { text: "Minimize credit experience", score: 0 }
+    ],
+    correctIndex: 1,
+    explanation: "Lead with Joule (5 years equity), then bridge with Modigliani-Miller. Don't apologize for credit—reframe as complementary.",
+    idealScript: `Fair observation. But let me clarify:
+
+First, I've been doing equity fundamental analysis at Joule for 5 years. Daily investment committee debates on DCF, multiples, earnings quality.
+
+Second, Modigliani-Miller: debt and equity are two views of the same company. What matters is fundamental analysis of the business—cash flows, ROIC, competitive position.
+
+Third, my credit experience gave me model validation skills. At ABC, I analyzed 7 fundamental ratios against actual defaults. That's exactly what AI tutoring requires.
+
+So I can contribute to fundamental analysis projects NOW, and bring differentiated expertise for risk projects LATER.`
+  },
+  {
+    id: 15,
+    objection: "How do you handle US GAAP? Your experience is with Brazilian/IFRS standards.",
+    options: [
+      { text: "Admit lack of knowledge and promise to study", score: 0 },
+      { text: "Math doesn't have borders. IFRS background makes me MORE skeptical", score: 2 },
+      { text: "Say GAAP and IFRS are similar nowadays", score: 1 }
+    ],
+    correctIndex: 1,
+    explanation: "Reframe IFRS as a strength. High-inflation environments create more skeptical analysts.",
+    idealScript: `Math doesn't have borders. A DCF is the same in New York or São Paulo.
+
+I'm familiar with US specifics: 10-Ks, Stock-Based Compensation (which I treat as a REAL expense), LIFO vs FIFO inventory.
+
+Actually, coming from IFRS and high-inflation environments makes me MORE skeptical and robust than someone who's only seen stable markets.
+
+At Joule, we analyzed US ADRs alongside Brazilian stocks. I know how to adjust for accounting differences and find the TRUE Free Cash Flow.`
+  },
+  {
+    id: 16,
+    objection: "You don't have AI or ML experience. How will you understand what we're building?",
+    options: [
+      { text: "Promise to learn AI/ML fundamentals quickly", score: 0 },
+      { text: "This role needs domain experts who validate correctness, not ML engineers", score: 2 },
+      { text: "Mention familiarity with AI tools and ChatGPT", score: 1 }
+    ],
+    correctIndex: 1,
+    explanation: "You don't need to build models—you need to validate if AI understands finance correctly. That's what you've done for 20 years.",
+    idealScript: `This role doesn't need ML engineers—you have those. It needs domain experts who can validate if AI understands finance correctly.
+
+At ABC, I validated: "Does this ratio actually predict default?" Same question here: "Does Grok's ROIC explanation match how practitioners use it?"
+
+I'm not here to code neural networks. I'm here to catch errors like:
+- "Grok used P/EBITDA instead of EV/EBITDA"
+- "Grok applied 2% US rates to a Brazilian DCF"
+- "Grok ignored working capital changes"
+
+You need someone who's USED these concepts with real money at stake for 20 years. That's my value.`
+  },
+  {
+    id: 17,
+    objection: "Brazil's market is small. How is that experience relevant to global finance?",
+    options: [
+      { text: "Agree Brazil is small, focus on US knowledge", score: 0 },
+      { text: "Reducing US bias + EM perspective makes Grok more accurate globally", score: 2 },
+      { text: "Emphasize work with international companies", score: 1 }
+    ],
+    correctIndex: 1,
+    explanation: "Position EM experience as reducing US bias. Adriana specifically mentioned this gap.",
+    idealScript: `Adriana mentioned the model has US bias. I can help localize for emerging markets.
+
+When rates are 15%, everything changes:
+- Equity shrinks (capital flows to bonds)
+- Valuations trade at structural discounts
+- DCF assumptions are completely different
+
+That perspective makes Grok more accurate globally, not less. Most finance is taught with US assumptions—I bring the reality check for the rest of the world.
+
+Jeffrey, you worked with EM Fixed Income. You know this dynamic.`
+  },
+  {
+    id: 18,
+    objection: "Why would you leave a Partner role? Seems like you're running away from something.",
+    options: [
+      { text: "Focus on Joule's problems to justify leaving", score: 0 },
+      { text: "Brazilian equity market contracted + AI is expansion opportunity", score: 2 },
+      { text: "Want better compensation and career growth", score: 0 }
+    ],
+    correctIndex: 1,
+    explanation: "Frame as running TOWARD opportunity, not AWAY from problems. Market context is honest.",
+    idealScript: `Brazilian equity market contracted significantly. AUM dropped with 15% rates pulling money to government bonds.
+
+This isn't running away—it's running toward. I want to apply my intellectual energy to something expanding. AI is that frontier.
+
+At 45, if I don't make this move now, I'll be analyzing the same 40 stocks until retirement. xAI is my last chance to contribute to building something transformative.
+
+I've transitioned cleanly from Joule. 100% available. Ready to start immediately.`
   }
 ];
 
@@ -706,8 +1024,25 @@ const miniStories = {
   joule: "5 years, GARP fund, daily investment committee, DCF validation, multiples analysis, earnings quality debates. 'Prove it to me' culture. +38.64% YTD 2025.",
   abc: "Validated 7 ratios against actual defaults. 5 predictive, 2 not. Built logistic regression model. Central Bank approved and praised the methodology.",
   em: "Brazil: 15% interest rates, small private markets, structural equity discounts. Can help reduce US bias in Grok. Jeffrey has EM Fixed Income background (LatAm until 2018).",
-  closing: "Jeffrey, I know we have limited time. Is there anything about my background that concerns you, or any question I can address right now?"
+  closing: "My New Year's resolution: apply 20 years of finance to something with real impact. Training Grok—that's meaningful work. 5 years Joule + ABC validation. Ready immediately. Any concerns I can clarify?"
 };
+
+// ============================================
+// V3.0 - PANIC WORDS (Enhanced Panic Button)
+// ============================================
+
+const panicWords = [
+  { word: 'JOULE', context: 'Fale dos 5 anos de equity' },
+  { word: 'BRIDGE', context: 'Use Modigliani-Miller' },
+  { word: 'VALIDATE', context: 'Conte a história do ABC' },
+  { word: 'JEFFREY', context: 'Conecte via Emerging Markets' },
+  { word: 'ROIC', context: 'Métrica central na Joule' },
+  { word: 'CONTRIBUTE', context: 'Pronto para começar imediatamente' },
+  { word: 'GARP', context: 'Growth at Reasonable Price' },
+  { word: 'CAPITAL', context: 'Capital-structure agnostic' },
+  { word: 'IMPACT', context: 'New Year\'s resolution: high impact work' },
+  { word: 'MEANINGFUL', context: 'Training Grok = meaningful work' }
+];
 
 // ============================================
 // EXPORT ALL DATA TO WINDOW OBJECT
@@ -715,6 +1050,8 @@ const miniStories = {
 
 window.appData = {
   vicioPoliceWords,
+  keywordPriority,
+  panicWords,
   keyPhrases,
   flashcardsData,
   pitchPrompts,
@@ -726,6 +1063,8 @@ window.appData = {
 
 // Também expor individualmente para compatibilidade com código existente
 window.vicioPoliceWords = vicioPoliceWords;
+window.keywordPriority = keywordPriority;
+window.panicWords = panicWords;
 window.keyPhrases = keyPhrases;
 window.flashcardsData = flashcardsData;
 window.pitchPrompts = pitchPrompts;

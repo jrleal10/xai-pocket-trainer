@@ -953,6 +953,91 @@
       color: white;
     }
 
+    /* ==========================================
+       V3.0 - Bridge Alert Styles
+       ========================================== */
+    .bridge-alert {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(255, 107, 107, 0.5);
+      animation: pulseScale 0.5s ease-in-out, slideDown 0.3s ease;
+      z-index: 10000;
+      text-align: center;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    @keyframes pulseScale {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateX(-50%) translateY(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* ==========================================
+       V3.0 - Panic Word Overlay Styles
+       ========================================== */
+    .panic-word-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 20000;
+    }
+
+    .panic-word-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .panic-word {
+      font-size: 72px;
+      font-weight: bold;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(16, 163, 127, 0.5);
+      animation: fadeInScale 0.3s ease;
+    }
+
+    .panic-context {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-top: 16px;
+      opacity: 0.8;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
     .vicio-stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1187,8 +1272,8 @@
         </div>
 
         <!-- Panic Button Feature -->
-        <button id="panic-btn" class="btn btn-error" style="margin-top: 1rem; display: none;" onclick="showPanicBridge()">
-          🆘 PANIC BRIDGE
+        <button id="panic-btn" class="btn btn-error" style="margin-top: 1rem; display: none;" onclick="showPanicWord()">
+          🆘 PANIC WORD
         </button>
         <div id="panic-overlay" style="display: none; background: rgba(0,0,0,0.9); position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 2rem; border-radius: 12px; z-index: 100; text-align: center;">
           <h3 style="color: var(--color-warning); margin-bottom: 1.5rem;">BRIDGE PHRASES</h3>
@@ -1348,6 +1433,12 @@
     </div>
   </div>
 
+  <!-- V3.0 - Panic Word Overlay (Full Screen) -->
+  <div id="panic-word-overlay" class="panic-word-overlay">
+    <div class="panic-word" id="panic-word-text">JOULE</div>
+    <div class="panic-context" id="panic-word-context">Fale dos 5 anos de equity</div>
+  </div>
+
   <div id="random-pill" class="view">
     <div class="container">
       <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
@@ -1467,6 +1558,33 @@
 
     function closePanic() {
       document.getElementById('panic-overlay').style.display = 'none';
+    }
+
+    // ==========================================
+    // V3.0 - PANIC WORD (Full-Screen Single Word)
+    // ==========================================
+
+    function showPanicWord() {
+      // Pick random panic word from panicWords array
+      const randomWord = panicWords[Math.floor(Math.random() * panicWords.length)];
+
+      // Update overlay content
+      document.getElementById('panic-word-text').textContent = randomWord.word;
+      document.getElementById('panic-word-context').textContent = randomWord.context;
+
+      // Show overlay
+      const overlay = document.getElementById('panic-word-overlay');
+      overlay.classList.add('active');
+
+      // Vibrate for emphasis
+      if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 100]);
+      }
+
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        overlay.classList.remove('active');
+      }, 3000);
     }
 
     // ============================================
@@ -2481,6 +2599,60 @@
           state.vicioStats.desired[word] = (state.vicioStats.desired[word] || 0) + 1;
         }
       });
+
+      // V3.0: Check if equity bridge is needed
+      checkEquityBridge(state.vicioTranscript);
+    }
+
+    // ==========================================
+    // V3.0 - RESPONSE COACH: Equity Bridge Check
+    // ==========================================
+
+    function checkEquityBridge(fullTranscript) {
+      const lowerTranscript = fullTranscript.toLowerCase();
+
+      // Check if user mentioned credit terms without bridging to equity
+      const hasCreditTerm = keywordPriority.alert.some(term =>
+        lowerTranscript.includes(term.toLowerCase())
+      );
+
+      const hasBridge = keywordPriority.blue.some(term =>
+        lowerTranscript.includes(term.toLowerCase())
+      ) || keywordPriority.gold.some(term =>
+        lowerTranscript.includes(term.toLowerCase())
+      );
+
+      // Show bridge alert if credit mentioned without bridge
+      if (hasCreditTerm && !hasBridge) {
+        showBridgeAlert();
+      }
+    }
+
+    function showBridgeAlert() {
+      // Check if alert already visible (don't spam)
+      const existingAlert = document.getElementById('bridge-alert');
+      if (existingAlert) return;
+
+      const alertDiv = document.createElement('div');
+      alertDiv.id = 'bridge-alert';
+      alertDiv.className = 'bridge-alert';
+      alertDiv.innerHTML = `
+        <div style="font-size: 20px; font-weight: bold;">🌉 BRIDGE TO EQUITY NOW!</div>
+        <div style="font-size: 14px; margin-top: 4px;">Mencione Modigliani-Miller ou Joule</div>
+      `;
+
+      document.body.appendChild(alertDiv);
+
+      // Vibrate for bridge alert (stronger pattern)
+      if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200, 100, 200]);
+      }
+
+      // Remove after 5 seconds
+      setTimeout(() => {
+        alertDiv.style.opacity = '0';
+        setTimeout(() => alertDiv.remove(), 300);
+      }, 5000);
     }
 
     function showAlert(type, word) {
