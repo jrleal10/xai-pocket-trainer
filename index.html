@@ -3355,10 +3355,7 @@
 
     // === NAVIGATION FUNCTIONS ===
     function showRehearsalMode() {
-      hideAllViews();
-      document.getElementById('rehearsal-mode').classList.remove('hidden');
-      document.getElementById('rehearsal-mode').classList.add('active');
-
+      navigateTo('rehearsal-mode');
       // Initialize rehearsal mode
       initRehearsalMode();
     }

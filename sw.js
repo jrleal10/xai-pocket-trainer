@@ -1,7 +1,7 @@
 // xAI Pocket Trainer - Service Worker
 // Enables offline functionality and PWA installation
 
-const CACHE_NAME = 'xai-trainer-v8'; // V4.2: Audio Recording Save & Playback
+const CACHE_NAME = 'xai-trainer-v9'; // V4.2.1: Bugfix Rehearsal Mode navigation
 const urlsToCache = [
   '/',
   '/index.html',
