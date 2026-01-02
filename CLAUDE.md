@@ -97,7 +97,12 @@ After editing `index.html` or `js/data.js`:
 const CACHE_NAME = 'xai-trainer-vX'; // Increment X to force cache refresh
 ```
 
-Current version: `v5` (V3.0 Conversation Edition - 02/01/2026)
+Current version: `v7` (V4.1 Gemini 2.5 Flash Update - 02/01/2026)
+
+**Version History:**
+- v7: Updated to Gemini 2.5 Flash (stable model) - 02/01/2026
+- v6: V4.0 Fluency Trainer Edition with Rehearsal Mode - 02/01/2026
+- v5: V3.0 Conversation Edition with Response Coach - 02/01/2026
 
 This ensures users get the latest version immediately instead of seeing stale cached content.
 
@@ -165,16 +170,44 @@ const state = {
 
 Load on init, save on each change.
 
-### 4. Gemini Live API Integration (Vício Police)
+### 4. Gemini API Integration
 
-**Setup WebSocket:**
+#### V4.1 Update: Gemini 2.5 Flash (Stable)
+
+The app now uses **`gemini-2.5-flash`** (stable) for all AI features:
+
+- **Vício Police:** Real-time transcription via WebSocket (`models/gemini-2.5-flash`)
+- **Rehearsal Mode:** Audio transcription + analysis via REST API
+- **Stability:** Production-ready stable model (not experimental)
+- **Performance:** 1M token context window, better than 2.0 Flash
+
+**Setup WebSocket (Vício Police):**
 ```javascript
 const ws = new WebSocket(
   `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${GEMINI_API_KEY}`
 );
 
 // Initial setup message
-ws.send(JSON.stringify({ setup: { model: 'models/gemini-2.0-flash-exp' } }));
+ws.send(JSON.stringify({ setup: { model: 'models/gemini-2.5-flash' } }));
+```
+
+**REST API (Rehearsal Mode):**
+```javascript
+const response = await fetch(
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{
+        parts: [
+          { inlineData: { mimeType: 'audio/webm', data: base64Audio } },
+          { text: 'Transcribe this audio to text.' }
+        ]
+      }]
+    })
+  }
+);
 ```
 
 **Audio capture:**

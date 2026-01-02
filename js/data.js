@@ -1045,6 +1045,372 @@ const panicWords = [
 ];
 
 // ============================================
+// V4.0 - REHEARSAL MODE DATA (Fluency Trainer)
+// ============================================
+
+// === REHEARSAL SCRIPTS ===
+// Organizados por momento da entrevista
+// Fonte: fontes/Jeffrey_Weichsel_15min_Script_Claude_V2.md
+
+const rehearsalScripts = [
+  // ========== OPENING (0:00-1:00) ==========
+  {
+    id: 'opening-greeting',
+    moment: 'opening',
+    momentLabel: '🎬 Opening',
+    title: 'Cumprimento Inicial',
+    duration: '5-10s',
+    script: `Hello Jeffrey, nice to meet you. Thank you for taking the time to speak with me today.`,
+    tips: [
+      'Sorriso natural',
+      'Contato visual com a câmera',
+      'Tom confiante mas não arrogante'
+    ],
+    keyPhrases: ['nice to meet you', 'thank you for taking the time']
+  },
+
+  // ========== ABOUT ME (1:00-3:00) ==========
+  {
+    id: 'about-me-full',
+    moment: 'about-me',
+    momentLabel: '👤 About Me',
+    title: 'Tell Me About Yourself - Versão Completa',
+    duration: '60-65s',
+    script: `I'm a finance professional with 20 years of experience. For the last 5 years, I've been a partner at Joule Asset Management—a GARP equity fund in Brazil doing deep fundamental analysis daily.
+
+What makes me relevant for this role:
+
+First, at Joule I participated daily in investment committee discussions—validating DCF models, challenging valuation multiples, catching earnings quality issues. That's exactly the fundamental analysis Adriana said you need now.
+
+Second, I have hands-on experience validating financial models. At Banco ABC, I rebuilt their credit rating model by analyzing 7 fundamental ratios against historical defaults—identified which ratios actually predicted default and which didn't. Created an automated model that the Central Bank approved. That's essentially what AI tutoring is: validating whether a model's reasoning is correct.
+
+Third, I bring an emerging markets perspective. Brazil has 15% interest rates, small private markets, completely different dynamics. I can help ensure Grok gives better answers when users come from markets that don't look like the US.
+
+I'm 100% available and ready to start immediately.`,
+    tips: [
+      'Lidere com JOULE (equity), não com crédito',
+      'Três pilares claros: Joule, ABC, Emerging Markets',
+      'Fechar com "ready to start immediately"'
+    ],
+    keyPhrases: [
+      'five years', 'partner at Joule', 'GARP equity fund',
+      'investment committee', 'fundamental analysis',
+      'seven fundamental ratios', 'Central Bank approved',
+      'emerging markets perspective', '15% interest rates',
+      'ready to start immediately'
+    ],
+    isKiller: true
+  },
+  {
+    id: 'about-me-short',
+    moment: 'about-me',
+    momentLabel: '👤 About Me',
+    title: 'Tell Me About Yourself - Versão 45s',
+    duration: '45s',
+    script: `I'm a finance professional with 20 years of experience. For the last 5 years, I've been a partner at Joule—a GARP equity fund doing fundamental analysis daily.
+
+Two things make me relevant: First, daily investment committee work at Joule—validating DCFs, challenging multiples, catching earnings quality issues. Second, at Banco ABC I validated a rating model by analyzing 7 ratios against actual defaults. That process is exactly what AI tutoring requires.
+
+I'm ready to start immediately.`,
+    tips: [
+      'Use se sentir que ele quer algo mais curto',
+      'Mantém os 3 elementos essenciais'
+    ],
+    keyPhrases: ['Joule', 'investment committee', 'seven ratios', 'ready to start'],
+    isKiller: true
+  },
+
+  // ========== KILLER STORIES (3:00-10:00) ==========
+  {
+    id: 'abc-story-short',
+    moment: 'stories',
+    momentLabel: '📖 Killer Stories',
+    title: 'ABC Rating Model - Versão Curta',
+    duration: '45s',
+    script: `Let me give you a concrete example of model validation. At Banco ABC, the Central Bank told us our credit rating model was too judgmental—no quantitative foundation.
+
+I analyzed 5 years of historical data: 7 fundamental ratios the analysts used, the ratings assigned, and actual defaults. Found that 5 ratios were predictive, but 2 weren't adding value.
+
+I built a regression model that automated the initial rating, while still allowing analyst judgment with justification. The Central Bank reviewed it and approved.
+
+That's essentially what AI tutoring is: taking a model, validating whether its reasoning predicts the right outcomes, and explaining the logic.`,
+    tips: [
+      'Esta é sua KILLER STORY - pratique muito',
+      'Enfatize "7 ratios" e "Central Bank approved"',
+      'Conecte sempre ao AI tutoring no final'
+    ],
+    keyPhrases: [
+      'model validation', 'Central Bank', 'seven fundamental ratios',
+      'five years of historical data', 'five ratios were predictive',
+      'two weren\'t adding value', 'Central Bank approved',
+      'AI tutoring'
+    ],
+    isKiller: true
+  },
+  {
+    id: 'abc-story-long',
+    moment: 'stories',
+    momentLabel: '📖 Killer Stories',
+    title: 'ABC Rating Model - Versão Longa',
+    duration: '90s',
+    script: `At Banco ABC, I was tasked with reviewing the credit rating model after the Central Bank flagged it as too judgmental.
+
+The model used 7 fundamental ratios—things like debt/EBITDA, interest coverage, current ratio. Analysts would look at these ratios and assign a rating based on judgment.
+
+I gathered 5 years of historical data: every client company's ratio values, the ratings assigned, and their actual payment behavior—days past due, defaults.
+
+I analyzed each ratio individually: correlation with default, predictive power, overlap with other ratios. Found that 5 of the 7 ratios were genuinely predictive—higher debt/EBITDA really did correlate with more defaults. But 2 ratios added no predictive value; they were noise.
+
+I then built a logistic regression combining the 5 useful ratios. This generated an automated 'suggested rating' that the analyst could see alongside the component variables. They could override it, but had to document why.
+
+The Central Bank reviewed the new methodology and approved it—they could see the model was actually calibrated to predict default.
+
+This process—identifying which variables matter, why they matter, and validating against real outcomes—is exactly what training an AI on finance requires.`,
+    tips: [
+      'Use esta versão se Jeffrey mostrar interesse',
+      'Tem mais detalhes técnicos',
+      'Mesmo fechamento conectando ao AI'
+    ],
+    keyPhrases: [
+      'seven fundamental ratios', 'debt/EBITDA', 'interest coverage',
+      'five years of historical data', 'correlation with default',
+      'five of the seven ratios', 'logistic regression',
+      'Central Bank approved', 'training an AI'
+    ],
+    isKiller: true
+  },
+  {
+    id: 'joule-retailer-story',
+    moment: 'stories',
+    momentLabel: '📖 Killer Stories',
+    title: 'Joule Retailer Story',
+    duration: '45-60s',
+    script: `At Joule, we analyzed a Brazilian retailer trading at 6x EV/EBITDA while peers traded at 10x. Looked cheap.
+
+The analyst's thesis was margin expansion from digital mix shift. My challenge: "Digital requires fulfillment capex and customer acquisition costs. Show me ROIC, not just EBITDA margin."
+
+We dug into working capital: DSO was increasing faster than revenue—they were extending payment terms to hit targets.
+
+The "cheap" multiple was the market correctly pricing deteriorating returns. We passed.
+
+This type of analytical dialogue—questioning, validating, catching inconsistencies—is what AI tutoring requires.`,
+    tips: [
+      'Mostra seu trabalho REAL na Joule',
+      'Enfatize o pensamento crítico',
+      'Conecte ao AI tutoring'
+    ],
+    keyPhrases: [
+      'Joule', 'EV/EBITDA', 'ROIC', 'DSO', 'working capital',
+      'questioning', 'validating', 'catching inconsistencies'
+    ],
+    isKiller: true
+  },
+
+  // ========== BRIDGES & OBJECTIONS ==========
+  {
+    id: 'modigliani-miller-bridge',
+    moment: 'bridges',
+    momentLabel: '🌉 Bridges',
+    title: 'Modigliani-Miller Bridge (Crédito vs Equity)',
+    duration: '30-40s',
+    script: `I often get asked why I moved between credit and equity. My answer is Modigliani-Miller: what matters is what the company does with its assets—the left side of the balance sheet.
+
+Whether you're a bondholder or shareholder, you're analyzing the same business fundamentals: cash flow generation, ROIC, competitive position. The capital structure just determines how returns are distributed.
+
+So my credit experience and equity experience are really two views of the same thing: understanding whether a company creates value. That's fundamental analysis regardless of which security you hold.`,
+    tips: [
+      'USE SE perguntarem sobre crédito vs equity',
+      'Modigliani-Miller é sua ponte perfeita',
+      '"Left side of balance sheet" = assets'
+    ],
+    keyPhrases: [
+      'Modigliani-Miller', 'left side of the balance sheet',
+      'cash flow generation', 'ROIC', 'capital structure',
+      'two views of the same thing', 'fundamental analysis'
+    ],
+    isKiller: true
+  },
+  {
+    id: 'emerging-markets-angle',
+    moment: 'bridges',
+    momentLabel: '🌉 Bridges',
+    title: 'Emerging Markets Perspective',
+    duration: '40-50s',
+    script: `Jeffrey, I know you have experience with emerging markets from your fixed income days. You know these markets are completely different from the US.
+
+Brazil right now has 15% government bond yields. Private credit markets are tiny. Equity valuations trade at structural discounts because of currency and political risk.
+
+I can bring that perspective to training Grok. When someone from Brazil or another emerging market asks about interest rates or valuations, the answer shouldn't assume 2-3% rates and US-style multiples.
+
+Adriana mentioned there's bias toward US markets in the training. My experience could help address that—making Grok's responses more accurate for users outside the US.`,
+    tips: [
+      'Conecta com o background do Jeffrey (EM Fixed Income)',
+      'Cite os 15% de juros',
+      'Mencione o que Adriana disse sobre US bias'
+    ],
+    keyPhrases: [
+      'emerging markets', 'fixed income days', '15% government bond yields',
+      'structural discounts', 'Adriana mentioned', 'US bias',
+      'more accurate for users outside the US'
+    ],
+    isKiller: true
+  },
+  {
+    id: 'why-xai',
+    moment: 'bridges',
+    momentLabel: '🌉 Bridges',
+    title: 'Why xAI?',
+    duration: '45s',
+    script: `Three reasons:
+
+Mission alignment—I've spent my career questioning whether models actually work. At ABC, I challenged a rating model everyone accepted. At Joule, I challenged DCF assumptions daily. That first-principles mindset fits xAI.
+
+Unique opportunity—for a finance practitioner like me, this is a rare door into AI. I can contribute my actual expertise instead of pretending to be an engineer.
+
+Timing—xAI is building something new. I want to be part of that, not join something already built.`,
+    tips: [
+      'Três razões claras e concisas',
+      'Mission → Opportunity → Timing',
+      'Não seja bajulador, seja genuíno'
+    ],
+    keyPhrases: [
+      'mission alignment', 'first-principles', 'unique opportunity',
+      'rare door into AI', 'timing', 'building something new'
+    ],
+    isKiller: false
+  },
+  {
+    id: 'why-leaving-joule',
+    moment: 'bridges',
+    momentLabel: '🌉 Bridges',
+    title: 'Why Are You Leaving Joule?',
+    duration: '30s',
+    script: `The Brazilian equity market contracted significantly—AUM shrank with 15% interest rates pulling money to government bonds. It was the right time for a transition, and this opportunity aligns with where I want to go.
+
+I'm not running away from something. I'm running toward something.`,
+    tips: [
+      'Não fale mal da Joule',
+      'Explique o contexto macro do Brasil',
+      'Termine positivo'
+    ],
+    keyPhrases: [
+      'contracted significantly', '15% interest rates',
+      'right time for transition', 'running toward'
+    ],
+    isKiller: false
+  },
+
+  // ========== CLOSING (13:00-15:00) ==========
+  {
+    id: 'questions-for-jeffrey',
+    moment: 'closing',
+    momentLabel: '🏁 Closing',
+    title: 'Questions for Jeffrey',
+    duration: '10s cada',
+    script: `PERGUNTA 1 (Recomendada):
+"What distinguishes the tutors who ramp up fastest and become most valuable to the team?"
+
+PERGUNTA 2 (Conexão EM):
+"I know you have experience with emerging markets. Does the team ever work on non-US content, or is there interest in expanding that direction?"
+
+PERGUNTA 3 (Se sobrar tempo):
+"What does the onboarding process look like for new tutors?"`,
+    tips: [
+      'Escolha 1-2 perguntas, não mais',
+      'A pergunta 1 é a mais forte',
+      'Pergunta 2 cria conexão com Jeffrey'
+    ],
+    keyPhrases: [
+      'ramp up fastest', 'most valuable',
+      'emerging markets', 'non-US content', 'onboarding'
+    ],
+    isKiller: false
+  },
+  {
+    id: 'closing-statement',
+    moment: 'closing',
+    momentLabel: '🏁 Closing',
+    title: 'Fechamento Final',
+    duration: '20s',
+    script: `Jeffrey, thank you for your time. I'm genuinely excited about this—it's exactly where my experience meets what you need.
+
+I can contribute to your current fundamental analysis projects immediately, and I bring differentiated expertise for what's coming next.
+
+I'm ready to start. Looking forward to hearing next steps.`,
+    tips: [
+      'Seja confiante mas não arrogante',
+      '"Ready to start" - termine com disponibilidade',
+      'Não peça desculpas por nada'
+    ],
+    keyPhrases: [
+      'thank you for your time', 'genuinely excited',
+      'contribute immediately', 'ready to start', 'next steps'
+    ],
+    isKiller: true
+  },
+
+  // ========== QUICK RESPONSES ==========
+  {
+    id: 'availability',
+    moment: 'quick',
+    momentLabel: '⚡ Quick Responses',
+    title: 'Availability',
+    duration: '10s',
+    script: `100% available. I've transitioned out of Joule and have no competing commitments. Ready to start immediately.`,
+    tips: ['Curto e direto'],
+    keyPhrases: ['100% available', 'ready to start immediately'],
+    isKiller: false
+  },
+  {
+    id: 'remote-work',
+    moment: 'quick',
+    momentLabel: '⚡ Quick Responses',
+    title: 'Remote Work Experience',
+    duration: '15s',
+    script: `Absolutely. I reported to shareholders in Bahrain from Brazil for years—all in English, async communication. I'm disciplined and over-communicate in writing.`,
+    tips: ['Dê exemplo concreto (Bahrain)'],
+    keyPhrases: ['Bahrain', 'async communication', 'over-communicate'],
+    isKiller: false
+  },
+  {
+    id: 'salary',
+    moment: 'quick',
+    momentLabel: '⚡ Quick Responses',
+    title: 'Salary Expectations',
+    duration: '10s',
+    script: `I'm flexible and aligned with the range posted. More important to me is being part of this team.`,
+    tips: ['Não mencione números específicos'],
+    keyPhrases: ['flexible', 'aligned with the range'],
+    isKiller: false
+  },
+  {
+    id: 'no-concerns',
+    moment: 'quick',
+    momentLabel: '⚡ Quick Responses',
+    title: 'Any Concerns About the Role?',
+    duration: '20s',
+    script: `No major concerns. I've done my homework with Michael and Adriana.
+
+I know the current focus is fundamental analysis and financial statements. That's what I've been doing at Joule for 5 years—and my experience validating the rating model at ABC is directly applicable.
+
+I'm ready to contribute immediately.`,
+    tips: ['Não invente preocupações falsas'],
+    keyPhrases: ['no major concerns', 'done my homework', 'ready to contribute'],
+    isKiller: false
+  }
+];
+
+// === ESTRUTURA DE MOMENTOS ===
+const interviewMoments = [
+  { id: 'opening', label: '🎬 Opening', timeRange: '0:00-1:00', description: 'Cumprimentos e small talk' },
+  { id: 'about-me', label: '👤 About Me', timeRange: '1:00-3:00', description: 'Tell me about yourself' },
+  { id: 'stories', label: '📖 Killer Stories', timeRange: '3:00-10:00', description: 'ABC, Joule, exemplos concretos' },
+  { id: 'bridges', label: '🌉 Bridges', timeRange: 'Quando necessário', description: 'Respostas para objeções e conexões' },
+  { id: 'closing', label: '🏁 Closing', timeRange: '10:00-15:00', description: 'Perguntas e fechamento' },
+  { id: 'quick', label: '⚡ Quick', timeRange: 'A qualquer momento', description: 'Respostas curtas e diretas' }
+];
+
+// ============================================
 // EXPORT ALL DATA TO WINDOW OBJECT
 // ============================================
 
@@ -1058,7 +1424,9 @@ window.appData = {
   objections,
   randomPillData,
   preFlightChecklist,
-  miniStories
+  miniStories,
+  rehearsalScripts,
+  interviewMoments
 };
 
 // Também expor individualmente para compatibilidade com código existente
@@ -1072,3 +1440,5 @@ window.objections = objections;
 window.randomPillData = randomPillData;
 window.preFlightChecklist = preFlightChecklist;
 window.miniStories = miniStories;
+window.rehearsalScripts = rehearsalScripts;
+window.interviewMoments = interviewMoments;

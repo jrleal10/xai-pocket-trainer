@@ -1095,6 +1095,421 @@
         font-size: 2rem;
       }
     }
+
+    /* ============================================
+       V4.0 - REHEARSAL MODE STYLES
+       ============================================ */
+
+    /* Seletor de Momentos */
+    .moment-selector h1 {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .moment-selector p {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .moment-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .moment-btn {
+      padding: var(--spacing-lg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .moment-btn:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 163, 127, 0.2);
+    }
+
+    .moment-btn.active {
+      border-color: var(--accent-primary);
+      background: rgba(16, 163, 127, 0.1);
+    }
+
+    .moment-btn .moment-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: var(--spacing-xs);
+      display: block;
+    }
+
+    .moment-btn .moment-time {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .moment-btn .moment-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: var(--spacing-xs);
+      display: block;
+    }
+
+    /* Lista de Scripts */
+    .script-list {
+      margin-top: var(--spacing-lg);
+    }
+
+    .script-list h2 {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .script-card {
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-md);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .script-card:hover {
+      border-color: var(--accent-primary);
+      background: rgba(16, 163, 127, 0.05);
+      transform: translateY(-1px);
+    }
+
+    .script-card.is-killer {
+      border-left: 4px solid #FFD700;
+    }
+
+    .script-card .script-info h4 {
+      margin: 0 0 var(--spacing-xs) 0;
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    .script-card .script-info .duration {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .script-card .killer-badge {
+      background: #FFD700;
+      color: #000;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Tela de Prática */
+    .practice-screen {
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .practice-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-md);
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+
+    .script-meta {
+      flex: 1;
+    }
+
+    .script-meta h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .duration-badge {
+      display: inline-block;
+      background: var(--accent-primary);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-top: var(--spacing-xs);
+    }
+
+    /* Área do Script */
+    .script-area {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .script-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .script-text strong {
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    .tips-section {
+      padding-top: var(--spacing-md);
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .tips-section h4 {
+      margin: 0 0 var(--spacing-sm) 0;
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .tips-section ul {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    .tips-section li {
+      margin-bottom: var(--spacing-xs);
+      color: var(--text-muted);
+    }
+
+    /* Controles de Prática */
+    .practice-controls {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* Controles de Áudio Gravado */
+    .audio-controls {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-lg);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .audio-controls button {
+      border: 2px solid var(--border-color);
+      background: var(--bg-secondary);
+    }
+
+    .audio-controls button:hover {
+      border-color: var(--accent-primary);
+      background: var(--bg-card);
+    }
+
+    .tts-btn, .record-btn {
+      flex: 1;
+      padding: var(--spacing-lg);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tts-btn {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 2px solid var(--border-color);
+    }
+
+    .tts-btn:hover {
+      background: var(--bg-card);
+      border-color: var(--accent-primary);
+    }
+
+    .tts-btn.speaking {
+      background: var(--accent-primary);
+      color: white;
+      animation: pulse 1s infinite;
+    }
+
+    .record-btn {
+      background: var(--accent-primary);
+      color: white;
+    }
+
+    .record-btn:hover {
+      filter: brightness(1.1);
+    }
+
+    .record-btn.recording {
+      background: var(--color-error);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* Feedback da IA */
+    .ai-feedback {
+      background: linear-gradient(135deg, rgba(16, 163, 127, 0.1), rgba(255, 215, 0, 0.1));
+      border: 1px solid var(--accent-primary);
+      border-radius: 12px;
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ai-feedback h4 {
+      margin: 0 0 var(--spacing-md) 0;
+      color: var(--accent-primary);
+      font-size: 1.1rem;
+    }
+
+    .feedback-content {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .feedback-content .strength {
+      color: var(--color-success);
+    }
+
+    .feedback-content .improvement {
+      color: var(--color-warning);
+    }
+
+    .transcript-section, .comparison-section {
+      margin-top: var(--spacing-md);
+      padding-top: var(--spacing-md);
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .transcript-section h5, .comparison-section h5 {
+      margin: 0 0 var(--spacing-sm) 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    #user-transcript {
+      font-style: italic;
+      color: var(--text-muted);
+      background: var(--bg-secondary);
+      padding: var(--spacing-md);
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+
+    .key-phrases-check {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+    }
+
+    .phrase-tag {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    .phrase-tag.found {
+      background: var(--color-success);
+      color: white;
+    }
+
+    .phrase-tag.missing {
+      background: var(--color-error);
+      color: white;
+      opacity: 0.7;
+    }
+
+    /* Navegação */
+    .navigation-buttons {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: space-between;
+    }
+
+    .navigation-buttons button {
+      flex: 1;
+      padding: var(--spacing-md);
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card);
+      border-color: var(--accent-primary);
+    }
+
+    /* Loading spinner */
+    .loading-spinner {
+      text-align: center;
+      padding: var(--spacing-lg);
+      color: var(--text-secondary);
+      animation: pulse 1.5s infinite;
+    }
+
+    /* Mobile adjustments for Rehearsal Mode */
+    @media (max-width: 600px) {
+      .moment-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .practice-controls {
+        flex-direction: column;
+      }
+
+      .audio-controls {
+        flex-direction: column;
+      }
+
+      .navigation-buttons {
+        flex-direction: column;
+      }
+
+      .script-text {
+        font-size: 1rem;
+      }
+
+      .practice-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1161,6 +1576,12 @@
           <div class="icon">📋</div>
           <div class="title">Pre-Flight Checklist</div>
           <div class="duration">Dia 29</div>
+        </a>
+
+        <a href="#rehearsal-mode" class="mode-btn" onclick="event.preventDefault(); showRehearsalMode();">
+          <div class="icon">🎭</div>
+          <div class="title">Rehearsal Mode</div>
+          <div class="duration">Pratique scripts em voz alta</div>
         </a>
       </div>
     </div>
@@ -1256,7 +1677,11 @@
           <div class="prompt-display" id="prompt-text">Tell me about yourself</div>
         </div>
 
-        <button class="btn btn-primary" id="start-timer-btn" style="margin-top: 2rem; width: 100%; font-size: 1.25rem; padding: 1rem;">
+        <button class="btn btn-secondary" id="view-script-btn" style="margin-top: 2rem; width: 100%; padding: 0.75rem; border: 2px dashed var(--border-color);" onclick="toggleScriptPreview()">
+          📖 Ver Script Antes
+        </button>
+
+        <button class="btn btn-primary" id="start-timer-btn" style="margin-top: 1rem; width: 100%; font-size: 1.25rem; padding: 1rem;">
           START
         </button>
       </div>
@@ -1309,6 +1734,27 @@
         <div class="btn-group">
           <button class="btn btn-secondary" id="try-again-btn">Tentar Novamente</button>
           <button class="btn btn-primary" id="next-prompt-btn">Próximo Prompt</button>
+        </div>
+      </div>
+
+      <!-- Modal de Preview do Script -->
+      <div id="script-preview-modal" class="modal hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem;" onclick="if(event.target === this) closeScriptPreview()">
+        <div class="modal-content" style="background: var(--bg-card); border-radius: 16px; max-width: 600px; width: 100%; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-color);" onclick="event.stopPropagation()">
+          <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color);">
+            <h3 id="preview-prompt-title" style="margin: 0; font-size: 1.1rem;"></h3>
+            <button class="close-modal" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; padding: 0.25rem;" onclick="closeScriptPreview()">✕</button>
+          </div>
+          <div class="modal-body" style="padding: 1.5rem; overflow-y: auto; flex: 1;">
+            <div class="preview-script-text" id="preview-script-text" style="font-size: 1rem; line-height: 1.8; white-space: pre-wrap; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px;"></div>
+            <div class="preview-checklist">
+              <h4 style="margin: 0 0 0.5rem 0; color: var(--text-secondary);">📋 Checklist:</h4>
+              <ul id="preview-checklist" style="margin: 0; padding-left: 1.25rem;"></ul>
+            </div>
+          </div>
+          <div class="modal-footer" style="display: flex; gap: 1rem; padding: 1rem 1.5rem; border-top: 1px solid var(--border-color);">
+            <button class="btn btn-secondary" style="flex: 1; padding: 0.75rem; border-radius: 8px; font-size: 1rem; cursor: pointer;" onclick="closeScriptPreview()">Fechar</button>
+            <button class="btn btn-primary" style="flex: 1; padding: 0.75rem; border-radius: 8px; font-size: 1rem; cursor: pointer;" onclick="closeAndStart()">Fechar e Começar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1520,6 +1966,107 @@
       </div>
 
       <button class="btn btn-error" onclick="resetPreflight()">🔄 Reset Checklist</button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       V4.0 - REHEARSAL MODE VIEW
+       ============================================ -->
+
+  <div id="rehearsal-mode" class="view">
+    <div class="container">
+      <!-- Seletor de Momento -->
+      <div class="moment-selector" id="moment-selector">
+        <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
+        <h1 class="text-center">🎭 Rehearsal Mode</h1>
+        <p class="text-center text-muted">Escolha o momento da entrevista para praticar:</p>
+
+        <div class="moment-buttons" id="moment-buttons">
+          <!-- Gerado dinamicamente via JavaScript -->
+        </div>
+      </div>
+
+      <!-- Lista de Scripts do Momento Selecionado -->
+      <div class="script-list hidden" id="script-list">
+        <button class="btn back-button" onclick="backToMomentSelector()">← Voltar aos Momentos</button>
+        <h2 id="moment-title" class="text-center"></h2>
+        <div id="scripts-container">
+          <!-- Gerado dinamicamente via JavaScript -->
+        </div>
+      </div>
+
+      <!-- Tela de Prática Individual -->
+      <div class="practice-screen hidden" id="practice-screen">
+        <!-- Cabeçalho do Script -->
+        <div class="practice-header">
+          <button class="btn back-button" onclick="backToScriptList()">← Voltar à Lista</button>
+          <div class="script-meta">
+            <h2 id="practice-title"></h2>
+            <span class="duration-badge" id="practice-duration"></span>
+          </div>
+        </div>
+
+        <!-- Área do Script -->
+        <div class="script-area">
+          <div class="script-text" id="script-text">
+            <!-- Script completo aqui -->
+          </div>
+
+          <!-- Dicas -->
+          <div class="tips-section">
+            <h4>💡 Dicas:</h4>
+            <ul id="tips-list"></ul>
+          </div>
+        </div>
+
+        <!-- Controles de Prática -->
+        <div class="practice-controls">
+          <button class="tts-btn" id="tts-btn" onclick="speakRehearsalScript()">
+            🔊 Ouvir Script
+          </button>
+          <button class="record-btn" id="record-btn" onclick="toggleRehearsalRecording()">
+            🎤 Gravar Minha Fala
+          </button>
+        </div>
+
+        <!-- Controles de Áudio Gravado -->
+        <div class="audio-controls" id="audio-controls" style="display: none; margin-bottom: var(--spacing-lg); gap: var(--spacing-sm);">
+          <button class="btn btn-secondary" onclick="playLastRecording()" style="flex: 1; padding: var(--spacing-md); border-radius: 8px;">
+            ▶️ Ouvir Minha Gravação
+          </button>
+          <button class="btn btn-secondary" onclick="downloadLastRecording()" style="flex: 1; padding: var(--spacing-md); border-radius: 8px;">
+            💾 Baixar Áudio
+          </button>
+        </div>
+
+        <!-- Área de Feedback da IA (aparece após gravação) -->
+        <div class="ai-feedback hidden" id="ai-feedback">
+          <h4>🤖 Feedback do Treinador:</h4>
+          <div class="feedback-content" id="feedback-content">
+            <!-- Feedback da IA aqui -->
+          </div>
+          <div class="transcript-section">
+            <h5>📝 O que você disse:</h5>
+            <div id="user-transcript"></div>
+          </div>
+          <div class="comparison-section">
+            <h5>📊 Frases-chave detectadas:</h5>
+            <div class="key-phrases-check" id="key-phrases-check">
+              <!-- Checklist de frases-chave -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Botões de Navegação -->
+        <div class="navigation-buttons">
+          <button class="btn btn-secondary" onclick="previousScript()">
+            ← Anterior
+          </button>
+          <button class="btn btn-primary" onclick="nextScript()">
+            Próximo →
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2057,6 +2604,31 @@
       document.getElementById('ideal-script-content').textContent = prompt.idealScript;
     }
 
+    // === PREVIEW SCRIPT MODAL ===
+    function toggleScriptPreview() {
+      const currentPrompt = pitchPrompts[state.currentPromptIndex];
+
+      document.getElementById('preview-prompt-title').textContent = currentPrompt.prompt;
+      document.getElementById('preview-script-text').textContent = currentPrompt.idealScript;
+
+      document.getElementById('preview-checklist').innerHTML =
+        currentPrompt.checklist.map(item => `<li style="margin-bottom: 0.25rem; color: var(--text-muted);">${item}</li>`).join('');
+
+      document.getElementById('script-preview-modal').classList.remove('hidden');
+    }
+
+    function closeScriptPreview() {
+      document.getElementById('script-preview-modal').classList.add('hidden');
+    }
+
+    function closeAndStart() {
+      closeScriptPreview();
+      // Small delay to close modal before starting
+      setTimeout(() => {
+        startTimer();
+      }, 300);
+    }
+
     // ============================================
     // SECTION 6.6: OBJECTION HANDLING LOGIC
     // ============================================
@@ -2486,7 +3058,7 @@
           // Send initial setup message
           state.vicioWebSocket.send(JSON.stringify({
             setup: {
-              model: 'models/gemini-2.0-flash-exp',
+              model: 'models/gemini-2.5-flash',
               generationConfig: {
                 responseModalities: ['TEXT']
               }
@@ -2763,6 +3335,502 @@
 
     // ============================================
     // SECTION 9: INITIALIZATION
+    // ============================================
+    // V4.0 - REHEARSAL MODE FUNCTIONS
+    // ============================================
+
+    // === REHEARSAL MODE STATE ===
+    let rehearsalState = {
+      currentMoment: null,
+      currentScriptIndex: 0,
+      filteredScripts: [],
+      isRecording: false,
+      isSpeaking: false,
+      mediaRecorder: null,
+      audioChunks: [],
+      audioStream: null,
+      lastRecordingBlob: null,  // Store last recording
+      lastRecordingUrl: null     // Store audio URL for playback
+    };
+
+    // === NAVIGATION FUNCTIONS ===
+    function showRehearsalMode() {
+      hideAllViews();
+      document.getElementById('rehearsal-mode').classList.remove('hidden');
+      document.getElementById('rehearsal-mode').classList.add('active');
+
+      // Initialize rehearsal mode
+      initRehearsalMode();
+    }
+
+    function initRehearsalMode() {
+      // Show moment selector, hide other sections
+      document.getElementById('moment-selector').classList.remove('hidden');
+      document.getElementById('script-list').classList.add('hidden');
+      document.getElementById('practice-screen').classList.add('hidden');
+
+      // Render moment buttons
+      renderMomentButtons();
+    }
+
+    function renderMomentButtons() {
+      const container = document.getElementById('moment-buttons');
+      container.innerHTML = interviewMoments.map(moment => `
+        <div class="moment-btn" onclick="selectMoment('${moment.id}')">
+          <span class="moment-label">${moment.label}</span>
+          <span class="moment-time">${moment.timeRange}</span>
+          <span class="moment-desc">${moment.description}</span>
+        </div>
+      `).join('');
+    }
+
+    // === MOMENT SELECTION ===
+    function selectMoment(momentId) {
+      rehearsalState.currentMoment = momentId;
+      rehearsalState.currentScriptIndex = 0;
+
+      // Filter scripts for this moment
+      rehearsalState.filteredScripts = rehearsalScripts.filter(s => s.moment === momentId);
+
+      // Show script list
+      renderScriptList();
+    }
+
+    function renderScriptList() {
+      const moment = interviewMoments.find(m => m.id === rehearsalState.currentMoment);
+      document.getElementById('moment-title').textContent = `${moment.label} - ${moment.description}`;
+
+      const container = document.getElementById('scripts-container');
+      container.innerHTML = rehearsalState.filteredScripts.map((script, index) => `
+        <div class="script-card ${script.isKiller ? 'is-killer' : ''}" onclick="selectScript(${index})">
+          <div class="script-info">
+            <h4>${script.title}</h4>
+            <span class="duration">⏱️ ${script.duration}</span>
+          </div>
+          ${script.isKiller ? '<span class="killer-badge">⭐ KILLER</span>' : ''}
+        </div>
+      `).join('');
+
+      // Hide moment selector, show script list
+      document.getElementById('moment-selector').classList.add('hidden');
+      document.getElementById('script-list').classList.remove('hidden');
+    }
+
+    function backToMomentSelector() {
+      document.getElementById('script-list').classList.add('hidden');
+      document.getElementById('moment-selector').classList.remove('hidden');
+
+      // Reset state
+      rehearsalState.currentMoment = null;
+    }
+
+    // === SCRIPT PRACTICE ===
+    function selectScript(index) {
+      rehearsalState.currentScriptIndex = index;
+      renderPracticeScreen();
+    }
+
+    function renderPracticeScreen() {
+      const script = rehearsalState.filteredScripts[rehearsalState.currentScriptIndex];
+
+      document.getElementById('practice-title').textContent = script.title;
+      document.getElementById('practice-duration').textContent = `⏱️ ${script.duration}`;
+
+      // Format script with highlighted key phrases
+      const formattedScript = formatScriptWithHighlights(script.script, script.keyPhrases);
+      document.getElementById('script-text').innerHTML = formattedScript;
+
+      // Render tips
+      document.getElementById('tips-list').innerHTML = script.tips.map(tip => `<li>${tip}</li>`).join('');
+
+      // Hide feedback from previous practice
+      document.getElementById('ai-feedback').classList.add('hidden');
+
+      // Hide audio controls
+      const audioControls = document.getElementById('audio-controls');
+      if (audioControls) {
+        audioControls.style.display = 'none';
+      }
+
+      // Reset TTS and recording buttons
+      const ttsBtn = document.getElementById('tts-btn');
+      ttsBtn.textContent = '🔊 Ouvir Script';
+      ttsBtn.classList.remove('speaking');
+
+      const recordBtn = document.getElementById('record-btn');
+      recordBtn.textContent = '🎤 Gravar Minha Fala';
+      recordBtn.classList.remove('recording');
+
+      // Show practice screen, hide script list
+      document.getElementById('script-list').classList.add('hidden');
+      document.getElementById('practice-screen').classList.remove('hidden');
+    }
+
+    function formatScriptWithHighlights(text, keyPhrases) {
+      let formatted = text;
+      keyPhrases.forEach(phrase => {
+        const regex = new RegExp(`(${phrase})`, 'gi');
+        formatted = formatted.replace(regex, '<strong>$1</strong>');
+      });
+      return formatted;
+    }
+
+    function backToScriptList() {
+      // Stop any ongoing speech or recording
+      if (rehearsalState.isSpeaking) {
+        window.speechSynthesis.cancel();
+        rehearsalState.isSpeaking = false;
+      }
+      if (rehearsalState.isRecording) {
+        stopRehearsalRecording();
+      }
+
+      document.getElementById('practice-screen').classList.add('hidden');
+      document.getElementById('script-list').classList.remove('hidden');
+    }
+
+    // === TEXT-TO-SPEECH ===
+    function speakRehearsalScript() {
+      const script = rehearsalState.filteredScripts[rehearsalState.currentScriptIndex];
+      const btn = document.getElementById('tts-btn');
+
+      if (rehearsalState.isSpeaking) {
+        window.speechSynthesis.cancel();
+        rehearsalState.isSpeaking = false;
+        btn.textContent = '🔊 Ouvir Script';
+        btn.classList.remove('speaking');
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(script.script);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.9; // Slightly slower for clarity
+
+      // Try to use a male American voice
+      const voices = window.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v =>
+        v.lang === 'en-US' && v.name.includes('Male')
+      ) || voices.find(v => v.lang === 'en-US');
+
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      utterance.onstart = () => {
+        rehearsalState.isSpeaking = true;
+        btn.textContent = '⏹️ Parar';
+        btn.classList.add('speaking');
+      };
+
+      utterance.onend = () => {
+        rehearsalState.isSpeaking = false;
+        btn.textContent = '🔊 Ouvir Script';
+        btn.classList.remove('speaking');
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // === RECORDING AND AI ANALYSIS ===
+    async function toggleRehearsalRecording() {
+      const btn = document.getElementById('record-btn');
+
+      if (rehearsalState.isRecording) {
+        stopRehearsalRecording();
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        rehearsalState.audioStream = stream;
+
+        rehearsalState.audioChunks = [];
+        rehearsalState.mediaRecorder = new MediaRecorder(stream);
+
+        rehearsalState.mediaRecorder.ondataavailable = (event) => {
+          rehearsalState.audioChunks.push(event.data);
+        };
+
+        rehearsalState.mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(rehearsalState.audioChunks, { type: 'audio/webm' });
+          await processRehearsalRecording(audioBlob);
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        rehearsalState.mediaRecorder.start();
+        rehearsalState.isRecording = true;
+        btn.textContent = '⏹️ Parar Gravação';
+        btn.classList.add('recording');
+
+      } catch (error) {
+        console.error('Erro ao acessar microfone:', error);
+        alert('Não foi possível acessar o microfone. Verifique as permissões.');
+      }
+    }
+
+    function stopRehearsalRecording() {
+      if (rehearsalState.mediaRecorder && rehearsalState.isRecording) {
+        rehearsalState.mediaRecorder.stop();
+        rehearsalState.isRecording = false;
+
+        const btn = document.getElementById('record-btn');
+        btn.textContent = '🎤 Gravar Minha Fala';
+        btn.classList.remove('recording');
+
+        // Show loading feedback
+        showFeedbackLoading();
+      }
+    }
+
+    function showFeedbackLoading() {
+      const feedbackDiv = document.getElementById('ai-feedback');
+      const contentDiv = document.getElementById('feedback-content');
+
+      contentDiv.innerHTML = '<div class="loading-spinner">🔄 Analisando sua fala...</div>';
+      feedbackDiv.classList.remove('hidden');
+    }
+
+    // === AI PROCESSING ===
+    async function processRehearsalRecording(audioBlob) {
+      const script = rehearsalState.filteredScripts[rehearsalState.currentScriptIndex];
+
+      // Save the recording
+      rehearsalState.lastRecordingBlob = audioBlob;
+
+      // Revoke old URL if exists
+      if (rehearsalState.lastRecordingUrl) {
+        URL.revokeObjectURL(rehearsalState.lastRecordingUrl);
+      }
+
+      // Create new URL for playback
+      rehearsalState.lastRecordingUrl = URL.createObjectURL(audioBlob);
+
+      try {
+        // Convert audio to base64
+        const base64Audio = await blobToBase64(audioBlob);
+
+        // Transcribe with Gemini
+        const transcript = await transcribeWithGemini(base64Audio);
+
+        // Analyze with Gemini
+        const feedback = await analyzeWithGemini(transcript, script);
+
+        // Display result
+        displayAIFeedback(transcript, feedback, script);
+
+      } catch (error) {
+        console.error('Erro ao processar gravação:', error);
+        document.getElementById('feedback-content').innerHTML = `
+          <p style="color: var(--color-error);">❌ Erro ao processar: ${error.message}</p>
+          <p>Tente novamente ou verifique sua conexão com a internet.</p>
+        `;
+      }
+    }
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    async function transcribeWithGemini(base64Audio) {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              {
+                inlineData: {
+                  mimeType: 'audio/webm',
+                  data: base64Audio
+                }
+              },
+              {
+                text: 'Transcribe this audio to text. Return ONLY the transcription, nothing else.'
+              }
+            ]
+          }]
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+        return data.candidates[0].content.parts[0].text;
+      }
+
+      throw new Error('Não foi possível transcrever o áudio');
+    }
+
+    async function analyzeWithGemini(transcript, script) {
+      const prompt = `You are an expert interview coach helping someone prepare for a job interview at xAI.
+
+IDEAL SCRIPT (what they should say):
+"${script.script}"
+
+KEY PHRASES they should include:
+${script.keyPhrases.map(p => `- "${p}"`).join('\n')}
+
+WHAT THEY ACTUALLY SAID:
+"${transcript}"
+
+Analyze their response and provide feedback in JSON format:
+{
+  "overallScore": 0-100,
+  "strengths": ["list of things they did well"],
+  "improvements": ["specific suggestions to improve"],
+  "missingKeyPhrases": ["key phrases they forgot"],
+  "usedKeyPhrases": ["key phrases they included"],
+  "fluencyNote": "brief comment on fluency/confidence",
+  "summary": "2-3 sentence overall feedback"
+}
+
+Be encouraging but honest. Focus on practical improvements.`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: prompt }]
+          }],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 1024
+          }
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+        const text = data.candidates[0].content.parts[0].text;
+        // Extract JSON from response
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          return JSON.parse(jsonMatch[0]);
+        }
+      }
+
+      throw new Error('Não foi possível analisar a resposta');
+    }
+
+    function displayAIFeedback(transcript, feedback, script) {
+      // Show audio controls
+      const audioControls = document.getElementById('audio-controls');
+      if (audioControls) {
+        audioControls.style.display = 'flex';
+      }
+
+      // Score visual
+      const scoreColor = feedback.overallScore >= 80 ? 'var(--color-success)' :
+                         feedback.overallScore >= 60 ? 'var(--color-warning)' : 'var(--color-error)';
+
+      // Feedback principal
+      document.getElementById('feedback-content').innerHTML = `
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="font-size: 2rem; font-weight: bold; color: ${scoreColor};">
+            ${feedback.overallScore}/100
+          </div>
+          <div style="font-size: 0.9rem; color: var(--text-muted);">
+            ${feedback.fluencyNote || ''}
+          </div>
+        </div>
+
+        <p>${feedback.summary}</p>
+
+        ${feedback.strengths.length > 0 ? `
+          <div style="margin-top: 1rem;">
+            <strong class="strength">✅ Pontos Fortes:</strong>
+            <ul>${feedback.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+          </div>
+        ` : ''}
+
+        ${feedback.improvements.length > 0 ? `
+          <div style="margin-top: 1rem;">
+            <strong class="improvement">💡 Para Melhorar:</strong>
+            <ul>${feedback.improvements.map(i => `<li>${i}</li>`).join('')}</ul>
+          </div>
+        ` : ''}
+      `;
+
+      // Transcrição
+      document.getElementById('user-transcript').textContent = transcript;
+
+      // Checklist de frases-chave
+      const phrasesContainer = document.getElementById('key-phrases-check');
+      phrasesContainer.innerHTML = script.keyPhrases.map(phrase => {
+        const found = feedback.usedKeyPhrases?.some(p =>
+          p.toLowerCase().includes(phrase.toLowerCase()) ||
+          phrase.toLowerCase().includes(p.toLowerCase())
+        );
+        return `<span class="phrase-tag ${found ? 'found' : 'missing'}">${phrase}</span>`;
+      }).join('');
+
+      // Mostrar seção de feedback
+      document.getElementById('ai-feedback').classList.remove('hidden');
+
+      // Scroll para o feedback
+      document.getElementById('ai-feedback').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // === AUDIO PLAYBACK & DOWNLOAD ===
+    function playLastRecording() {
+      if (!rehearsalState.lastRecordingUrl) {
+        alert('Nenhuma gravação disponível. Grave primeiro!');
+        return;
+      }
+
+      // Create audio element for playback
+      const audio = new Audio(rehearsalState.lastRecordingUrl);
+      audio.play();
+    }
+
+    function downloadLastRecording() {
+      if (!rehearsalState.lastRecordingBlob) {
+        alert('Nenhuma gravação disponível. Grave primeiro!');
+        return;
+      }
+
+      const script = rehearsalState.filteredScripts[rehearsalState.currentScriptIndex];
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+      const filename = `rehearsal_${script.id}_${timestamp}.webm`;
+
+      const a = document.createElement('a');
+      a.href = rehearsalState.lastRecordingUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // === SCRIPT NAVIGATION ===
+    function previousScript() {
+      if (rehearsalState.currentScriptIndex > 0) {
+        rehearsalState.currentScriptIndex--;
+        renderPracticeScreen();
+      } else {
+        backToScriptList();
+      }
+    }
+
+    function nextScript() {
+      if (rehearsalState.currentScriptIndex < rehearsalState.filteredScripts.length - 1) {
+        rehearsalState.currentScriptIndex++;
+        renderPracticeScreen();
+      } else {
+        // End of list, back to moment selector
+        backToScriptList();
+      }
+    }
+
     // ============================================
 
     document.addEventListener('DOMContentLoaded', () => {
