@@ -62,6 +62,245 @@
 
 ---
 
+### [V6.0] Gemini TTS Integration - Natural AI Voice for Audio Coach - 02/01/2026
+
+#### ✅ Implementado
+
+**Feature**: Migração do Audio Coach de Web Speech API (robótico) para Gemini 2.5 Flash TTS API (natural, profissional)
+
+**Problema Resolvido**:
+- Web Speech API tinha voz robótica e artificial
+- Tentava falar em português no celular (ignorava `lang='en-US'`)
+- Qualidade inconsistente entre navegadores/dispositivos
+- Sem controle sobre sotaque ou entonação
+
+**Solução**:
+- Gemini 2.5 Flash TTS com prompt engineering
+- Director's Notes para controle de voz ("Professional male voice, American accent")
+- 17 vozes em 3 categorias (Professional Male, Friendly Male, Smooth Female)
+- Cache inteligente + preload automático
+- Fallback robusto para Web Speech API
+
+**Arquivos Modificados**:
+
+1. **index.html** (~4.000 linhas total)
+
+   **State Management Updates** (linha ~2582-2594):
+   ```javascript
+   // Novos state properties
+   audioCoachAudioElement: null,       // HTMLAudioElement for Gemini TTS playback
+   audioCoachVoiceName: 'Kore',        // Selected Gemini voice
+   audioCoachAudioCache: new Map(),    // Cache for generated audio
+   audioCoachUseGemini: true           // Use Gemini TTS vs Web Speech API
+   ```
+
+   **New Functions - Gemini TTS API** (linha ~3450-3561):
+   - `generateSpeechWithGemini(text)` - Calls Gemini TTS API with director's notes
+   - `base64ToArrayBuffer(base64)` - Converts base64 to ArrayBuffer
+   - `writeString(view, offset, string)` - Helper for WAV header
+   - `createWavFile(audioData)` - Creates WAV file with 44-byte header (24kHz, mono, 16-bit PCM)
+   - `playAudioFromBase64(base64Audio)` - Creates Audio element from base64
+   - `showAudioLoadingIndicator()` - Shows "🎙️ Generating natural speech..."
+   - `hideAudioLoadingIndicator()` - Hides loading indicator
+   - `preloadNextItem()` - Preloads next script in background
+
+   **Updated Functions** (linha ~3684-3951):
+   - `playCurrentItem()` - Now async, tries Gemini TTS first with fallback
+   - `playWithGeminiTTS(item, textToSpeak)` - Gemini playback with cache
+   - `playWithWebSpeechAPI(item, textToSpeak)` - Fallback to browser TTS
+   - `pauseAudioCoach()` - Handles both Audio element and SpeechSynthesis
+   - `resumeAudioCoach()` - Handles both Audio element and SpeechSynthesis
+   - `stopAudioCoach()` - NEW! Completely stops and resets playback
+   - `updateSpeechRate()` - Clears cache when rate changes
+   - `updateVoice()` - NEW! Handles voice selection + clears cache
+   - `toggleGeminiTTS()` - NEW! Toggles between Gemini TTS and Web Speech API
+   - `initAudioCoach()` - Clears cache on init to force regeneration with new format
+
+   **HTML - UI Updates** (linha ~2395-2503):
+   - Added **⏹️ Stop button** between Play and Next
+   - Added **Voice Selector** dropdown with 17 voices in 3 optgroups:
+     - 🎙️ Professional (Male/Neutral): Charon, Fenrir, Orus, Iapetus, Algenib, Gacrux, Sadaltager
+     - ✨ Friendly (Male/Neutral): Puck, Achird, Zubenelgenubi
+     - 🎵 Smooth (Female/Neutral): Kore, Zephyr, Algieba, Despina, Schedar, Sulafat
+   - Added **Gemini TTS Toggle** checkbox ("🎙️ Gemini TTS (Natural AI voice)")
+   - **English Translation**:
+     - "Selecione uma categoria e pressione Play" → "Select a category and press Play"
+     - "Pronto para começar" → "Ready to start"
+     - "Loop (Repetir playlist infinitamente)" → "Loop (Repeat playlist infinitely)"
+     - "Pausar entre scripts (3s para pensar)" → "Auto-pause between scripts (3s to think)"
+     - "Velocidade" → "Speed"
+     - "Nenhum item na playlist" → "No items in playlist"
+
+   **Audio Format - Question/Answer Structure**:
+   - Before: `"Now playing: ${item.title}. ${item.script}"`
+   - After: `` `Question: ${item.title}\n\nSuggested Answer: ${item.script}` ``
+   - Result: Clear separation between question and answer in audio
+
+   **Director's Notes Prompt Engineering**:
+   ```javascript
+   const directorNotes = `# AUDIO PROFILE: Professional Interview Coach
+   A mature, authoritative male voice with an American accent. Clear, confident delivery suitable for business interview preparation.
+
+   ## DIRECTOR'S NOTES
+   Style: Professional, confident, and authoritative. The tone should be supportive yet firm, like an experienced executive coach.
+   Accent: American English (General American accent).
+   Gender: Male voice with a mature, professional tone.
+   `;
+   ```
+
+2. **sw.js** (Service Worker v11)
+   - Updated `CACHE_NAME` from `'xai-trainer-v10'` to `'xai-trainer-v11'`
+   - Comment: `// V6.0: Gemini TTS Integration - Natural AI voice for Audio Coach`
+
+3. **README.md**
+   - Updated "Audio Coach" section with V6.0 features
+   - Added Gemini TTS benefits: quality, voices, caching, preload
+   - Updated comparison table (Audio Coach vs Rehearsal Mode)
+   - Added V6.0 to version history
+   - Updated technology stack section
+
+4. **CLAUDE.md**
+   - Added new section "V6.0: Gemini TTS Integration (Audio Coach)"
+   - Documented architecture, API implementation, prompt engineering
+   - Explained audio format conversion (Base64 PCM → WAV)
+   - Listed all 17 voice options with recommendations
+   - Documented fallback strategy and cost considerations
+   - Updated Service Worker version history
+
+**Gemini TTS API Details**:
+
+- **Model**: `gemini-2.5-flash-preview-tts`
+- **Endpoint**: `POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent`
+- **Audio Format**: PCM (s16le), 24kHz, mono, 16-bit
+- **Output**: Base64-encoded audio data
+- **Cost**: Free tier (15 RPM), then ~$0.075 per 1M characters
+- **Typical usage**: < $0.001 per session (essentially free)
+
+**Performance Optimizations**:
+
+1. **Intelligent Caching**:
+   - Cache key: `${itemId}-${voiceName}-${speechRate}`
+   - Stored in `Map` (in-memory)
+   - 2nd playback is instant (no API call)
+   - Cleared when voice or speed changes
+
+2. **Auto-Preload**:
+   - Triggers after current item starts playing
+   - Runs in background (non-blocking)
+   - Only preloads if not already cached
+   - Result: Near-zero latency for next item
+
+3. **Lazy Generation**:
+   - Audio generated only when needed
+   - Not pre-generated for entire playlist
+   - Reduces API calls and cost
+
+**Fallback Strategy**:
+
+- If Gemini TTS fails (network error, API quota, invalid key)
+- Automatically falls back to Web Speech API
+- User can manually toggle Gemini TTS on/off
+- Graceful degradation ensures app never crashes
+
+**UI/UX Improvements**:
+
+- **Loading Indicator**: "🎙️ Generating natural speech..." during API call
+- **Stop Button**: Completely stops playback (not just pause)
+- **Voice Selector**: 17 voices organized by category
+- **Gemini Toggle**: Enable/disable AI voice
+- **English UI**: All text translated to English
+- **Question/Answer Format**: Clear audio structure
+
+**Browser Compatibility**:
+- Tested: Chrome, Edge (Desktop + Mobile)
+- Requirements: Fetch API, Audio element, Map
+- Fallback: Web Speech API (all modern browsers)
+
+#### 📝 Estado Atual do Projeto
+
+**O que funciona:**
+- ✅ Gemini TTS integration com 17 vozes
+- ✅ Prompt engineering para controle de voz masculina
+- ✅ Cache inteligente + preload automático
+- ✅ Fallback robusto para Web Speech API
+- ✅ Stop button + loading indicator
+- ✅ Interface 100% em inglês
+- ✅ Question/Answer audio format
+- ✅ Service Worker v11 deployed
+
+**Próximos passos potenciais (não urgentes)**:
+- [ ] Persistir cache em IndexedDB (sobrevive refresh)
+- [ ] Adicionar mais vozes (testar no AI Studio)
+- [ ] Controle de tom/pitch via prompt
+- [ ] Multi-speaker support (diálogo Jeffrey <> João)
+- [ ] Streaming audio para reduzir latência inicial
+
+#### 🔧 Testes Realizados
+
+1. ✅ Geração de áudio com Gemini TTS (vozes Charon, Fenrir, Kore)
+2. ✅ Cache funcionando (2ª reprodução instantânea)
+3. ✅ Preload automático (transições suaves)
+4. ✅ Fallback para Web Speech API (quando Gemini toggle off)
+5. ✅ Stop button (para e reseta playback)
+6. ✅ Voice selector (troca de voz + limpa cache)
+7. ✅ Speed control (0.75x - 1.5x via pacing prompts)
+8. ✅ Question/Answer format (clareza no áudio)
+9. ✅ English UI (todos os textos traduzidos)
+10. ✅ Loading indicator (durante geração)
+
+#### 🐛 Problemas Encontrados
+
+1. **Voz ainda feminina apesar do prompt masculino**
+   - **Causa**: Algumas vozes (Kore, Zephyr) são naturalmente femininas/neutras
+   - **Solução**: Recomendação de vozes masculinas (Charon, Fenrir) no README
+   - **Nota**: Director's notes ajudam mas não substituem características da voz base
+
+2. **Cache não limpo ao atualizar código**
+   - **Causa**: Service Worker cacheia versão antiga
+   - **Solução**: Increment `CACHE_NAME` para `v11` + hard refresh
+
+3. **Latência inicial (2-3 segundos)**
+   - **Causa**: Gemini TTS API demora para gerar áudio
+   - **Solução**: Loading indicator + preload automático (próximo item)
+   - **Aceitável**: Após cache, playback é instantâneo
+
+#### 📚 Para Outro Dev Continuar Daqui
+
+**Se precisar melhorar:**
+
+1. **IndexedDB Persistent Cache**:
+   - Trocar `Map` por IndexedDB
+   - Cache sobrevive refresh/close browser
+   - Implementar: `idb-keyval` library ou API nativa
+
+2. **Mais Vozes**:
+   - Testar vozes no AI Studio: https://aistudio.google.com/generate-speech
+   - Adicionar ao voice selector dropdown
+   - Atualizar CLAUDE.md com novas vozes
+
+3. **Streaming Audio**:
+   - Usar chunked transfer encoding
+   - Reduzir latência inicial
+   - Mais complexo (Gemini TTS não suporta atualmente)
+
+4. **Multi-Speaker**:
+   - Use `multiSpeakerVoiceConfig` na API
+   - Formato: "Jeffrey: [question]. João: [answer]"
+   - Requer reestruturação do prompt
+
+**Onde está o código:**
+- Gemini TTS functions: `index.html` linha ~3450-3561
+- Audio playback logic: `index.html` linha ~3684-3951
+- UI controls: `index.html` linha ~2395-2503
+- State management: `index.html` linha ~2582-2594
+
+**Referências úteis:**
+- Gemini TTS docs: `docs/Gemini_Docs_Speech_Generation.md`
+- Gemini API docs: `docs/Gemini_Documentation.md`
+- Audio Coach spec: README.md seção "Audio Coach (V6.0)"
+
+---
+
 ### [V5.0] Audio Coach Mode - Listen-Only Training - 02/01/2026
 
 #### ✅ Implementado

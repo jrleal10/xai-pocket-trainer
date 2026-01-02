@@ -97,9 +97,10 @@ After editing `index.html` or `js/data.js`:
 const CACHE_NAME = 'xai-trainer-vX'; // Increment X to force cache refresh
 ```
 
-Current version: `v10` (V5.0 Audio Coach Edition - 02/01/2026)
+Current version: `v11` (V6.0 Gemini TTS Integration - 02/01/2026)
 
 **Version History:**
+- v11: V6.0 Gemini TTS Integration - Natural AI voice for Audio Coach - 02/01/2026
 - v10: V5.0 Audio Coach Edition - Listen-Only Training Mode - 02/01/2026
 - v7: Updated to Gemini 2.5 Flash (stable model) - 02/01/2026
 - v6: V4.0 Fluency Trainer Edition with Rehearsal Mode - 02/01/2026
@@ -285,6 +286,281 @@ function checkEquityBridge(fullTranscript) {
   }
 }
 ```
+
+---
+
+## V6.0: Gemini TTS Integration (Audio Coach)
+
+### Overview
+
+V6.0 migrates Audio Coach from Web Speech API (browser native TTS) to **Gemini 2.5 Flash TTS API** for natural, professional voice quality.
+
+**Key Improvements:**
+- **Natural voice**: AI-generated speech vs robotic browser TTS
+- **American English guaranteed**: Via prompt engineering
+- **17 voice options**: Professional male, friendly male, smooth female/neutral
+- **Question/Answer format**: Clear structure ("Question: [Q]. Suggested Answer: [A]")
+- **Intelligent caching**: 2nd playback instant (no API call)
+- **Auto-preload**: Next item loaded in background
+- **Robust fallback**: Web Speech API if Gemini fails
+- **English UI**: All Audio Coach text translated to English
+
+### Architecture
+
+**Flow:**
+```
+User clicks Play
+→ generateSpeechWithGemini(text)
+→ Gemini TTS API (POST request)
+→ Base64 PCM audio (24kHz, mono, 16-bit)
+→ createWavFile() (add WAV header)
+→ playAudioFromBase64() (create Audio element)
+→ audio.play()
+→ preloadNextItem() (background)
+```
+
+**Cache Strategy:**
+```javascript
+// Cache key includes voice + speed for uniqueness
+const cacheKey = `${itemId}-${voiceName}-${speechRate}`;
+
+if (audioCoachAudioCache.has(cacheKey)) {
+  // Instant playback from cache
+  base64Audio = audioCoachAudioCache.get(cacheKey);
+} else {
+  // Generate + cache
+  base64Audio = await generateSpeechWithGemini(text);
+  audioCoachAudioCache.set(cacheKey, base64Audio);
+}
+```
+
+### Gemini TTS API Implementation
+
+**Model:** `gemini-2.5-flash-preview-tts`
+
+**Request Format:**
+```javascript
+const response = await fetch(
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${GEMINI_API_KEY}`,
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{
+        parts: [{ text: fullText }]
+      }],
+      generationConfig: {
+        responseModalities: ['AUDIO'],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: {
+              voiceName: state.audioCoachVoiceName // e.g., 'Charon'
+            }
+          }
+        }
+      }
+    })
+  }
+);
+```
+
+**Response:**
+```javascript
+{
+  candidates: [{
+    content: {
+      parts: [{
+        inlineData: {
+          mimeType: 'audio/pcm',
+          data: 'base64EncodedAudioData...'
+        }
+      }]
+    }
+  }]
+}
+```
+
+### Prompt Engineering for Voice Control
+
+Gemini TTS uses **Director's Notes** to control voice characteristics:
+
+```javascript
+const directorNotes = `# AUDIO PROFILE: Professional Interview Coach
+A mature, authoritative male voice with an American accent. Clear, confident delivery suitable for business interview preparation.
+
+## DIRECTOR'S NOTES
+Style: Professional, confident, and authoritative. The tone should be supportive yet firm, like an experienced executive coach.
+Accent: American English (General American accent).
+Gender: Male voice with a mature, professional tone.
+`;
+
+// Speed control via pacing instruction
+const speedInstructions = {
+  0.75: 'Pacing: Speak slowly and clearly, emphasizing each word for maximum clarity.\n',
+  1.0: 'Pacing: Speak at a natural, conversational pace.\n',
+  1.25: 'Pacing: Speak at a slightly faster, energetic pace.\n',
+  1.5: 'Pacing: Speak quickly and efficiently.\n'
+};
+
+// Combine: director notes + pacing + content
+const fullText = directorNotes + speedInstruction + '\n## TRANSCRIPT\n' + text;
+```
+
+**Why this works:**
+- Gemini TTS is an LLM that understands **how to speak**, not just what to say
+- Director's notes guide style, accent, gender, and tone
+- Works regardless of selected voice name
+- More control than traditional TTS parameters
+
+### Audio Format: Base64 → WAV Conversion
+
+**Gemini TTS Output:**
+- **Format**: PCM (s16le)
+- **Sample Rate**: 24000 Hz
+- **Channels**: Mono (1)
+- **Bit Depth**: 16-bit
+- **Encoding**: Base64 string
+
+**Conversion to WAV:**
+```javascript
+function createWavFile(audioData) {
+  const sampleRate = 24000;
+  const numChannels = 1;
+  const bitsPerSample = 16;
+
+  // Create 44-byte WAV header
+  const wavHeader = new ArrayBuffer(44);
+  const view = new DataView(wavHeader);
+
+  // RIFF chunk descriptor
+  writeString(view, 0, 'RIFF');
+  view.setUint32(4, 36 + audioData.length, true);
+  writeString(view, 8, 'WAVE');
+
+  // fmt sub-chunk (PCM format)
+  writeString(view, 12, 'fmt ');
+  view.setUint32(16, 16, true); // Subchunk1Size
+  view.setUint16(20, 1, true); // AudioFormat (PCM)
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * numChannels * bitsPerSample / 8, true);
+  view.setUint16(32, numChannels * bitsPerSample / 8, true);
+  view.setUint16(34, bitsPerSample, true);
+
+  // data sub-chunk
+  writeString(view, 36, 'data');
+  view.setUint32(40, audioData.length, true);
+
+  // Combine header + audio
+  return new Uint8Array([...new Uint8Array(wavHeader), ...audioData]);
+}
+```
+
+### Voice Options (17 Total)
+
+**Professional (Male/Neutral):**
+- Charon (Informative) - Clear, educational tone
+- Fenrir (Authoritative) - Confident, commanding
+- Orus (Firm) - Direct, professional
+- Iapetus (Clear) - Crisp enunciation
+- Algenib (Gravelly) - Deep, mature
+- Gacrux (Mature) - Experienced tone
+- Sadaltager (Knowledgeable) - Expert delivery
+
+**Friendly (Male/Neutral):**
+- Puck (Upbeat) - Energetic, positive
+- Achird (Friendly) - Warm, approachable
+- Zubenelgenubi (Casual) - Relaxed, conversational
+
+**Smooth (Female/Neutral):**
+- Kore (Firm) - Professional female
+- Zephyr (Bright) - Light, clear
+- Algieba (Smooth) - Gentle, flowing
+- Despina (Smooth) - Soft delivery
+- Schedar (Even) - Balanced tone
+- Sulafat (Warm) - Comforting voice
+
+**Recommendation:** Charon or Fenrir for interview coaching.
+
+### Fallback Strategy
+
+If Gemini TTS fails (network error, API quota, invalid key), the app automatically falls back to Web Speech API:
+
+```javascript
+async function playCurrentItem() {
+  const textToSpeak = `Question: ${item.title}\n\nSuggested Answer: ${item.script}`;
+
+  if (state.audioCoachUseGemini) {
+    try {
+      await playWithGeminiTTS(item, textToSpeak);
+    } catch (error) {
+      console.warn('Gemini TTS failed, falling back to Web Speech API:', error);
+      playWithWebSpeechAPI(item, textToSpeak);
+    }
+  } else {
+    playWithWebSpeechAPI(item, textToSpeak);
+  }
+}
+```
+
+**User can toggle Gemini TTS on/off:**
+- Checkbox: "🎙️ Gemini TTS (Natural AI voice)"
+- Default: ON (uses Gemini)
+- When unchecked: Uses Web Speech API (offline-capable)
+
+### UI Improvements (V6.0)
+
+**English Translation:**
+- "Selecione uma categoria" → "Select a category"
+- "Nenhum item na playlist" → "No items in playlist"
+- "Loop (Repetir playlist infinitamente)" → "Loop (Repeat playlist infinitely)"
+- "Pausar entre scripts" → "Auto-pause between scripts"
+- "Velocidade" → "Speed"
+
+**New Controls:**
+- ⏹️ **Stop button**: Completely stops playback (not just pause)
+- **Loading indicator**: "🎙️ Generating natural speech..." during API call
+- **Voice selector dropdown**: Choose from 17 voices
+- **Gemini TTS toggle**: Enable/disable AI voice
+
+**Question/Answer Format:**
+```
+Before (V5.0): "Now playing: Tell me about yourself. I'm João Leal, 45..."
+After (V6.0):  "Question: Tell me about yourself. Suggested Answer: I'm João Leal, 45..."
+```
+
+### Performance Optimizations
+
+1. **Cache in Memory** (Map)
+   - Stores base64 audio after first generation
+   - Key format: `${itemId}-${voiceName}-${speechRate}`
+   - Cleared when voice or speed changes
+
+2. **Preload Next Item**
+   - Triggers after current item starts playing
+   - Runs in background (doesn't block UI)
+   - Only preloads if not already cached
+
+3. **Lazy Generation**
+   - Audio generated only when needed
+   - Not pre-generated for entire playlist
+   - Reduces API calls and cost
+
+### Cost Considerations
+
+**Gemini 2.5 Flash TTS Pricing:**
+- **Free tier**: 15 RPM (requests per minute)
+- **Paid tier**: ~$0.075 per 1M characters
+
+**Typical Usage:**
+- Average script: 500 characters
+- 20-item playlist: 10,000 characters total
+- **Cost per session**: < $0.001 (essentially free)
+
+**Cache effectiveness:**
+- 1st playback: API call required
+- 2nd+ playback: Instant (from cache)
+- Preload reduces perceived latency to near-zero
 
 ---
 

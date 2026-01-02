@@ -179,9 +179,9 @@ Diferente de outras ferramentas que testam se você sabe a resposta, o Rehearsal
 
 ---
 
-## 🎧 Modo Audio Coach (V5.0 - NOVO!)
+## 🎧 Modo Audio Coach (V6.0 - Gemini TTS Edition)
 
-**Pratique passivamente enquanto dirige, cozinha ou descansa!** O Audio Coach lê scripts e respostas ideais em voz alta usando Text-to-Speech nativo do navegador.
+**Pratique passivamente com voz de IA natural e profissional!** O Audio Coach lê scripts e respostas ideais em voz alta usando Gemini TTS API, oferecendo qualidade de áudio muito superior ao TTS nativo do navegador.
 
 ### Filosofia: Listen → Internalize → Speak
 
@@ -211,35 +211,58 @@ Diferente do Rehearsal Mode (ativo), o Audio Coach é para **prática passiva**:
 3. **Controles de Playback**:
    - ▶️ **Play** - Inicia reprodução
    - ⏸️ **Pause** - Pausa temporária
+   - ⏹️ **Stop** - Para completamente e volta ao início (V6.0 NOVO!)
    - ⏮️ **Anterior** - Volta para script anterior
    - ⏭️ **Próximo** - Pula para próximo script
 
-4. **Configurações**:
-   - 🔁 **Loop** - Repete playlist infinitamente (padrão: ON)
-   - ⏸️ **Pausar entre scripts** - 3 segundos para pensar (padrão: ON)
-   - 🎚️ **Velocidade** - 0.75x, 1.0x, 1.25x, 1.5x (padrão: 1.0x)
+4. **Configurações** (V6.0 - Interface em inglês):
+   - 🎙️ **Gemini TTS** - Voz natural de IA (padrão: ON) vs Web Speech API
+   - 🎤 **Voice Selector** - 17 vozes em 3 categorias:
+     - **🎙️ Professional (Male/Neutral)**: Charon, Fenrir, Orus, Iapetus, Algenib, Gacrux, Sadaltager
+     - **✨ Friendly (Male/Neutral)**: Puck, Achird, Zubenelgenubi
+     - **🎵 Smooth (Female/Neutral)**: Kore, Zephyr, Algieba, Despina, Schedar, Sulafat
+   - 🔁 **Loop** - Repeat playlist infinitely (padrão: ON)
+   - ⏸️ **Auto-pause** - 3 seconds to think between scripts (padrão: ON)
+   - 🎚️ **Speed** - 0.75x, 1.0x, 1.25x, 1.5x (padrão: 1.0x)
 
 5. **Playlist interativa**:
    - Visualize todos os scripts da categoria
    - Clique em qualquer item para pular diretamente
    - Items marcados com ⭐ são Killer Stories
 
-### Recursos Avançados
+### Recursos Avançados (V6.0)
+
+✅ **Gemini TTS Integration** - Voz profissional de IA!
+- **Qualidade superior**: Voz natural, expressiva, sem robotização
+- **American English nativo**: Sotaque americano garantido
+- **Controle via prompt**: "Professional male voice, American accent"
+- **17 vozes disponíveis**: Escolha entre tons profissionais, amigáveis ou suaves
+- **Cache inteligente**: 2ª reprodução instantânea (sem API call)
+- **Preload automático**: Próximo script pré-carregado em background
+- **Fallback robusto**: Se Gemini falhar → usa Web Speech API automaticamente
+
+✅ **Audio Format Clarity** (V6.0)
+- **Question/Answer structure**: "Question: [pergunta]. Suggested Answer: [resposta]"
+- **Clear separation**: Você ouve claramente quando é pergunta vs resposta
+- **Professional delivery**: Tom de coach experiente, não robô
 
 ✅ **Media Session API** - Controles na tela bloqueada do celular!
 - Bloqueie a tela e continue usando os controles nativos
-- Play/Pause/Skip direto da lock screen
+- Play/Pause/Stop/Skip direto da lock screen
 - Funciona com fone de ouvido Bluetooth
+- Mostra "Gemini TTS" ou "Browser TTS" no player
 
-✅ **Offline-first** - Funciona sem internet!
-- Usa Text-to-Speech nativo do navegador
-- Nenhuma chamada de API externa
-- 100% funcional offline após carregamento inicial
+✅ **Hybrid Mode** - Online + Offline!
+- **Gemini TTS**: Requer internet (voz superior)
+- **Web Speech API**: Offline fallback (voz básica)
+- **Toggle manual**: Desabilite Gemini TTS para usar offline
+- **Detecção automática**: Se API falhar, usa fallback sem crash
 
 ✅ **Progress tracking**
 - Barra de progresso visual (X/Y scripts)
 - Item atual destacado na playlist
 - Indicador "Now Playing" com título e categoria
+- Loading indicator durante geração de áudio (Gemini TTS)
 
 ### Quando Usar
 
@@ -259,22 +282,25 @@ Diferente do Rehearsal Mode (ativo), o Audio Coach é para **prática passiva**:
 
 ### Diferença: Audio Coach vs Rehearsal Mode
 
-| Feature | Audio Coach 🎧 | Rehearsal Mode 🎭 |
+| Feature | Audio Coach 🎧 (V6.0) | Rehearsal Mode 🎭 |
 |---------|---------------|------------------|
 | **Tipo** | Prática passiva | Prática ativa |
 | **Interação** | Apenas ouvir | Ler, gravar, receber feedback |
 | **Uso ideal** | Multitasking (dirigir, cozinhar) | Foco total (estudar) |
 | **Feedback** | Nenhum | AI analysis (Gemini) |
-| **Internet** | ❌ Offline | ✅ Requer (para feedback AI) |
+| **Internet** | ✅ Requer (Gemini TTS) / ❌ Offline (fallback) | ✅ Requer (para feedback AI) |
 | **Lock screen** | ✅ Funciona | ❌ Não aplicável |
-| **TTS/Voice** | Web Speech API (nativo) | Web Speech API (nativo) |
+| **TTS/Voice** | Gemini 2.5 Flash TTS (natural) + Web Speech API (fallback) | Web Speech API (nativo) |
+| **Qualidade de voz** | ⭐⭐⭐⭐⭐ Natural, profissional | ⭐⭐⭐ Robótica, básica |
+| **American accent** | ✅ Garantido (via prompt) | ⚠️ Depende do SO |
 
-### Requisitos Técnicos
+### Requisitos Técnicos (V6.0)
 
 ✅ **Navegador moderno** com Web Speech API (Chrome, Edge, Safari, Firefox)
-✅ **Offline-first** - Funciona sem internet após carregamento
+✅ **Conexão internet** (para Gemini TTS) OU offline mode (fallback Web Speech API)
 ✅ **PWA-ready** - Instale no celular para melhor experiência
 ✅ **Media Session API** - Lock screen controls (Chrome/Edge mobile)
+✅ **Gemini API Key** - Configurada em `index.html` (GEMINI_API_KEY)
 
 ---
 
@@ -679,15 +705,16 @@ Se encontrar bugs ou tiver dúvidas:
 
 - **PWA** (Progressive Web App) - Instalável e offline
 - **Arquitetura simplificada** - 2 arquivos principais (index.html + js/data.js)
-  - `index.html` (~3.900 linhas): Estrutura + Lógica + UI + V3.0 Response Coach + V4.0 Rehearsal Mode + V5.0 Audio Coach
+  - `index.html` (~4.000 linhas): Estrutura + Lógica + UI + V3.0 Response Coach + V4.0 Rehearsal Mode + V5.0 Audio Coach + V6.0 Gemini TTS
   - `js/data.js` (~1.102 linhas): Dados puros + Rehearsal Scripts + Interview Moments + Keywords
 - **Gemini 2.5 Flash API** - Transcrição de áudio + análise de conteúdo (V4.1)
+- **Gemini 2.5 Flash TTS API** - Text-to-Speech natural com controle via prompts (V6.0)
 - **MediaRecorder API** - Gravação de áudio com save/playback (V4.2)
-- **Web Speech API** - Text-to-Speech para leitura de scripts + Audio Coach (V5.0)
+- **Web Speech API** - Text-to-Speech fallback para Audio Coach (V6.0)
 - **Media Session API** - Lock screen controls para Audio Coach (V5.0)
 - **Zero dependências externas** - Vanilla JS, sem frameworks ou bundlers
 - **Mobile-first** - Otimizado para celular
-- **Service Worker v10** - Cache otimizado para offline-first (V5.0)
+- **Service Worker v11** - Cache otimizado para V6.0 Gemini TTS Integration
 
 ### Estrutura de Arquivos
 
@@ -706,7 +733,22 @@ C:\Projetos\interview_xai_web_app\
 └── README.md           # Este arquivo
 ```
 
-### Últimas Atualizações (V5.0 Audio Coach Edition - 02/01/2026)
+### Últimas Atualizações (V6.0 Gemini TTS Integration - 02/01/2026)
+
+**V6.0: Gemini TTS Integration - Natural AI Voice for Audio Coach** ✅
+- **Migração completa**: De Web Speech API (robótico) para Gemini 2.5 Flash TTS (natural)
+- **Voz masculina profissional**: Controle via prompt engineering ("Professional male voice, American accent")
+- **17 vozes disponíveis**: 3 categorias (Professional Male, Friendly Male, Smooth Female/Neutral)
+- **Formato Question/Answer**: Clareza na estrutura do áudio ("Question: [pergunta]. Suggested Answer: [resposta]")
+- **Interface em inglês**: Todos os textos do Audio Coach traduzidos para inglês
+- **Cache inteligente**: Armazena áudio gerado em memória para reprodução instantânea
+- **Preload automático**: Próximo item pré-carregado em background para transições suaves
+- **Fallback robusto**: Se Gemini TTS falhar, usa Web Speech API automaticamente
+- **Botão Stop**: Para completamente a reprodução e volta ao início
+- **Loading indicator**: "🎙️ Generating natural speech..." durante geração
+- **WAV conversion**: Converte base64 PCM (24kHz, mono, 16-bit) para WAV playback
+- **Director's notes**: Prompt engineering detalhado para controle de voz, sotaque e tom
+- **Service Worker v11**: Cache version bump para forçar atualização
 
 **V5.0: Audio Coach Mode - Listen-Only Training** ✅
 - **Nova feature principal**: Modo de prática passiva com Text-to-Speech
@@ -768,6 +810,15 @@ C:\Projetos\interview_xai_web_app\
 ---
 
 ### Histórico de Versões
+
+**V6.0 Gemini TTS Integration** (02/01/2026) - Natural AI Voice for Audio Coach
+- **Gemini 2.5 Flash TTS API**: Voz natural e profissional em American English
+- 17 vozes organizadas em 3 categorias (Professional Male, Friendly Male, Smooth Female)
+- Prompt engineering para controle de voz ("Professional male coach")
+- Question/Answer audio format para clareza
+- Cache + preload para performance
+- Fallback automático para Web Speech API
+- Interface 100% em inglês
 
 **V5.0 Audio Coach Edition** (02/01/2026) - Listen-Only Training Mode
 - **Audio Coach Mode**: Prática passiva com Text-to-Speech nativo
