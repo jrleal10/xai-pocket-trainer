@@ -62,6 +62,183 @@
 
 ---
 
+### [V5.0] Audio Coach Mode - Listen-Only Training - 02/01/2026
+
+#### ✅ Implementado
+
+**Feature**: Modo de prática passiva com Text-to-Speech - Ouça scripts enquanto dirige, cozinha ou descansa
+
+**Arquivos Modificados**:
+
+1. **index.html** (~3.900 linhas total)
+
+   **HTML - Nova View `#audio-coach`** (linha ~2077-2177):
+   - Seletor de categoria (10 opções)
+   - Card "Now Playing" com título e categoria atual
+   - Barra de progresso visual + texto (X/Y)
+   - Controles de playback: ⏮️ (Previous), ▶️/⏸️ (Play/Pause), ⏭️ (Next)
+   - Painel de configurações: Loop, Auto-pause (3s), Velocidade (0.75x-1.5x)
+   - Playlist interativa (scrollable, clickable)
+
+   **CSS - Audio Coach Styles** (linha ~1514-1798):
+   - `.audio-category-selector` - Dropdown de categorias
+   - `.now-playing` - Card gradiente com ícone 🎧
+   - `.audio-progress-bar` - Barra de progresso animada
+   - `.audio-control-btn` - Botões circulares 70px/90px (mobile-friendly)
+   - `.playlist-item` - Items clicáveis com highlight ativo
+   - Media queries mobile (< 600px)
+
+   **JavaScript - State Management** (linha ~2582-2592):
+   ```javascript
+   audioCoachPlaylist: [],
+   audioCoachCurrentIndex: 0,
+   audioCoachIsPlaying: false,
+   audioCoachIsPaused: false,
+   audioCoachLoopEnabled: true,
+   audioCoachSpeechRate: 1.0,
+   audioCoachSynthesis: window.speechSynthesis,
+   audioCoachUtterance: null,
+   audioCoachCategory: 'all'
+   ```
+
+   **JavaScript - Core Functions** (linha ~3395-3684):
+   - `initAudioCoach()` - Inicializa modo e constrói playlist
+   - `buildAudioPlaylist()` - Constrói playlist baseada em categoria selecionada
+     - Suporta 10 categorias: all, killer, opening, about-me, stories, equity, technical, differentiation, closing, objections
+     - Shuffle automático para categoria "all"
+     - Filtragem por `moment` para categorias específicas
+     - Adiciona objections se aplicável
+   - `playCurrentItem()` - Reproduz script usando Web Speech API
+     - Cria SpeechSynthesisUtterance
+     - Seleciona voz em inglês automaticamente
+     - Aplica speech rate configurado
+     - Auto-avança com pausa de 3s (se habilitado)
+     - Atualiza Media Session API metadata
+   - `pauseAudioCoach()` / `resumeAudioCoach()` - Controle de pausa/resume
+   - `skipNext()` / `skipPrevious()` - Navegação entre items
+   - `jumpToIndex(index)` - Pula para item específico da playlist
+   - `toggleLoop()` - Habilita/desabilita loop infinito
+   - `updateSpeechRate()` - Atualiza velocidade de reprodução
+   - `updateAudioCoachUI()` - Atualiza UI (progress, now playing, controles)
+   - `updatePlaylistUI()` - Renderiza lista de items
+
+   **JavaScript - Media Session API** (linha ~3659-3684):
+   - Configuração de handlers para lock screen controls
+   - Suporta: play, pause, previoustrack, nexttrack
+   - Metadata com título, artista, artwork
+
+   **Dashboard - Novo Botão** (linha ~1872-1876):
+   ```html
+   <a href="#audio-coach" class="mode-btn">
+     <div class="icon">🎧</div>
+     <div class="title">Audio Coach</div>
+     <div class="duration">Ouça enquanto dirige/cozinha</div>
+   </a>
+   ```
+
+2. **sw.js** - Service Worker v10
+   - `CACHE_NAME = 'xai-trainer-v10'`
+   - Comentário: "V5.0: Audio Coach Mode - Listen-only training"
+
+3. **README.md**
+   - Seção completa "## 🎧 Modo Audio Coach (V5.0 - NOVO!)" (linha ~182-278)
+   - Atualizada seção "O que o app oferece" (linha ~27)
+   - Atualizada seção "Tecnologia" (linha ~682-690)
+   - Adicionado histórico V5.0 (linha ~772-777)
+   - Atualizado "Últimas Atualizações" (linha ~711-720)
+
+4. **CLAUDE.md**
+   - Seção completa "## V5.0: Audio Coach Mode" (linha ~919-1135)
+   - Atualizada current version para `v10` (linha ~100)
+   - Adicionado Version History entry (linha ~103)
+
+#### 🎯 Como Funciona
+
+**Workflow do Usuário**:
+1. Dashboard → Clique "🎧 Audio Coach"
+2. Selecione categoria (ex: "⭐ Killer Stories")
+3. Pressione ▶️ no botão central
+4. TTS lê: "Now playing: [título]. [script completo]"
+5. Pausa de 3s entre scripts (se habilitado)
+6. Loop infinito ou para no final (configurável)
+7. Lock screen controls funcionam (mobile)
+
+**Categorias Disponíveis**:
+- 🎲 All (Shuffle Complete) - Mix aleatório de todos
+- ⭐ Killer Stories - Apenas scripts `isKiller: true`
+- 🎬 Opening - `moment === 'opening'`
+- 👤 About Me - `moment === 'about-me'`
+- 📖 Stories - `moment === 'stories'`
+- 💼 Equity - `moment === 'equity'`
+- 🎓 Technical - `moment === 'technical'`
+- 💪 Differentiation - `moment === 'differentiation'`
+- 🤝 Closing - `moment === 'closing'`
+- 💣 Objections - Todos objections + scripts de objections
+
+**Tecnologias Usadas**:
+- **Web Speech API** (SpeechSynthesis) - TTS nativo do browser
+- **Media Session API** - Lock screen controls
+- Offline-first (zero chamadas de API externa)
+
+#### 📊 Estatísticas de Código
+
+- **Linhas de HTML adicionadas**: ~100
+- **Linhas de CSS adicionadas**: ~285
+- **Linhas de JavaScript adicionadas**: ~290
+- **Total de código novo**: ~675 linhas
+- **Total index.html atual**: ~3.900 linhas (antes: ~3.560)
+
+#### ✅ Testes Realizados
+
+- [x] Navegação: Dashboard → Audio Coach funciona
+- [x] Playlist: Constrói corretamente para todas categorias
+- [x] TTS: Reproduz scripts em inglês
+- [x] Controles: Play/Pause/Skip funcionam
+- [x] Loop: Repete playlist infinitamente quando habilitado
+- [x] Auto-pause: Pausa 3s entre scripts
+- [x] Velocidade: 0.75x, 1.0x, 1.25x, 1.5x funcionam
+- [x] Playlist clicável: Pula para item ao clicar
+- [x] Progress bar: Atualiza corretamente (X/Y)
+- [x] Now Playing: Mostra título e categoria atual
+- [x] UI responsiva: Funciona em mobile e desktop
+
+#### 🎯 Casos de Uso
+
+1. **Dirigindo**: Ouça Killer Stories no caminho para entrevista
+2. **Cozinhando**: Pratique sem usar as mãos
+3. **Caminhando**: Internalize scripts durante exercício
+4. **Antes de dormir**: Revisão relaxada
+5. **Multitasking**: Qualquer atividade que impeça olhar tela
+
+#### 🔄 Workflow Complementar
+
+1. **Audio Coach** (passivo) → Ouça scripts
+2. **Rehearsal Mode** (ativo) → Grave sua voz
+3. **Audio Coach** (revisão) → Compare com ideal
+
+#### 🚀 Deploy
+
+- Service Worker incrementado: v7 → v10
+- Cache forçado a atualizar em produção
+- README e CLAUDE.md documentados
+- Feature 100% funcional e testada
+
+#### 📝 Para Outro Dev Continuar Daqui
+
+**Estado Atual**:
+- Audio Coach completamente implementado
+- Todas features funcionando
+- Documentação atualizada
+- Pronto para deploy em produção
+
+**Próximos Passos Sugeridos** (futuro):
+- Adicionar voice selection (escolher voz do TTS)
+- Salvar última categoria/posição em localStorage
+- Analytics de uso (quais scripts mais ouvidos)
+- Export/import de playlists personalizadas
+
+---
+
 ### [V4.2] Audio Recording Save & Playback - 02/01/2026
 
 #### ✅ Implementado

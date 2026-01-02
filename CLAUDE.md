@@ -97,9 +97,10 @@ After editing `index.html` or `js/data.js`:
 const CACHE_NAME = 'xai-trainer-vX'; // Increment X to force cache refresh
 ```
 
-Current version: `v7` (V4.1 Gemini 2.5 Flash Update - 02/01/2026)
+Current version: `v10` (V5.0 Audio Coach Edition - 02/01/2026)
 
 **Version History:**
+- v10: V5.0 Audio Coach Edition - Listen-Only Training Mode - 02/01/2026
 - v7: Updated to Gemini 2.5 Flash (stable model) - 02/01/2026
 - v6: V4.0 Fluency Trainer Edition with Rehearsal Mode - 02/01/2026
 - v5: V3.0 Conversation Edition with Response Coach - 02/01/2026
@@ -912,6 +913,225 @@ ws.send(JSON.stringify({
 2. Verify new equity prompts appear
 3. Navigate to Objection Handling
 4. Verify new objections appear with correct options
+
+---
+
+## V5.0: Audio Coach Mode (Listen-Only Training)
+
+**Release Date:** 02/01/2026
+**Purpose:** Enable passive practice through audio-only playback of scripts and ideal responses.
+
+### Overview
+
+Audio Coach is a **listen-only training mode** that reads scripts and ideal responses aloud using the browser's native Text-to-Speech API. Unlike Rehearsal Mode (active practice), Audio Coach enables **passive learning** during activities where the user cannot look at the screen or speak (driving, cooking, walking, etc.).
+
+### Key Features
+
+1. **10 Content Categories**
+   - All (Shuffle Complete) - Random mix of all scripts
+   - Killer Stories - Essential scripts only
+   - Opening - Greetings and small talk
+   - About Me - Personal introduction
+   - Stories - Joule, ABC, EM narratives
+   - Equity - Equity experience focus
+   - Technical - DCF, ratios, technical concepts
+   - Differentiation - Why hire you
+   - Closing - Questions and closing statement
+   - Objections - Difficult objections handling
+
+2. **Playback Controls**
+   - Play/Pause - Start or pause playback
+   - Skip Previous/Next - Navigate between scripts
+   - Jump to Index - Click playlist item to jump directly
+
+3. **Settings**
+   - Loop - Repeat playlist infinitely (default: ON)
+   - Auto-pause - 3-second pause between scripts (default: ON)
+   - Speech Rate - 0.75x, 1.0x, 1.25x, 1.5x (default: 1.0x)
+
+4. **Media Session API Integration**
+   - Lock screen controls on mobile devices
+   - Play/Pause/Skip directly from lock screen
+   - Works with Bluetooth headphones
+   - Displays "Now Playing" metadata
+
+5. **Offline-First**
+   - Uses Web Speech API (browser native)
+   - No external API calls
+   - 100% functional offline after initial load
+
+### Implementation
+
+#### State Management
+
+```javascript
+// Audio Coach state in global state object
+const state = {
+  audioCoachPlaylist: [],           // Current playlist
+  audioCoachCurrentIndex: 0,        // Current item index
+  audioCoachIsPlaying: false,       // Playback active
+  audioCoachIsPaused: false,        // Paused state
+  audioCoachLoopEnabled: true,      // Loop playlist
+  audioCoachSpeechRate: 1.0,        // Playback speed
+  audioCoachSynthesis: window.speechSynthesis,
+  audioCoachUtterance: null,        // Current SpeechSynthesisUtterance
+  audioCoachCategory: 'all'         // Selected category
+};
+```
+
+#### Core Functions
+
+**buildAudioPlaylist()** - Builds playlist based on selected category
+```javascript
+function buildAudioPlaylist() {
+  const category = document.getElementById('audio-category')?.value || state.audioCoachCategory;
+  state.audioCoachPlaylist = [];
+  state.audioCoachCurrentIndex = 0;
+
+  if (category === 'all') {
+    state.audioCoachPlaylist = [...rehearsalScripts];
+    // Shuffle
+    for (let i = state.audioCoachPlaylist.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [state.audioCoachPlaylist[i], state.audioCoachPlaylist[j]] =
+        [state.audioCoachPlaylist[j], state.audioCoachPlaylist[i]];
+    }
+  } else if (category === 'killer') {
+    state.audioCoachPlaylist = rehearsalScripts.filter(s => s.isKiller);
+  } else {
+    state.audioCoachPlaylist = rehearsalScripts.filter(s => s.moment === category);
+  }
+
+  // Add objections if applicable
+  if (category === 'objections' || category === 'all') {
+    objections.forEach(obj => {
+      state.audioCoachPlaylist.push({
+        id: `objection-${obj.id}`,
+        title: `Objection: ${obj.objection}`,
+        script: `Question: ${obj.objection}\n\nBest Response: ${obj.idealScript}`,
+        duration: '60s',
+        moment: 'objections',
+        momentLabel: '💣 Objections',
+        isKiller: false
+      });
+    });
+  }
+
+  updatePlaylistUI();
+  updateAudioCoachUI();
+}
+```
+
+**playCurrentItem()** - Plays current script using TTS
+```javascript
+function playCurrentItem() {
+  const item = state.audioCoachPlaylist[state.audioCoachCurrentIndex];
+  if (!item) return;
+
+  // Stop any existing speech
+  state.audioCoachSynthesis.cancel();
+
+  // Update state
+  state.audioCoachIsPlaying = true;
+  state.audioCoachIsPaused = false;
+  updateAudioCoachUI();
+
+  // Build text to speak
+  const textToSpeak = `Now playing: ${item.title}. ${item.script}`;
+
+  // Create utterance
+  const utterance = new SpeechSynthesisUtterance(textToSpeak);
+  utterance.rate = state.audioCoachSpeechRate;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+
+  // Try to select English voice
+  const voices = state.audioCoachSynthesis.getVoices();
+  const enVoice = voices.find(v => v.lang.startsWith('en-'));
+  if (enVoice) utterance.voice = enVoice;
+
+  // When finished, play next or loop
+  utterance.onend = () => {
+    state.audioCoachIsPlaying = false;
+    const autoPause = document.getElementById('auto-pause-toggle')?.checked;
+    if (autoPause) {
+      setTimeout(() => playNextOrLoop(), 3000); // 3s pause
+    } else {
+      playNextOrLoop();
+    }
+  };
+
+  // Store utterance and speak
+  state.audioCoachUtterance = utterance;
+  state.audioCoachSynthesis.speak(utterance);
+
+  // Update Media Session API
+  if ('mediaSession' in navigator && item) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: item.title,
+      artist: 'xAI Pocket Trainer',
+      album: item.momentLabel || 'Audio Coach',
+      artwork: [
+        { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' }
+      ]
+    });
+  }
+}
+```
+
+**Media Session API Setup** - Lock screen controls
+```javascript
+if ('mediaSession' in navigator) {
+  navigator.mediaSession.setActionHandler('play', () => {
+    if (state.currentView === 'audio-coach') togglePlayPause();
+  });
+
+  navigator.mediaSession.setActionHandler('pause', () => {
+    if (state.currentView === 'audio-coach') pauseAudioCoach();
+  });
+
+  navigator.mediaSession.setActionHandler('previoustrack', () => {
+    if (state.currentView === 'audio-coach') skipPrevious();
+  });
+
+  navigator.mediaSession.setActionHandler('nexttrack', () => {
+    if (state.currentView === 'audio-coach') skipNext();
+  });
+}
+```
+
+### UI Components
+
+**HTML Structure:**
+- Category selector dropdown
+- "Now Playing" card with current script title and category
+- Progress bar (visual + text: X/Y)
+- Playback controls (⏮️ ▶️/⏸️ ⏭️)
+- Settings panel (loop, auto-pause, speed)
+- Interactive playlist (scrollable, clickable)
+
+**CSS:**
+- Mobile-first design
+- Large touch-friendly buttons (70px/90px)
+- Responsive layout (adapts to small screens)
+- Smooth animations and transitions
+- Visual feedback on active playlist item
+
+### Use Cases
+
+1. **Driving** - Listen while commuting or driving to interview
+2. **Cooking** - Hands-free practice during meal prep
+3. **Walking/Exercise** - Internalize scripts during physical activity
+4. **Before Sleep** - Relaxed final review
+5. **Multitasking** - Practice while doing household chores
+
+### Complementary Workflow
+
+**Recommended Practice Flow:**
+1. **Audio Coach** (passive) - Listen to scripts while doing other activities
+2. **Rehearsal Mode** (active) - Record yourself speaking the scripts
+3. **Audio Coach** (review) - Listen to ideal versions again to compare
 
 ---
 

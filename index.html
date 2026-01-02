@@ -1510,6 +1510,291 @@
         align-items: stretch;
       }
     }
+
+    /* ============================================
+       AUDIO COACH MODE STYLES
+       ============================================ */
+
+    .audio-category-selector {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .audio-category-selector h3 {
+      margin-bottom: var(--spacing-sm);
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .audio-category-selector select {
+      width: 100%;
+      padding: var(--spacing-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    /* Now Playing Card */
+    .now-playing {
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-lg);
+      min-height: 140px;
+    }
+
+    .now-playing-icon {
+      font-size: 4rem;
+      flex-shrink: 0;
+    }
+
+    .now-playing-info {
+      flex: 1;
+    }
+
+    .now-playing-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-xs);
+      line-height: 1.4;
+    }
+
+    .now-playing-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* Progress Bar */
+    .audio-progress {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .audio-progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .audio-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .audio-progress-text {
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* Playback Controls */
+    .audio-controls-panel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+      padding: var(--spacing-lg) 0;
+    }
+
+    .audio-control-btn {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .audio-control-btn:hover:not(:disabled) {
+      border-color: var(--accent-primary);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
+    }
+
+    .audio-control-btn:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    .audio-control-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .audio-control-btn-play {
+      width: 90px;
+      height: 90px;
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+    }
+
+    .audio-control-btn-play:hover:not(:disabled) {
+      background: var(--accent-secondary);
+      border-color: var(--accent-secondary);
+    }
+
+    /* Settings */
+    .audio-settings {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .audio-setting-item {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .audio-setting-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .audio-setting-label {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .audio-setting-label input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .audio-setting-label select {
+      margin-left: auto;
+      padding: var(--spacing-xs) var(--spacing-md);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    /* Playlist */
+    .audio-playlist {
+      margin-top: var(--spacing-xl);
+    }
+
+    .audio-playlist h4 {
+      margin-bottom: var(--spacing-md);
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .playlist-items {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+    }
+
+    .playlist-item {
+      padding: var(--spacing-md);
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .playlist-item:last-child {
+      border-bottom: none;
+    }
+
+    .playlist-item:hover {
+      background: var(--bg-card);
+    }
+
+    .playlist-item.active {
+      background: rgba(16, 163, 127, 0.1);
+      border-left: 4px solid var(--accent-primary);
+    }
+
+    .playlist-item.active .playlist-item-title {
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    .playlist-item-number {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      min-width: 30px;
+    }
+
+    .playlist-item-title {
+      flex: 1;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .playlist-item-duration {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .playlist-item.is-killer::before {
+      content: '⭐';
+      font-size: 1rem;
+    }
+
+    /* Mobile adjustments for Audio Coach */
+    @media (max-width: 600px) {
+      .now-playing {
+        flex-direction: column;
+        text-align: center;
+        padding: var(--spacing-lg);
+      }
+
+      .now-playing-icon {
+        font-size: 3rem;
+      }
+
+      .now-playing-title {
+        font-size: 1.1rem;
+      }
+
+      .audio-control-btn {
+        width: 60px;
+        height: 60px;
+      }
+
+      .audio-control-btn-play {
+        width: 80px;
+        height: 80px;
+      }
+
+      .audio-controls-panel {
+        gap: var(--spacing-md);
+      }
+
+      .playlist-items {
+        max-height: 300px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1582,6 +1867,12 @@
           <div class="icon">🎭</div>
           <div class="title">Rehearsal Mode</div>
           <div class="duration">Pratique scripts em voz alta</div>
+        </a>
+
+        <a href="#audio-coach" class="mode-btn">
+          <div class="icon">🎧</div>
+          <div class="title">Audio Coach</div>
+          <div class="duration">Ouça enquanto dirige/cozinha</div>
         </a>
       </div>
     </div>
@@ -2071,6 +2362,112 @@
   </div>
 
   <!-- ============================================
+       SECTION: AUDIO COACH MODE
+       ============================================ -->
+
+  <div id="audio-coach" class="view">
+    <div class="container">
+      <button class="btn back-button" onclick="navigateTo('dashboard')">← Voltar</button>
+      <h1 class="text-center">🎧 Audio Coach</h1>
+      <p class="text-center text-muted" style="margin-bottom: var(--spacing-xl);">
+        Ouça scripts e respostas ideais enquanto dirige, cozinha ou descansa
+      </p>
+
+      <!-- Category Selector -->
+      <div class="audio-category-selector">
+        <h3>Escolha a categoria:</h3>
+        <select id="audio-category" onchange="buildAudioPlaylist()">
+          <option value="all">🎲 Tudo (Shuffle Completo)</option>
+          <option value="killer">⭐ Killer Stories</option>
+          <option value="opening">🎬 Opening (Abertura)</option>
+          <option value="about-me">👤 About Me</option>
+          <option value="stories">📖 Killer Stories</option>
+          <option value="equity">💼 Equity Experience</option>
+          <option value="technical">🎓 Technical Deep Dive</option>
+          <option value="differentiation">💪 Differentiation</option>
+          <option value="closing">🤝 Closing</option>
+          <option value="objections">💣 Objections</option>
+        </select>
+      </div>
+
+      <!-- Now Playing Display -->
+      <div class="now-playing" id="now-playing">
+        <div class="now-playing-icon">🎧</div>
+        <div class="now-playing-info">
+          <div class="now-playing-title" id="now-playing-title">
+            Selecione uma categoria e pressione Play
+          </div>
+          <div class="now-playing-subtitle" id="now-playing-subtitle">
+            Pronto para começar
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="audio-progress">
+        <div class="audio-progress-bar">
+          <div class="audio-progress-fill" id="audio-progress-fill"></div>
+        </div>
+        <div class="audio-progress-text" id="audio-progress-text">
+          0 / 0
+        </div>
+      </div>
+
+      <!-- Playback Controls -->
+      <div class="audio-controls-panel">
+        <button class="audio-control-btn" id="prev-btn" onclick="skipPrevious()" disabled>
+          <span style="font-size: 2rem;">⏮️</span>
+        </button>
+
+        <button class="audio-control-btn audio-control-btn-play" id="play-pause-btn" onclick="togglePlayPause()">
+          <span style="font-size: 3rem;">▶️</span>
+        </button>
+
+        <button class="audio-control-btn" id="next-btn" onclick="skipNext()" disabled>
+          <span style="font-size: 2rem;">⏭️</span>
+        </button>
+      </div>
+
+      <!-- Settings -->
+      <div class="audio-settings">
+        <div class="audio-setting-item">
+          <label class="audio-setting-label">
+            <input type="checkbox" id="loop-toggle" checked onchange="toggleLoop()">
+            <span>🔁 Loop (Repetir playlist infinitamente)</span>
+          </label>
+        </div>
+
+        <div class="audio-setting-item">
+          <label class="audio-setting-label">
+            <input type="checkbox" id="auto-pause-toggle" checked>
+            <span>⏸️ Pausar entre scripts (3s para pensar)</span>
+          </label>
+        </div>
+
+        <div class="audio-setting-item">
+          <label class="audio-setting-label">
+            <span>🎚️ Velocidade:</span>
+            <select id="speech-rate" onchange="updateSpeechRate()">
+              <option value="0.75">0.75x</option>
+              <option value="1.0" selected>1.0x (Normal)</option>
+              <option value="1.25">1.25x</option>
+              <option value="1.5">1.5x</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <!-- Playlist Display -->
+      <div class="audio-playlist">
+        <h4>📋 Playlist (clique para pular para o item):</h4>
+        <div id="playlist-items" class="playlist-items">
+          <!-- Items gerados dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
        JAVASCRIPT - APP LOGIC
        ============================================ -->
 
@@ -2181,7 +2578,17 @@
       vicioTranscript: '',
       vicioStats: { forbidden: {}, desired: {} },
       vicioIsListening: false,
-      vicioCurrentPrompt: null
+      vicioCurrentPrompt: null,
+      // Audio Coach state
+      audioCoachPlaylist: [],
+      audioCoachCurrentIndex: 0,
+      audioCoachIsPlaying: false,
+      audioCoachIsPaused: false,
+      audioCoachLoopEnabled: true,
+      audioCoachSpeechRate: 1.0,
+      audioCoachSynthesis: window.speechSynthesis,
+      audioCoachUtterance: null,
+      audioCoachCategory: 'all'
     };
 
     // ============================================
@@ -2214,6 +2621,8 @@
           initPreFlight();
         } else if (viewId === 'vicio-police') {
           initVicioPolice();
+        } else if (viewId === 'audio-coach') {
+          initAudioCoach();
         }
       }
     }
@@ -2984,7 +3393,298 @@
     }
 
     // ============================================
-    // SECTION 9: SERVICE WORKER REGISTRATION
+    // SECTION 9: AUDIO COACH MODE
+    // ============================================
+
+    function initAudioCoach() {
+      // Build initial playlist based on default category
+      const category = document.getElementById('audio-category')?.value || 'all';
+      state.audioCoachCategory = category;
+      buildAudioPlaylist();
+      updateAudioCoachUI();
+    }
+
+    function buildAudioPlaylist() {
+      const category = document.getElementById('audio-category')?.value || state.audioCoachCategory;
+      state.audioCoachCategory = category;
+      state.audioCoachPlaylist = [];
+      state.audioCoachCurrentIndex = 0;
+
+      // Build playlist from rehearsalScripts
+      if (category === 'all') {
+        state.audioCoachPlaylist = [...rehearsalScripts];
+        // Shuffle
+        for (let i = state.audioCoachPlaylist.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [state.audioCoachPlaylist[i], state.audioCoachPlaylist[j]] =
+            [state.audioCoachPlaylist[j], state.audioCoachPlaylist[i]];
+        }
+      } else if (category === 'killer') {
+        state.audioCoachPlaylist = rehearsalScripts.filter(s => s.isKiller);
+      } else {
+        state.audioCoachPlaylist = rehearsalScripts.filter(s => s.moment === category);
+      }
+
+      // Add objections if category is 'objections' or 'all'
+      if (category === 'objections' || category === 'all') {
+        objections.forEach(obj => {
+          state.audioCoachPlaylist.push({
+            id: `objection-${obj.id}`,
+            title: `Objection: ${obj.objection}`,
+            script: `Question: ${obj.objection}\n\nBest Response: ${obj.idealScript}`,
+            duration: '60s',
+            moment: 'objections',
+            momentLabel: '💣 Objections',
+            isKiller: false
+          });
+        });
+      }
+
+      updatePlaylistUI();
+      updateAudioCoachUI();
+    }
+
+    function updatePlaylistUI() {
+      const container = document.getElementById('playlist-items');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      state.audioCoachPlaylist.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = `playlist-item ${item.isKiller ? 'is-killer' : ''} ${index === state.audioCoachCurrentIndex ? 'active' : ''}`;
+        div.onclick = () => jumpToIndex(index);
+
+        div.innerHTML = `
+          <span class="playlist-item-number">${index + 1}</span>
+          <span class="playlist-item-title">${item.title}</span>
+          <span class="playlist-item-duration">${item.duration || ''}</span>
+        `;
+
+        container.appendChild(div);
+      });
+    }
+
+    function updateAudioCoachUI() {
+      const currentItem = state.audioCoachPlaylist[state.audioCoachCurrentIndex];
+
+      // Update Now Playing
+      if (currentItem) {
+        document.getElementById('now-playing-title').textContent = currentItem.title;
+        document.getElementById('now-playing-subtitle').textContent = currentItem.momentLabel || '';
+      } else {
+        document.getElementById('now-playing-title').textContent = 'Nenhum item na playlist';
+        document.getElementById('now-playing-subtitle').textContent = 'Selecione uma categoria';
+      }
+
+      // Update progress
+      const total = state.audioCoachPlaylist.length;
+      const current = state.audioCoachCurrentIndex + 1;
+      const percentage = total > 0 ? (current / total) * 100 : 0;
+
+      document.getElementById('audio-progress-fill').style.width = `${percentage}%`;
+      document.getElementById('audio-progress-text').textContent = `${current} / ${total}`;
+
+      // Update play/pause button
+      const playBtn = document.getElementById('play-pause-btn');
+      if (playBtn) {
+        playBtn.innerHTML = state.audioCoachIsPlaying && !state.audioCoachIsPaused
+          ? '<span style="font-size: 3rem;">⏸️</span>'
+          : '<span style="font-size: 3rem;">▶️</span>';
+      }
+
+      // Enable/disable navigation buttons
+      document.getElementById('prev-btn').disabled = state.audioCoachCurrentIndex === 0;
+      document.getElementById('next-btn').disabled = state.audioCoachCurrentIndex >= state.audioCoachPlaylist.length - 1 && !state.audioCoachLoopEnabled;
+
+      // Update playlist active state
+      document.querySelectorAll('.playlist-item').forEach((item, index) => {
+        if (index === state.audioCoachCurrentIndex) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+
+    function togglePlayPause() {
+      if (state.audioCoachPlaylist.length === 0) {
+        alert('Nenhum item na playlist. Selecione uma categoria primeiro.');
+        return;
+      }
+
+      if (state.audioCoachIsPlaying && !state.audioCoachIsPaused) {
+        // Pause
+        pauseAudioCoach();
+      } else if (state.audioCoachIsPaused) {
+        // Resume
+        resumeAudioCoach();
+      } else {
+        // Start playing
+        playCurrentItem();
+      }
+    }
+
+    function playCurrentItem() {
+      const item = state.audioCoachPlaylist[state.audioCoachCurrentIndex];
+      if (!item) return;
+
+      // Stop any existing speech
+      state.audioCoachSynthesis.cancel();
+
+      // Update state
+      state.audioCoachIsPlaying = true;
+      state.audioCoachIsPaused = false;
+      updateAudioCoachUI();
+
+      // Build text to speak: "Question: [title]. Answer: [script]"
+      const textToSpeak = `Now playing: ${item.title}. ${item.script}`;
+
+      // Create utterance
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.rate = state.audioCoachSpeechRate;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+
+      // Try to select English voice
+      const voices = state.audioCoachSynthesis.getVoices();
+      const enVoice = voices.find(v => v.lang.startsWith('en-'));
+      if (enVoice) {
+        utterance.voice = enVoice;
+      }
+
+      // When finished, play next or loop
+      utterance.onend = () => {
+        state.audioCoachIsPlaying = false;
+
+        // Auto-pause between scripts if enabled
+        const autoPause = document.getElementById('auto-pause-toggle')?.checked;
+        if (autoPause) {
+          setTimeout(() => {
+            playNextOrLoop();
+          }, 3000); // 3 second pause
+        } else {
+          playNextOrLoop();
+        }
+      };
+
+      utterance.onerror = (event) => {
+        console.error('Speech synthesis error:', event);
+        state.audioCoachIsPlaying = false;
+        updateAudioCoachUI();
+      };
+
+      // Store utterance and speak
+      state.audioCoachUtterance = utterance;
+      state.audioCoachSynthesis.speak(utterance);
+
+      // Update Media Session API (for lock screen controls)
+      if ('mediaSession' in navigator && item) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: item.title,
+          artist: 'xAI Pocket Trainer',
+          album: item.momentLabel || 'Audio Coach',
+          artwork: [
+            { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+            { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' }
+          ]
+        });
+      }
+    }
+
+    function playNextOrLoop() {
+      if (state.audioCoachCurrentIndex < state.audioCoachPlaylist.length - 1) {
+        skipNext();
+      } else if (state.audioCoachLoopEnabled) {
+        state.audioCoachCurrentIndex = 0;
+        updateAudioCoachUI();
+        playCurrentItem();
+      } else {
+        // End of playlist
+        state.audioCoachIsPlaying = false;
+        updateAudioCoachUI();
+      }
+    }
+
+    function pauseAudioCoach() {
+      state.audioCoachSynthesis.pause();
+      state.audioCoachIsPaused = true;
+      updateAudioCoachUI();
+    }
+
+    function resumeAudioCoach() {
+      state.audioCoachSynthesis.resume();
+      state.audioCoachIsPaused = false;
+      updateAudioCoachUI();
+    }
+
+    function skipNext() {
+      if (state.audioCoachCurrentIndex < state.audioCoachPlaylist.length - 1) {
+        state.audioCoachCurrentIndex++;
+        updateAudioCoachUI();
+        playCurrentItem();
+      } else if (state.audioCoachLoopEnabled) {
+        state.audioCoachCurrentIndex = 0;
+        updateAudioCoachUI();
+        playCurrentItem();
+      }
+    }
+
+    function skipPrevious() {
+      if (state.audioCoachCurrentIndex > 0) {
+        state.audioCoachCurrentIndex--;
+        updateAudioCoachUI();
+        playCurrentItem();
+      }
+    }
+
+    function jumpToIndex(index) {
+      state.audioCoachCurrentIndex = index;
+      updateAudioCoachUI();
+      if (state.audioCoachIsPlaying) {
+        playCurrentItem();
+      }
+    }
+
+    function toggleLoop() {
+      state.audioCoachLoopEnabled = document.getElementById('loop-toggle')?.checked || false;
+      updateAudioCoachUI();
+    }
+
+    function updateSpeechRate() {
+      const rate = parseFloat(document.getElementById('speech-rate')?.value || '1.0');
+      state.audioCoachSpeechRate = rate;
+    }
+
+    // Setup Media Session API for lock screen controls
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', () => {
+        if (state.currentView === 'audio-coach') {
+          togglePlayPause();
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('pause', () => {
+        if (state.currentView === 'audio-coach') {
+          pauseAudioCoach();
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        if (state.currentView === 'audio-coach') {
+          skipPrevious();
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        if (state.currentView === 'audio-coach') {
+          skipNext();
+        }
+      });
+    }
+
+    // ============================================
+    // SECTION 10: SERVICE WORKER REGISTRATION
     // ============================================
 
     if ('serviceWorker' in navigator) {

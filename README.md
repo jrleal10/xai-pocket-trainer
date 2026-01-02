@@ -24,6 +24,7 @@ Este app não é apenas para **testar** se você sabe as respostas. É para **tr
 
 **O que o app oferece:**
 
+- ✅ **Audio Coach** - Ouça scripts e respostas ideais enquanto dirige, cozinha ou descansa (V5.0 - NOVO!)
 - ✅ **Rehearsal Mode** - Leia scripts ideais, grave sua voz, receba feedback AI em tempo real (V4.0)
 - ✅ **Memorizar** conceitos-chave, histórias e frases usando flashcards interativos
 - ✅ **Treinar concisão** com timer visual de 45 segundos (3 tempos: 45s/60s/90s)
@@ -175,6 +176,105 @@ Diferente de outras ferramentas que testam se você sabe a resposta, o Rehearsal
 ✅ **Permissão de microfone** (gravar sua voz)
 ✅ **HTTPS** (funciona em produção Vercel)
 ✅ **Navegadores compatíveis**: Chrome, Edge, Safari, Firefox
+
+---
+
+## 🎧 Modo Audio Coach (V5.0 - NOVO!)
+
+**Pratique passivamente enquanto dirige, cozinha ou descansa!** O Audio Coach lê scripts e respostas ideais em voz alta usando Text-to-Speech nativo do navegador.
+
+### Filosofia: Listen → Internalize → Speak
+
+Diferente do Rehearsal Mode (ativo), o Audio Coach é para **prática passiva**:
+
+1. **Selecione categoria** de conteúdo (Killer Stories, Opening, Technical, etc.)
+2. **Pressione Play** e ouça scripts sendo lidos em voz alta
+3. **Internalize** pronúncia, ritmo e estrutura das respostas
+4. **Repita mentalmente** enquanto escuta
+5. **Pratique em qualquer situação** - sem precisar olhar tela ou falar
+
+### Como Usar
+
+1. Toque em "🎧 Audio Coach" no dashboard
+2. **Escolha categoria** no dropdown:
+   - 🎲 **Tudo (Shuffle Completo)** - Mix aleatório de todos os scripts
+   - ⭐ **Killer Stories** - Apenas scripts marcados como essenciais
+   - 🎬 **Opening** - Abertura e cumprimentos
+   - 👤 **About Me** - Apresentação pessoal
+   - 📖 **Killer Stories** - Joule, ABC, EM
+   - 💼 **Equity Experience** - Experiência em equity
+   - 🎓 **Technical Deep Dive** - DCF, ratios, conceitos técnicos
+   - 💪 **Differentiation** - Por que contratar você
+   - 🤝 **Closing** - Fechamento e perguntas
+   - 💣 **Objections** - Respostas para objeções difíceis
+
+3. **Controles de Playback**:
+   - ▶️ **Play** - Inicia reprodução
+   - ⏸️ **Pause** - Pausa temporária
+   - ⏮️ **Anterior** - Volta para script anterior
+   - ⏭️ **Próximo** - Pula para próximo script
+
+4. **Configurações**:
+   - 🔁 **Loop** - Repete playlist infinitamente (padrão: ON)
+   - ⏸️ **Pausar entre scripts** - 3 segundos para pensar (padrão: ON)
+   - 🎚️ **Velocidade** - 0.75x, 1.0x, 1.25x, 1.5x (padrão: 1.0x)
+
+5. **Playlist interativa**:
+   - Visualize todos os scripts da categoria
+   - Clique em qualquer item para pular diretamente
+   - Items marcados com ⭐ são Killer Stories
+
+### Recursos Avançados
+
+✅ **Media Session API** - Controles na tela bloqueada do celular!
+- Bloqueie a tela e continue usando os controles nativos
+- Play/Pause/Skip direto da lock screen
+- Funciona com fone de ouvido Bluetooth
+
+✅ **Offline-first** - Funciona sem internet!
+- Usa Text-to-Speech nativo do navegador
+- Nenhuma chamada de API externa
+- 100% funcional offline após carregamento inicial
+
+✅ **Progress tracking**
+- Barra de progresso visual (X/Y scripts)
+- Item atual destacado na playlist
+- Indicador "Now Playing" com título e categoria
+
+### Quando Usar
+
+- **No carro** - Ouça enquanto dirige para a entrevista
+- **Cozinhando** - Pratique sem usar as mãos
+- **Caminhando** - Internalize scripts durante exercício
+- **Antes de dormir** - Revisão final relaxada
+- **Multitasking** - Pratique enquanto faz outras atividades
+
+### Dicas de Uso
+
+- Comece com **Killer Stories** para priorizar conteúdo essencial
+- Use **velocidade 1.25x** para revisão rápida
+- Deixe **pausa de 3s** ligada para ter tempo de pensar
+- **Loop infinito** é perfeito para prática intensiva
+- Combine com Rehearsal Mode: primeiro ouça (Audio Coach), depois grave (Rehearsal)
+
+### Diferença: Audio Coach vs Rehearsal Mode
+
+| Feature | Audio Coach 🎧 | Rehearsal Mode 🎭 |
+|---------|---------------|------------------|
+| **Tipo** | Prática passiva | Prática ativa |
+| **Interação** | Apenas ouvir | Ler, gravar, receber feedback |
+| **Uso ideal** | Multitasking (dirigir, cozinhar) | Foco total (estudar) |
+| **Feedback** | Nenhum | AI analysis (Gemini) |
+| **Internet** | ❌ Offline | ✅ Requer (para feedback AI) |
+| **Lock screen** | ✅ Funciona | ❌ Não aplicável |
+| **TTS/Voice** | Web Speech API (nativo) | Web Speech API (nativo) |
+
+### Requisitos Técnicos
+
+✅ **Navegador moderno** com Web Speech API (Chrome, Edge, Safari, Firefox)
+✅ **Offline-first** - Funciona sem internet após carregamento
+✅ **PWA-ready** - Instale no celular para melhor experiência
+✅ **Media Session API** - Lock screen controls (Chrome/Edge mobile)
 
 ---
 
@@ -579,14 +679,15 @@ Se encontrar bugs ou tiver dúvidas:
 
 - **PWA** (Progressive Web App) - Instalável e offline
 - **Arquitetura simplificada** - 2 arquivos principais (index.html + js/data.js)
-  - `index.html` (~3.560 linhas): Estrutura + Lógica + UI + V3.0 Response Coach + V4.0 Rehearsal Mode
+  - `index.html` (~3.900 linhas): Estrutura + Lógica + UI + V3.0 Response Coach + V4.0 Rehearsal Mode + V5.0 Audio Coach
   - `js/data.js` (~1.102 linhas): Dados puros + Rehearsal Scripts + Interview Moments + Keywords
 - **Gemini 2.5 Flash API** - Transcrição de áudio + análise de conteúdo (V4.1)
 - **MediaRecorder API** - Gravação de áudio com save/playback (V4.2)
-- **Web Speech API** - Text-to-Speech para leitura de scripts
+- **Web Speech API** - Text-to-Speech para leitura de scripts + Audio Coach (V5.0)
+- **Media Session API** - Lock screen controls para Audio Coach (V5.0)
 - **Zero dependências externas** - Vanilla JS, sem frameworks ou bundlers
 - **Mobile-first** - Otimizado para celular
-- **Service Worker v8** - Cache otimizado para offline-first (V4.2)
+- **Service Worker v10** - Cache otimizado para offline-first (V5.0)
 
 ### Estrutura de Arquivos
 
@@ -595,7 +696,7 @@ C:\Projetos\interview_xai_web_app\
 ├── index.html          # App principal (~3.560 linhas)
 ├── js/
 │   └── data.js         # Módulo de dados (~1.102 linhas)
-├── sw.js               # Service Worker (v8)
+├── sw.js               # Service Worker (v10)
 ├── manifest.json       # PWA manifest
 ├── icons/              # Ícones PWA
 ├── docs/               # Documentação técnica
@@ -605,7 +706,18 @@ C:\Projetos\interview_xai_web_app\
 └── README.md           # Este arquivo
 ```
 
-### Últimas Atualizações (V4.0 Fluency Trainer Edition - 02/01/2026)
+### Últimas Atualizações (V5.0 Audio Coach Edition - 02/01/2026)
+
+**V5.0: Audio Coach Mode - Listen-Only Training** ✅
+- **Nova feature principal**: Modo de prática passiva com Text-to-Speech
+- **10 categorias de conteúdo**: Tudo, Killer Stories, Opening, About Me, Stories, Equity, Technical, Differentiation, Closing, Objections
+- **Controles completos**: Play/Pause/Skip + Loop infinito + Pausa automática (3s) + Velocidade ajustável (0.75x-1.5x)
+- **Media Session API**: Controles na tela bloqueada do celular (lock screen controls)
+- **Playlist interativa**: Visualize e pule para qualquer script
+- **Offline-first**: 100% funcional sem internet (Web Speech API nativo)
+- **Mobile-optimized**: Botões grandes, responsivo, funciona com fone Bluetooth
+- **Use case**: Dirigir, cozinhar, caminhar - pratique em multitasking
+- **Complementar ao Rehearsal**: Primeiro ouça (Audio Coach), depois grave (Rehearsal)
 
 **V4.2: Audio Recording Save & Playback** ✅
 - **Salvar gravações**: Botões "▶️ Ouvir Minha Gravação" e "💾 Baixar Áudio" após gravar
@@ -656,6 +768,13 @@ C:\Projetos\interview_xai_web_app\
 ---
 
 ### Histórico de Versões
+
+**V5.0 Audio Coach Edition** (02/01/2026) - Listen-Only Training Mode
+- **Audio Coach Mode**: Prática passiva com Text-to-Speech nativo
+- 10 categorias de conteúdo + playlist interativa
+- Media Session API para lock screen controls
+- Offline-first (Web Speech API)
+- Perfeito para multitasking (dirigir, cozinhar, caminhar)
 
 **V4.2** (02/01/2026) - Audio Recording Save & Playback
 - Download de gravações com timestamp
