@@ -16,14 +16,21 @@
 
 ## 🎯 O que é este app?
 
-O **xAI Pocket Trainer** é seu treinador pessoal de bolso para a entrevista final na xAI. Ele te ajuda a:
+O **xAI Pocket Trainer** é seu **treinador de fluência pessoal** para a entrevista final na xAI.
 
+### 🎭 De "Testing Tool" para "Fluency Trainer"
+
+Este app não é apenas para **testar** se você sabe as respostas. É para **treinar fluência**: você lê, repete, memoriza e internaliza até falar com naturalidade. O foco é **read → repeat → memorize → speak naturally**.
+
+**O que o app oferece:**
+
+- ✅ **Rehearsal Mode** - Leia scripts ideais, grave sua voz, receba feedback AI em tempo real (V4.0)
 - ✅ **Memorizar** conceitos-chave, histórias e frases usando flashcards interativos
 - ✅ **Treinar concisão** com timer visual de 45 segundos (3 tempos: 45s/60s/90s)
-- ✅ **Praticar objeções** difíceis com quiz de 10 objeções + feedback instantâneo
+- ✅ **Praticar objeções** difíceis com quiz de 18 objeções + feedback instantâneo
 - ✅ **Micro-learning** com Random Pill (frases, tips, quiz, ratios aleatórios)
 - ✅ **Checklist final** para o dia da entrevista (Pre-Flight Checklist)
-- 🔜 **Eliminar vícios** de linguagem como "man" e "you know" (Vício Police - em breve)
+- ✅ **Eliminar vícios** de linguagem com Vício Police + Response Coach
 
 ---
 
@@ -62,6 +69,112 @@ O **xAI Pocket Trainer** é seu treinador pessoal de bolso para a entrevista fin
   - Rotaciona automaticamente a cada 30 segundos
 
 - **Botões de Modo**: Acesso rápido a todas as features
+
+---
+
+## 🎭 Modo Rehearsal (V4.0 Fluency Trainer Edition)
+
+**O modo mais importante do app!** Aqui você não tenta adivinhar a resposta - você **lê, repete e memoriza** scripts ideais com feedback AI em tempo real.
+
+### Filosofia: Read → Repeat → Memorize → Speak Naturally
+
+Diferente de outras ferramentas que testam se você sabe a resposta, o Rehearsal Mode é um **treinador de fluência**:
+
+1. **Leia** o script ideal (escrito por você, revisado e aprovado)
+2. **Ouça** o script com Text-to-Speech para internalizar ritmo e pronúncia
+3. **Grave** sua própria versão falando naturalmente
+4. **Receba feedback** instantâneo de AI (Gemini 2.5 Flash) comparando com o script ideal
+5. **Repita** até falar com fluência, confiança e naturalidade
+
+### Como Usar
+
+1. Toque em "Rehearsal Mode" no dashboard
+2. Escolha um **momento da entrevista** (6 categorias):
+   - **🎬 Opening** (0:00-1:00): Cumprimentos e small talk inicial
+   - **🎯 Core Pitch** (1:00-5:00): About me, equity experience, bridge credit↔equity
+   - **💪 Differentiation** (5:00-10:00): Por que contratar você? Strengths únicas
+   - **🎓 Technical Deep Dive** (10:00-12:00): DCF, ratios, EV/EBITDA vs P/E
+   - **🤝 Closing** (12:00-14:00): Questions for Jeffrey, closing statement
+   - **💣 Objection Handling** (variável): Respostas para objeções difíceis
+
+3. Escolha um **script** dentro do momento selecionado
+   - Scripts marcados com ⭐ são **Killer Stories** (prioridade máxima)
+   - Cada script mostra duração esperada (45s, 60s, 90s)
+
+4. **Leia** o script completo na tela
+
+5. **Ouça** o script (opcional):
+   - Toque em "🔊 Ouvir Script"
+   - Text-to-Speech lê o script em voz alta
+   - Use para internalizar pronúncia e ritmo
+
+6. **Grave** sua versão:
+   - Toque em "🎤 Gravar" (conceda permissão de microfone)
+   - Fale o script naturalmente (não precisa decorar palavra por palavra!)
+   - Toque em "⏹️ Parar" quando terminar
+
+7. **Receba feedback AI**:
+   - **Transcrição**: O que você realmente falou (Gemini Live transcrição)
+   - **Score de Similaridade**: Quão próximo você chegou do script ideal (0-100%)
+   - **Key Phrases Cobertos**: Quais frases-chave você incluiu ✅ e quais faltaram ❌
+   - **Análise de Conteúdo**: Feedback estruturado sobre o que funcionou e o que melhorar
+   - **Sugestões**: Dicas específicas para próxima tentativa
+
+8. **Ouça sua gravação**:
+   - Toque em "▶️ Ouvir Minha Gravação" para revisar sua performance
+   - Toque em "💾 Baixar Áudio" para salvar o arquivo (.webm) no dispositivo
+   - Arquivos salvos com nome: `rehearsal_[script-id]_[timestamp].webm`
+
+9. **Repita** até atingir fluência natural
+
+### 18 Scripts Disponíveis
+
+**🎬 Opening (3 scripts)**
+- Small Talk Opener (30-45s) ⭐
+- Post-Small-Talk Bridge (15-20s)
+- "Tell Me About Yourself" - Full (60-65s) ⭐
+
+**🎯 Core Pitch (6 scripts)**
+- Equity Experience - Joule Focus (45-50s) ⭐
+- Credit-to-Equity Bridge via M&M (40-45s) ⭐
+- ABC Rating Model - Full Story (60-70s) ⭐
+- Emerging Markets Perspective (50-55s) ⭐
+- Fundamental Analysis Philosophy (35-40s)
+- Why xAI - AI Tutor Vision (50-55s) ⭐
+
+**💪 Differentiation (3 scripts)**
+- Why Hire Me Over CFA (45-50s)
+- Partner Leaving Joule Explanation (40-45s)
+- Age + Experience as Strength (35-40s)
+
+**🎓 Technical Deep Dive (3 scripts)**
+- DCF Walkthrough (60-70s)
+- EV/EBITDA vs P/E Explanation (50-55s)
+- Quality of Earnings Example (45-50s)
+
+**🤝 Closing (2 scripts)**
+- Questions for Jeffrey (30-40s)
+- Closing Statement - Ready to Start (20-25s)
+
+**💣 Objection Handling (1 script)**
+- Safety Check - Compliance Concerns (40-45s)
+
+### Tips de Uso
+
+- **Priorize Killer Stories** (marcados com ⭐): Joule, ABC, EM, Credit Bridge
+- **Grave múltiplas vezes**: Compare suas tentativas e ouça a evolução
+- **Baixe gravações importantes**: Revise antes da entrevista real
+- **Foque em naturalidade**: Não precisa repetir palavra por palavra - internalize a mensagem
+- **Use feedback AI**: Preste atenção nas key phrases faltantes
+- **Pratique transições**: Scripts de "bridge" conectam momentos da entrevista
+- **Meta**: Falar cada Killer Story com fluência SEM olhar o script
+
+### Requisitos Técnicos
+
+✅ **Conexão internet** (Gemini 2.5 Flash API para transcription + analysis)
+✅ **Permissão de microfone** (gravar sua voz)
+✅ **HTTPS** (funciona em produção Vercel)
+✅ **Navegadores compatíveis**: Chrome, Edge, Safari, Firefox
 
 ---
 
@@ -399,35 +512,56 @@ Se encontrar bugs ou tiver dúvidas:
 | **23/12** | Timer 45-seg + Objections | ✅ **DISPONÍVEL** |
 | **23/12** | Random Pill + Pre-Flight | ✅ **DISPONÍVEL** |
 | **23/12** | Vício Police (Speech Recognition) | ✅ **DISPONÍVEL** |
+| **02/01** | V3.0 Response Coach + Panic Button | ✅ **DISPONÍVEL** |
+| **02/01** | V4.0 Rehearsal Mode (Fluency Trainer) | ✅ **DISPONÍVEL** |
+| **02/01** | V4.1 Gemini 2.5 Flash API | ✅ **DISPONÍVEL** |
+| **02/01** | V4.2 Audio Save & Playback | ✅ **DISPONÍVEL** |
 | **05/01** | **ENTREVISTA!** | 🎯 |
 
 ---
 
 ## 🎓 Dicas de Uso
 
-### Dias 24-25 (Natal)
-- Use **Random Pill** em intervalos de 1 minuto (perfeito para Natal!)
-- Use **Flashcards** em intervalos de 2-3 minutos
-- Use **Timer 45-seg**: Pratique respostas concisas de 60s
-- Use **Objection Handling**: Teste suas respostas instintivas
-- Foco: memorizar histórias Joule e ABC
+### Agora até Dia 4 (Preparação Intensiva com Rehearsal Mode)
 
-### Dias 26-28 (Preparação Focada)
-- **Random Pill**: 5-10 pills por dia entre atividades
-- **Timer 45-seg**: 3-4 sessões por dia (force 45s para máxima concisão)
-- **Objection Handling**: Pratique todas as 10 objeções até atingir 8/10 ou mais
-- **Vício Police** (quando disponível): Eliminar "man" e "you know"
+**PRIORIDADE MÁXIMA: Rehearsal Mode** 🎭
+- **Sessões de 30-45 min, 2-3x por dia**
+- **Foco nos 8 Killer Stories** (marcados com ⭐):
+  1. Tell Me About Yourself - Full (60-65s)
+  2. Equity Experience - Joule Focus (45-50s)
+  3. Credit-to-Equity Bridge via M&M (40-45s)
+  4. ABC Rating Model - Full Story (60-70s)
+  5. Emerging Markets Perspective (50-55s)
+  6. Why xAI - AI Tutor Vision (50-55s)
+  7. Small Talk Opener (30-45s)
+  8. Questions for Jeffrey (30-40s)
+- **Workflow**: Ler → Ouvir TTS → Gravar → Analisar feedback AI → Repetir
+- **Meta diária**: Gravar 3-4 Killer Stories até atingir 80%+ de similaridade
+- **Salvar gravações**: Baixe versões finais para revisar antes da entrevista
 
-### Dia 29 (Dia D)
-- **Manhã**: Random Pill para refresh rápido
-- **30-60 min antes**: Pre-Flight Checklist completo (16 items)
-- **15 min antes**: Revisar frases-chave favoritas
-- **Durante**: Respirar, confiar no treino
+**Complementar com outros modos:**
+- **Random Pill**: 5-10 pills por dia entre sessões de Rehearsal
+- **Flashcards**: 10-15 min/dia para reforçar conceitos técnicos
+- **Vício Police**: 1 sessão/dia para eliminar "man" e "you know"
+
+### Dia 5 (Dia D - Manhã)
+
+- **08:00-09:00**: Rehearsal Mode - última revisão dos 3 Killer Stories principais (About Me, Equity Experience, ABC)
+- **09:00-10:00**: Ouvir gravações salvas para relembrar versões fluentes
+- **10:00-16:00**: Random Pill ocasional + descanso mental
+- **16:00-16:30**: Pre-Flight Checklist completo (16 items)
+- **16:30-16:45**: Respiração, mindset, revisar 1-2 frases-chave favoritas
+- **16:50**: Entrar na call 10 min antes
+- **17:00**: SHOWTIME! Confiar no treino, falar naturalmente
 
 ---
 
 ## 📊 Conteúdo
 
+### V4.0 Fluency Trainer Edition
+- **18 rehearsal scripts** organizados por momentos de entrevista (V4.0)
+  - 8 scripts marcados como Killer Stories ⭐
+  - 6 categorias de momentos (Opening, Core Pitch, Differentiation, Technical, Closing, Objections)
 - **59 flashcards** cobrindo todos os tópicos (+2 novos V3.0: Joule Retailer Full Story, Jeffrey Complete Profile)
 - **17 prompts** de prática de pitch (+6 novos V3.0 focados em equity experience)
 - **18 objeções** difíceis com scripts ideais (+5 novas V3.0: Credit Focus, US GAAP, AI/ML, Brazil Market, Partner Role)
@@ -445,64 +579,99 @@ Se encontrar bugs ou tiver dúvidas:
 
 - **PWA** (Progressive Web App) - Instalável e offline
 - **Arquitetura simplificada** - 2 arquivos principais (index.html + js/data.js)
-  - `index.html` (~2.720 linhas): Estrutura + Lógica + UI + V3.0 Response Coach
-  - `js/data.js` (~755 linhas): Dados puros + Keyword Priority + Panic Words
-- **Zero dependências** - Vanilla JS, sem frameworks
+  - `index.html` (~3.560 linhas): Estrutura + Lógica + UI + V3.0 Response Coach + V4.0 Rehearsal Mode
+  - `js/data.js` (~1.102 linhas): Dados puros + Rehearsal Scripts + Interview Moments + Keywords
+- **Gemini 2.5 Flash API** - Transcrição de áudio + análise de conteúdo (V4.1)
+- **MediaRecorder API** - Gravação de áudio com save/playback (V4.2)
+- **Web Speech API** - Text-to-Speech para leitura de scripts
+- **Zero dependências externas** - Vanilla JS, sem frameworks ou bundlers
 - **Mobile-first** - Otimizado para celular
-- **Service Worker v5** - Cache otimizado para offline-first (V3.0)
+- **Service Worker v8** - Cache otimizado para offline-first (V4.2)
 
 ### Estrutura de Arquivos
 
 ```
 C:\Projetos\interview_xai_web_app\
-├── index.html          # App principal (~2.720 linhas)
+├── index.html          # App principal (~3.560 linhas)
 ├── js/
-│   └── data.js         # Módulo de dados (~755 linhas)
-├── sw.js               # Service Worker (v5)
+│   └── data.js         # Módulo de dados (~1.102 linhas)
+├── sw.js               # Service Worker (v8)
 ├── manifest.json       # PWA manifest
 ├── icons/              # Ícones PWA
 ├── docs/               # Documentação técnica
-│   ├── melhorias_conversacao.md  # V3.0 Spec
-│   └── IMPLEMENTATION_LOG.md     # Change log
+│   ├── melhorias_conversacao_2.md  # V4.0 Spec
+│   ├── melhorias_conversacao.md    # V3.0 Spec
+│   └── IMPLEMENTATION_LOG.md       # Change log
 └── README.md           # Este arquivo
 ```
 
-### Últimas Atualizações (V3.0 Conversation Edition - 02/01/2026)
+### Últimas Atualizações (V4.0 Fluency Trainer Edition - 02/01/2026)
 
-**FASE 1: CONTEÚDO EXPANDIDO** ✅
-- **+6 novos prompts de equity** (11 → 17 total)
-  - "Tell me about your equity experience" (isKiller)
-  - "How do you bridge credit and equity?" (isKiller)
-  - "What's your emerging markets perspective?" (isKiller)
-  - "Walk me through a DCF", "EV/EBITDA vs P/E", "Closing statement"
-- **+5 novas objeções** (13 → 18 total)
-  - Credit-focused background, US GAAP, AI/ML experience
-  - Brazil market size, Partner role departure
-- **+2 flashcards killer**
-  - Joule Retailer Story - Full Version com estrutura narrativa
-  - Jeffrey Weichsel - Complete Profile com conexões EM
+**V4.2: Audio Recording Save & Playback** ✅
+- **Salvar gravações**: Botões "▶️ Ouvir Minha Gravação" e "💾 Baixar Áudio" após gravar
+- **Playback instantâneo**: Revise sua performance imediatamente
+- **Download em .webm**: Salve arquivos com timestamp para comparar evolução
+- **State management**: `lastRecordingBlob` e `lastRecordingUrl` em `rehearsalState`
 
-**FASE 2: RESPONSE COACH** ✅
-- **Keyword Priority System** com 4 níveis (gold/blue/green/alert)
-- **Bridge Alert** detecta termos de crédito sem ponte para equity
-- **Alerta visual "🌉 BRIDGE TO EQUITY NOW!"** com vibração
-- Integrado ao Vício Police para feedback em tempo real
+**V4.1: Gemini 2.5 Flash API Update** ✅
+- **Modelo atualizado**: De `gemini-2.0-flash-exp` (experimental) para `gemini-2.5-flash` (stable)
+- **Melhor performance**: 1M token limit vs 131K, produção-ready
+- **3 chamadas atualizadas**: WebSocket setup + 2 REST API calls (transcription + analysis)
+- **Documentação completa**: `docs/Gemini_Documentation.md`
 
-**FASE 3: PANIC BUTTON ENHANCED** ✅
-- **8 Panic Words** estratégicas (JOULE, BRIDGE, VALIDATE, JEFFREY, etc.)
-- **Full-screen overlay** com palavra em 72px + contexto
-- **Auto-hide após 3s** com animação fade
-- Botão "🆘 PANIC WORD" atualizado no timer
+**V4.0: Rehearsal Mode (Fluency Trainer Core)** ✅
 
-**INFRAESTRUTURA**
-- Service Worker v5 (força cache refresh)
-- keywordPriority object para Response Coach
-- panicWords array para Panic Button
-- checkEquityBridge() function no Vício Police
+**MUDANÇA DE PARADIGMA: De Testing Tool para Fluency Trainer**
+- **Workflow anterior**: Tentar responder → Ver se acertou (reactive testing)
+- **Workflow novo**: Ler script ideal → Ouvir → Gravar → Receber feedback AI → Repetir (proactive training)
+- **Foco em fluência**: Internalizar scripts até falar naturalmente, sem decorar palavra por palavra
+
+**18 REHEARSAL SCRIPTS ORGANIZADOS POR MOMENTOS** ✅
+- **6 categorias de momentos**: Opening, Core Pitch, Differentiation, Technical, Closing, Objections
+- **8 Killer Stories marcadas** com ⭐ (prioridade máxima)
+- **Ranges de duração**: 15s-70s (scripts alinhados com timing real de entrevista)
+- **Scripts extraídos de fontes reais**: Baseados em pitches reais + objections handling + technical deep dives
+
+**GEMINI 2.5 FLASH AI FEEDBACK** ✅
+- **Transcrição em tempo real**: O que você realmente falou
+- **Score de similaridade**: Comparação automática com script ideal (0-100%)
+- **Key phrases tracking**: Quais frases-chave você cobriu ✅ e quais faltaram ❌
+- **Análise estruturada**: Feedback em JSON (strengths, improvements, missing_points, suggestions)
+- **Prompt engineering**: System instruction otimizada para feedback construtivo
+
+**TEXT-TO-SPEECH + AUDIO RECORDING** ✅
+- **TTS nativo do browser**: Ouça scripts para internalizar pronúncia e ritmo
+- **MediaRecorder API**: Grave sua voz com qualidade webm/opus
+- **Playback instantâneo**: Botão "▶️ Ouvir Minha Gravação" após gravar
+- **Download de áudio**: Salve gravações com timestamp para comparar evolução
+
+**INFRAESTRUTURA COMPLETA** ✅
+- `rehearsalScripts` array (367 linhas) em `js/data.js`
+- `interviewMoments` array (6 categorias) em `js/data.js`
+- `rehearsalState` object para state management
+- Functions: `selectMoment()`, `selectScript()`, `toggleRehearsalRecording()`, `processRehearsalRecording()`, `analyzeWithGemini()`, `displayAIFeedback()`, `playLastRecording()`, `downloadLastRecording()`
+- CSS: 400+ linhas de styling para UI completa
+- HTML: 3 telas (moment selector, script list, practice screen)
 
 ---
 
 ### Histórico de Versões
+
+**V4.2** (02/01/2026) - Audio Recording Save & Playback
+- Download de gravações com timestamp
+- Playback instantâneo após gravar
+- Comparação de evolução entre tentativas
+
+**V4.1** (02/01/2026) - Gemini 2.5 Flash API Update
+- Modelo estável (production-ready)
+- 1M token limit para análises mais profundas
+- 3 API calls atualizadas (WebSocket + REST)
+
+**V4.0 Fluency Trainer Edition** (02/01/2026) - Rehearsal Mode
+- **Mudança de paradigma**: De testing tool para fluency trainer
+- 18 rehearsal scripts organizados por momentos de entrevista
+- Gemini AI feedback em tempo real (transcrição + análise + score)
+- Text-to-Speech + audio recording + playback
 
 **V3.0 Conversation Edition** (02/01/2026) - Response Coach + Enhanced Panic Button
 - Foco em equity experience e bridge credit↔equity

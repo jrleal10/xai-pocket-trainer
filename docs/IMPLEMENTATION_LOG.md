@@ -62,6 +62,410 @@
 
 ---
 
+### [V4.2] Audio Recording Save & Playback - 02/01/2026
+
+#### ✅ Implementado
+
+**Feature**: Salvar e reproduzir gravações de áudio do Rehearsal Mode
+
+**Arquivos Modificados**:
+1. **index.html** (~3.560 linhas total)
+   - **State Management** (linha ~3310):
+     - Adicionado `lastRecordingBlob: null` ao `rehearsalState`
+     - Adicionado `lastRecordingUrl: null` ao `rehearsalState`
+
+   - **Function `processRehearsalRecording()`** (linha ~3540):
+     - Salva `audioBlob` em `rehearsalState.lastRecordingBlob`
+     - Cria URL com `URL.createObjectURL(audioBlob)`
+     - Salva URL em `rehearsalState.lastRecordingUrl`
+     - Exibe botões de audio-controls após análise completa
+
+   - **Function `playLastRecording()`** (nova, linha ~3760):
+     ```javascript
+     function playLastRecording() {
+       if (!rehearsalState.lastRecordingUrl) return;
+       const audio = new Audio(rehearsalState.lastRecordingUrl);
+       audio.play();
+     }
+     ```
+
+   - **Function `downloadLastRecording()`** (nova, linha ~3768):
+     ```javascript
+     function downloadLastRecording() {
+       if (!rehearsalState.lastRecordingUrl) return;
+       const script = rehearsalState.filteredScripts[rehearsalState.currentScriptIndex];
+       const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+       const filename = `rehearsal_${script.id}_${timestamp}.webm`;
+       const a = document.createElement('a');
+       a.href = rehearsalState.lastRecordingUrl;
+       a.download = filename;
+       a.click();
+     }
+     ```
+
+   - **HTML UI** (linha ~2030):
+     ```html
+     <div class="audio-controls" id="audio-controls" style="display: none;">
+       <button onclick="playLastRecording()">▶️ Ouvir Minha Gravação</button>
+       <button onclick="downloadLastRecording()">💾 Baixar Áudio</button>
+     </div>
+     ```
+
+   - **CSS** (linha ~1490):
+     ```css
+     .audio-controls {
+       display: flex;
+       gap: var(--spacing-sm);
+       margin-top: var(--spacing-md);
+       animation: fadeIn 0.3s ease;
+     }
+     ```
+
+2. **sw.js**:
+   - Cache version: `v7` → `v8`
+   - Comment: "V4.2: Audio Recording Save & Playback"
+
+**Decisões Técnicas**:
+- **Blob storage**: Mantém referência ao Blob original para download
+- **URL object**: Cria URL temporária para playback com HTMLAudioElement
+- **Filename pattern**: `rehearsal_[script-id]_[ISO-timestamp].webm`
+  - Exemplo: `rehearsal_about-me-full_2026-01-02T14-30-25.webm`
+- **UI/UX**: Botões aparecem apenas após gravação completa, escondem ao trocar de script
+- **Memory management**: URLs criadas com `createObjectURL` permanecem enquanto app estiver aberto
+
+**Workflow Completo**:
+1. Usuário grava áudio → `toggleRehearsalRecording()`
+2. Processa gravação → `processRehearsalRecording()` salva blob + URL
+3. Exibe feedback AI + mostra botões audio-controls
+4. Usuário pode: ▶️ Ouvir playback OU 💾 Baixar arquivo
+5. Trocar de script → limpa UI (botões escondem)
+
+**Casos de Uso**:
+- Comparar múltiplas tentativas do mesmo script
+- Revisar performance antes da entrevista real
+- Criar biblioteca pessoal de gravações bem-sucedidas
+- Identificar erros de pronúncia ou fluência
+
+**Status**: ✅ **COMPLETO E FUNCIONAL**
+
+---
+
+### [V4.1] Gemini 2.5 Flash API Update - 02/01/2026
+
+#### ✅ Implementado
+
+**Feature**: Atualização do modelo Gemini de experimental para estável
+
+**Modelo Anterior**: `gemini-2.0-flash-exp` (experimental, 128K context)
+**Modelo Novo**: `gemini-2.5-flash` (stable, 1M token limit)
+
+**Arquivos Modificados**:
+1. **index.html** (~3.560 linhas total)
+   - **3 localizações atualizadas**:
+
+   a) **WebSocket setup - Vício Police** (linha ~3029):
+   ```javascript
+   ws.send(JSON.stringify({
+     setup: {
+       model: 'models/gemini-2.5-flash',  // Atualizado
+       generationConfig: { responseModalities: ['TEXT'] }
+     }
+   }));
+   ```
+
+   b) **REST API - Transcription** (linha ~3592):
+   ```javascript
+   const response = await fetch(
+     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+     // ... resto do código
+   );
+   ```
+
+   c) **REST API - Analysis** (linha ~3646):
+   ```javascript
+   const response = await fetch(
+     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+     // ... resto do código
+   );
+   ```
+
+2. **sw.js**:
+   - Cache version: `v6` → `v7`
+   - Comment: "V4.1: Gemini 2.5 Flash API Update"
+
+3. **CLAUDE.md** (documentação):
+   - Adicionada seção sobre Gemini 2.5 Flash
+   - Histórico de versões atualizado
+
+**Avaliação de Modelos**:
+
+Modelos considerados:
+1. ✅ **gemini-2.5-flash** (ESCOLHIDO)
+   - Status: Stable (production-ready)
+   - Context: 1M tokens
+   - Audio input: ✅ Supported
+   - Streaming: ✅ Supported
+   - Caso de uso: Transcription + analysis com REST API
+
+2. ❌ **gemini-2.5-flash-native-audio-preview**
+   - Status: Preview (não production)
+   - Context: 131K tokens (limitado)
+   - Audio: Native WebSocket (mais complexo)
+   - Razão da rejeição: Preview instável, context limit menor
+
+3. ❌ **gemini-2.5-flash-preview-tts**
+   - Foco: Text-to-Speech output
+   - Razão da rejeição: Não adequado para transcription input
+
+**Decisão Final**: `gemini-2.5-flash`
+- Production-ready (stable)
+- Maior context limit (1M vs 131K)
+- REST API simples e eficiente para transcription use case
+- Melhor performance e confiabilidade
+
+**Impacto**:
+- Maior capacidade de análise (1M tokens)
+- Modelo estável (sem breaking changes)
+- Performance equivalente ou superior
+- Zero mudanças na UX (transparente para usuário)
+
+**Status**: ✅ **COMPLETO E FUNCIONAL**
+
+---
+
+### [V4.0 FLUENCY TRAINER EDITION] Rehearsal Mode - 02/01/2026
+
+#### ✅ Implementado
+
+**Feature Principal**: Modo Rehearsal - Treinador de fluência com feedback AI em tempo real
+
+**MUDANÇA DE PARADIGMA**:
+- **Antes**: Testing tool (tenta responder → vê se acertou)
+- **Depois**: Fluency trainer (lê script ideal → ouve → grava → recebe feedback → repete)
+- **Foco**: Read → Repeat → Memorize → Speak Naturally
+
+**Arquivos Modificados**:
+
+1. **js/data.js** (+367 linhas, total ~1.102 linhas)
+
+   a) **`rehearsalScripts` array** (18 scripts totais):
+   ```javascript
+   const rehearsalScripts = [
+     {
+       id: 'about-me-full',
+       moment: 'about-me',
+       title: 'Tell Me About Yourself - Versão Completa',
+       duration: '60-65s',
+       script: `I'm a finance professional with 20 years...`,
+       tips: ['Lidere com JOULE', 'Bridge via M&M'],
+       keyPhrases: ['five years', 'partner at Joule', 'GARP', 'ROIC'],
+       isKiller: true
+     },
+     // ... 17 mais
+   ];
+   ```
+
+   **Distribuição por momento**:
+   - 🎬 Opening: 3 scripts (small talk, bridge, about me)
+   - 🎯 Core Pitch: 6 scripts (equity, bridge, ABC, EM, philosophy, why xAI)
+   - 💪 Differentiation: 3 scripts (CFA, leaving Joule, age)
+   - 🎓 Technical: 3 scripts (DCF, EV/EBITDA, quality earnings)
+   - 🤝 Closing: 2 scripts (questions, closing statement)
+   - 💣 Objections: 1 script (safety check)
+
+   **8 Killer Stories** marcadas com `isKiller: true`
+
+   b) **`interviewMoments` array** (6 categorias):
+   ```javascript
+   const interviewMoments = [
+     {
+       id: 'opening',
+       label: '🎬 Opening',
+       timeRange: '0:00-1:00',
+       description: 'Cumprimentos e small talk inicial'
+     },
+     // ... 5 mais
+   ];
+   ```
+
+2. **index.html** (+840 linhas, total ~3.560 linhas)
+
+   a) **HTML Structure** (linhas 1960-2055):
+   - View `#rehearsal-mode` com 3 telas:
+     1. Moment selector (escolha categoria)
+     2. Script list (escolha script dentro da categoria)
+     3. Practice screen (leia, ouça, grave, feedback)
+
+   b) **CSS** (linhas 1300-1512, ~400 linhas):
+   - `.moment-card`: Cards de momentos de entrevista
+   - `.script-item`: Lista de scripts com badges de duração
+   - `.practice-screen`: Tela principal de prática
+   - `.practice-controls`: Botões TTS + Record
+   - `.ai-feedback`: Display de feedback estruturado
+   - `.similarity-score`: Progress bar de score 0-100%
+   - `.key-phrases`: Lista de frases-chave ✅/❌
+   - Animações: fadeIn, slideUp, pulse
+
+   c) **JavaScript Functions** (linhas 3310-3788, ~440 linhas):
+
+   **State Management**:
+   ```javascript
+   let rehearsalState = {
+     currentMoment: null,
+     currentScriptIndex: 0,
+     filteredScripts: [],
+     isRecording: false,
+     isSpeaking: false,
+     lastRecordingBlob: null,
+     lastRecordingUrl: null
+   };
+   ```
+
+   **Core Functions**:
+   - `selectMoment(momentId)`: Filtra scripts por momento
+   - `selectScript(index)`: Carrega script selecionado para prática
+   - `speakRehearsalScript()`: Text-to-Speech do script ideal
+   - `toggleRehearsalRecording()`: Inicia/para gravação de áudio
+   - `processRehearsalRecording(audioBlob)`: Processa gravação completa
+   - `transcribeWithGemini(base64Audio)`: Transcrição via Gemini API
+   - `analyzeWithGemini(transcript, script)`: Análise comparativa AI
+   - `displayAIFeedback(transcript, feedback, script)`: Renderiza feedback
+   - `blobToBase64(blob)`: Converte audio para API
+
+   **Gemini API Integration**:
+   ```javascript
+   // Transcription
+   const transcriptPrompt = {
+     contents: [{
+       parts: [{
+         text: "Transcribe this audio to text. Return ONLY the transcription..."
+       }, {
+         inlineData: {
+           mimeType: "audio/webm;codecs=opus",
+           data: base64Audio
+         }
+       }]
+     }]
+   };
+
+   // Analysis
+   const analysisPrompt = {
+     contents: [{
+       parts: [{
+         text: `You are a speech coach...
+         IDEAL SCRIPT: ${idealScript.script}
+         USER SPOKE: ${transcript}
+
+         Return JSON:
+         {
+           "similarityScore": 0-100,
+           "keyPhrasesCovered": [...],
+           "keyPhrasesMissing": [...],
+           "strengths": [...],
+           "improvements": [...],
+           "suggestions": [...]
+         }`
+       }]
+     }]
+   };
+   ```
+
+   d) **Dashboard Integration** (linha ~1820):
+   ```html
+   <button class="mode-btn" onclick="showView('rehearsal-mode')">
+     <span class="mode-icon">🎭</span>
+     <span class="mode-name">Rehearsal Mode</span>
+     <span class="mode-desc">Treinar fluência com feedback AI</span>
+   </button>
+   ```
+
+3. **sw.js**:
+   - Cache version: `v5` → `v6`
+   - Comment: "V4.0 Fluency Trainer Edition - Rehearsal Mode"
+
+**Features Implementadas**:
+
+1. **Momento-Based Navigation**:
+   - 6 momentos cobrindo fluxo completo de entrevista 15min
+   - Navegação: Dashboard → Moment → Script → Practice
+
+2. **Text-to-Speech**:
+   - Web Speech Synthesis API
+   - Lê script ideal para internalizar pronúncia
+   - Botão "🔊 Ouvir Script"
+
+3. **Audio Recording**:
+   - MediaRecorder API (webm/opus)
+   - Botão "🎤 Gravar" / "⏹️ Parar"
+   - Chunks de 100ms enviados para Gemini
+
+4. **Gemini 2.5 Flash AI Feedback**:
+   - **Transcrição**: O que usuário realmente falou
+   - **Similarity Score**: 0-100% comparado com ideal
+   - **Key Phrases Tracking**: ✅ incluídas, ❌ faltantes
+   - **Strengths**: O que funcionou bem
+   - **Improvements**: O que melhorar
+   - **Suggestions**: Dicas específicas para próxima tentativa
+
+5. **Structured Display**:
+   - Progress bar visual de similaridade
+   - Diff-style key phrases (verde/vermelho)
+   - Feedback categorizado em cards expandíveis
+
+**Workflow Completo**:
+```
+1. Escolher momento (ex: Core Pitch)
+   ↓
+2. Escolher script (ex: Equity Experience - Joule Focus ⭐)
+   ↓
+3. Ler script completo na tela
+   ↓
+4. [OPCIONAL] Ouvir TTS para internalizar
+   ↓
+5. Gravar sua versão falando naturalmente
+   ↓
+6. AI processa: Transcription → Analysis → Display
+   ↓
+7. Revisar feedback: Score, key phrases, suggestions
+   ↓
+8. [OPCIONAL] Ouvir gravação / Baixar áudio
+   ↓
+9. Repetir até atingir fluência (80%+ score)
+```
+
+**Casos de Uso**:
+- **Memorização ativa**: Ler → falar → comparar com ideal
+- **Pronúncia**: Ouvir TTS → imitar → gravar → revisar
+- **Fluência**: Repetir até falar naturalmente sem gaguejar
+- **Completude**: Garantir que todas key phrases foram cobertas
+- **Evolução**: Baixar gravações para comparar progresso
+
+**Impacto no App**:
+- **Paradigma shift**: De testing para training
+- **Uso de AI**: Feedback instantâneo e preciso
+- **Preparação eficaz**: Foco em 8 Killer Stories críticas
+- **Confiança**: Treinar até atingir fluência comprovada
+
+**Problemas Resolvidos**:
+- ❌ Antes: Usuário não sabia se resposta estava boa
+- ✅ Agora: Score objetivo + feedback estruturado
+
+- ❌ Antes: Difícil memorizar scripts longos
+- ✅ Agora: TTS + repetição guiada por AI
+
+- ❌ Antes: Sem forma de revisar performance
+- ✅ Agora: Gravações salvas + playback
+
+**Status**: ✅ **COMPLETO E FUNCIONAL - 100% PRONTO PARA USO**
+
+**Próximos Passos Sugeridos** (fora do escopo V4.0):
+- [ ] Histórico de gravações persistente (localStorage)
+- [ ] Gráfico de evolução de scores ao longo do tempo
+- [ ] Modo "shadow practice" (transcrição em tempo real durante fala)
+- [ ] Detecção de filler words durante rehearsal
+
+---
+
 ### [V3.0 CONVERSATION EDITION] Response Coach + Enhanced Panic Button - 02/01/2026
 
 #### ✅ Implementado
