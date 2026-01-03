@@ -1587,29 +1587,32 @@ function loadState() {
 
 ### 10.1 API Key Security
 
-**Current Approach**: Hardcoded in JavaScript (line 1253)
+**Current Approach**: Vercel Edge Functions (Proxy) - V7.1
+
+**Implementation**:
+- API Key stored in Vercel Environment Variables (`GEMINI_API_KEY`)
+- Client makes requests to local endpoints: `/api/gemini-tts`, `/api/gemini-rest`, `/api/gemini-ws`
+- Vercel Edge Functions intercept requests, add the API key server-side, and forward to Google
+- API Key is **NEVER** exposed to the client browser or public repository
+
+**Architecture**:
+```
+Client (Browser) -> /api/gemini-rest -> Vercel Edge Function (+KEY) -> Google Gemini API
+```
 
 **Risk Assessment**:
-- ✅ Low risk: Single user, private app (not indexed)
-- ✅ Free tier: No financial impact if exposed
-- ⚠️ Public GitHub repo: Key is visible in source code
+- ✅ **Low Risk**: Key is kept server-side, not visible in source code
+- ✅ **Secure**: Even if repo is public, key is safe in Vercel dashboard
+- ✅ **Best Practice**: Aligns with modern security standards for JAMstack apps
 
-**Recommendations**:
-1. **For current use**: ✅ Acceptable (single user, short-term)
-2. **For production app**: Use Vercel Edge Functions as proxy
-
-**Example Proxy**:
+**Code Example (Edge Function)**:
 ```javascript
-// api/gemini-proxy.js (Vercel Edge Function)
-export default async function handler(request) {
-  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;  // Secure env var
+// api/gemini-rest.js
+export const config = { runtime: 'edge' };
 
-  // Forward request to Gemini with server-side key
-  const response = await fetch(GEMINI_WS_URL + '?key=' + GEMINI_API_KEY, {
-    // ... forward audio data
-  });
-
-  return response;
+export default async function handler(req) {
+  const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // Secure env var
+  // ... proxy logic ...
 }
 ```
 
