@@ -1,7 +1,7 @@
 # xAI Pocket Trainer
 
 > Progressive Web App para preparação da entrevista na xAI
-> **Versão**: V7.0 "Coach Alex Edition" (03/01/2026)
+> **Versão**: V7.1 "Secure API Key" (03/01/2026)
 > **Data da Entrevista**: 05 de janeiro de 2026 às 17:00 BRT
 > **Entrevistador**: Jeffrey Weichsel (Human Data Manager)
 
@@ -314,13 +314,13 @@ Diferente do Rehearsal Mode (ativo), o Audio Coach é para **prática passiva im
 | **Qualidade de voz** | ⭐⭐⭐⭐⭐ Natural, profissional | ⭐⭐⭐ Robótica, básica |
 | **American accent** | ✅ Garantido (via prompt) | ⚠️ Depende do SO |
 
-### Requisitos Técnicos (V6.0)
+### Requisitos Técnicos (V7.1)
 
 ✅ **Navegador moderno** com Web Speech API (Chrome, Edge, Safari, Firefox)
 ✅ **Conexão internet** (para Gemini TTS) OU offline mode (fallback Web Speech API)
 ✅ **PWA-ready** - Instale no celular para melhor experiência
 ✅ **Media Session API** - Lock screen controls (Chrome/Edge mobile)
-✅ **Gemini API Key** - Configurada em `index.html` (GEMINI_API_KEY)
+✅ **Gemini API Key** - Protegida via Vercel Edge Functions (variável de ambiente)
 
 ---
 
@@ -725,25 +725,33 @@ Se encontrar bugs ou tiver dúvidas:
 
 - **PWA** (Progressive Web App) - Instalável e offline
 - **Arquitetura simplificada** - 2 arquivos principais (index.html + js/data.js)
-  - `index.html` (~4.000 linhas): Estrutura + Lógica + UI + V3.0 Response Coach + V4.0 Rehearsal Mode + V5.0 Audio Coach + V6.0 Gemini TTS
+  - `index.html` (~4.100 linhas): Estrutura + Lógica + UI + V3.0 Response Coach + V4.0 Rehearsal Mode + V5.0 Audio Coach + V6.0 Gemini TTS + V7.0 Coach Alex
   - `js/data.js` (~1.102 linhas): Dados puros + Rehearsal Scripts + Interview Moments + Keywords
 - **Gemini 2.5 Flash API** - Transcrição de áudio + análise de conteúdo (V4.1)
 - **Gemini 2.5 Flash TTS API** - Text-to-Speech natural com controle via prompts (V6.0)
+- **Vercel Edge Functions** - Proxy seguro para proteger API key (V7.1)
+  - `/api/gemini-tts.js` - Proxy TTS
+  - `/api/gemini-rest.js` - Proxy REST (transcrição + análise)
+  - `/api/gemini-ws.js` - Proxy WebSocket (Vício Police)
 - **MediaRecorder API** - Gravação de áudio com save/playback (V4.2)
 - **Web Speech API** - Text-to-Speech fallback para Audio Coach (V6.0)
 - **Media Session API** - Lock screen controls para Audio Coach (V5.0)
 - **Zero dependências externas** - Vanilla JS, sem frameworks ou bundlers
 - **Mobile-first** - Otimizado para celular
-- **Service Worker v11** - Cache otimizado para V6.0 Gemini TTS Integration
+- **Service Worker v13** - Cache otimizado para V7.1 Secure API Key
 
 ### Estrutura de Arquivos
 
 ```
 C:\Projetos\interview_xai_web_app\
-├── index.html          # App principal (~3.560 linhas)
+├── index.html          # App principal (~4.100 linhas)
 ├── js/
 │   └── data.js         # Módulo de dados (~1.102 linhas)
-├── sw.js               # Service Worker (v10)
+├── api/                # Vercel Edge Functions (V7.1)
+│   ├── gemini-tts.js   # TTS proxy (protege API key)
+│   ├── gemini-rest.js  # REST proxy (transcrição + análise)
+│   └── gemini-ws.js    # WebSocket proxy (Vício Police)
+├── sw.js               # Service Worker (v13)
 ├── manifest.json       # PWA manifest
 ├── icons/              # Ícones PWA
 ├── docs/               # Documentação técnica
@@ -753,9 +761,25 @@ C:\Projetos\interview_xai_web_app\
 └── README.md           # Este arquivo
 ```
 
-### Últimas Atualizações (V6.0 Gemini TTS Integration - 02/01/2026)
+### Últimas Atualizações
 
-**V6.0: Gemini TTS Integration - Natural AI Voice for Audio Coach** ✅
+**V7.1: Secure API Key - Vercel Edge Functions** (03/01/2026) ✅
+- **Problema resolvido**: Google bloqueou API key exposta publicamente
+- **Solução**: Vercel Edge Functions como proxy seguro
+- 3 edge functions criadas (`api/gemini-tts.js`, `api/gemini-rest.js`, `api/gemini-ws.js`)
+- API key agora armazenada em variável de ambiente (`GEMINI_API_KEY`)
+- Removida key hardcoded de `index.html`
+- Service Worker v13
+- **Arquitetura**: Browser → Vercel Edge Function → Gemini API (key protegida server-side)
+
+**V7.0: Coach Alex Edition - Immersive Coaching Experience** (03/01/2026) ✅
+- Coach Alex persona com Audio Profile completo
+- Contextualização inteligente por momento da entrevista
+- Títulos padronizados em inglês via `convertTitleToEnglish()`
+- Ordenação lógica de playlist seguindo fluxo da entrevista
+- 9 tipos de contexto (opening, about-me, stories, bridges, quick, closing, objections, technical, differentiation)
+
+**V6.0: Gemini TTS Integration - Natural AI Voice for Audio Coach** (02/01/2026) ✅
 - **Migração completa**: De Web Speech API (robótico) para Gemini 2.5 Flash TTS (natural)
 - **Voz masculina profissional**: Controle via prompt engineering ("Professional male voice, American accent")
 - **17 vozes disponíveis**: 3 categorias (Professional Male, Friendly Male, Smooth Female/Neutral)

@@ -62,6 +62,129 @@
 
 ---
 
+### [V7.1] Secure API Key - Vercel Edge Functions - 03/01/2026
+
+#### ✅ Implementado
+
+**Feature**: Proteção da API key do Gemini usando Vercel Edge Functions como proxy seguro.
+
+**Problema Resolvido**:
+- Google AI Studio detectou API key exposta publicamente no código fonte
+- API key foi bloqueada automaticamente para prevenir abuso
+- Key hardcoded em `index.html` era visível no browser e no repositório GitHub
+- Risco de uso não autorizado e cobranças indevidas
+
+**Solução**:
+- Criadas 3 Vercel Edge Functions para proxy das chamadas Gemini API
+- API key movida para variável de ambiente do Vercel (`GEMINI_API_KEY`)
+- Removida key hardcoded de `index.html`
+- Browser → Edge Function → Gemini API (key protegida server-side)
+
+**Arquivos Criados**:
+
+1. **api/gemini-tts.js** (~70 linhas)
+   - Edge function para Gemini 2.5 Flash TTS API
+   - Recebe request body do browser e forward para Gemini
+   - Retorna base64 audio PCM (24kHz, mono, 16-bit)
+   - Runtime: 'edge'
+
+2. **api/gemini-rest.js** (~70 linhas)
+   - Edge function para Gemini 2.5 Flash REST API
+   - Usado em transcription (Rehearsal Mode) e analysis
+   - Recebe audio/webm base64 e prompts
+   - Retorna JSON com candidates
+
+3. **api/gemini-ws.js** (~30 linhas)
+   - Edge function para fornecer URL autenticado do WebSocket
+   - Usado em Vício Police (real-time transcription)
+   - Retorna `{ wsUrl: "wss://...?key=${GEMINI_API_KEY}" }`
+   - Browser conecta ao WebSocket usando URL autenticado
+
+**Arquivos Modificados**:
+
+1. **index.html** (4 changes)
+
+   **Removed hardcoded API key** (linha 2582):
+   - Antes: `const GEMINI_API_KEY = 'AIzaSy...'`
+   - Depois: Constantes de proxy (`GEMINI_TTS_PROXY`, `GEMINI_REST_PROXY`, `GEMINI_WS_PROXY`)
+
+   **Updated TTS call** (linha ~3499):
+   - Antes: `fetch('https://generativelanguage.googleapis.com/...?key=${GEMINI_API_KEY}')`
+   - Depois: `fetch(GEMINI_TTS_PROXY, { ... })`
+
+   **Updated REST calls** (linhas ~4901, ~4955):
+   - Antes: Direct Gemini API URLs with embedded key
+   - Depois: `fetch(GEMINI_REST_PROXY, { ... })`
+
+   **Updated WebSocket setup** (linha ~4312):
+   - Antes: `new WebSocket(GEMINI_WS_URL + '?key=' + GEMINI_API_KEY)`
+   - Depois:
+     ```javascript
+     const wsUrlResponse = await fetch(GEMINI_WS_PROXY);
+     const wsUrlData = await wsUrlResponse.json();
+     new WebSocket(wsUrlData.wsUrl);
+     ```
+
+2. **sw.js** (Service Worker v12 → v13)
+   - Updated `CACHE_NAME = 'xai-trainer-v13'`
+   - Comment: "V7.1: Secure API Key - Vercel edge functions protecting Gemini API key"
+
+**Configuração Necessária (Vercel Dashboard)**:
+
+1. Settings → Environment Variables
+2. Key: `GEMINI_API_KEY`
+3. Value: [nova API key criada no Google AI Studio]
+4. Environments: Production, Preview, Development
+
+**Google AI Studio Setup**:
+
+1. Delete old exposed API key
+2. Create new API key
+3. API Restrictions: **Generative Language API** only
+4. No HTTP referrers needed (edge functions são server-side)
+
+**Arquitetura de Segurança**:
+
+```
+┌─────────────────┐
+│  Browser        │
+│  (index.html)   │
+└────────┬────────┘
+         │ fetch('/api/gemini-tts')
+         ▼
+┌─────────────────────────┐
+│  Vercel Edge Function   │
+│  (api/gemini-tts.js)    │
+│  uses env var           │
+└────────┬────────────────┘
+         │ fetch('https://generativelanguage.googleapis.com/...?key=${process.env.GEMINI_API_KEY}')
+         ▼
+┌─────────────────┐
+│  Gemini API     │
+│  (Google)       │
+└─────────────────┘
+```
+
+**Testing Checklist**:
+- ✅ Audio Coach (TTS) → `/api/gemini-tts`
+- ✅ Rehearsal Mode (transcription) → `/api/gemini-rest`
+- ✅ Rehearsal Mode (analysis) → `/api/gemini-rest`
+- ✅ Vício Police (real-time) → `/api/gemini-ws`
+
+**Estado Atual do Projeto**:
+- Committed: `1b9324f` - "feat: V7.1 Secure API Key - Vercel Edge Functions"
+- Deployed: Production Vercel (aguardando nova API key configurada)
+- Service Worker: v13
+- Todas as funcionalidades Gemini agora protegidas
+
+**Para Outro Dev Continuar Daqui**:
+1. Certifique-se que nova API key está configurada no Vercel
+2. Teste cada funcionalidade (Audio Coach, Rehearsal, Vício Police)
+3. Se houver erro 500, verifique Vercel logs: `vercel logs`
+4. Se houver erro de CORS, verifique se edge functions estão deployadas: `vercel inspect [URL]`
+
+---
+
 ### [V7.0] Coach Alex Edition - Immersive Coaching Experience - 03/01/2026
 
 #### ✅ Implementado

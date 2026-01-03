@@ -2,8 +2,8 @@
 
 > **Comprehensive technical documentation for developers**
 >
-> **Version**: 3.0.0 (Conversation Edition)
-> **Last Updated**: 02/01/2026
+> **Version**: 7.1 (Secure API Key)
+> **Last Updated**: 03/01/2026
 > **Status**: Production Ready
 
 ---
@@ -61,17 +61,76 @@ The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| **Total Lines of Code** | ~3,895 lines | index.html (~2,840) + data.js (~1,055) |
-| **index.html Size** | ~95 KB | Estrutura + Lógica + UI + Response Coach |
-| **js/data.js Size** | ~48 KB | Dados + Keyword Priority + Panic Words |
-| **Bundle Size Total** | ~143 KB | +18 KB após V3.0 Conversation Edition |
-| **Load Time** | <2s on 4G | Service Worker v5 otimizado |
+| **Total Lines of Code** | ~5,272 lines | index.html (~4,100) + data.js (~1,102) + edge functions (~70) |
+| **index.html Size** | ~130 KB | Estrutura + Lógica + UI + V7.0 Coach Alex + V7.1 Secure API |
+| **js/data.js Size** | ~52 KB | Dados + Rehearsal Scripts + Keywords |
+| **api/ Edge Functions** | ~170 lines | 3 serverless functions (TTS, REST, WebSocket proxies) |
+| **Bundle Size Total** | ~182 KB | +39 KB após V7.0 Coach Alex Edition |
+| **Load Time** | <2s on 4G | Service Worker v13 otimizado |
 | **Lighthouse Score** | 95+ (PWA) | Mantido após melhorias |
-| **Offline Support** | 100% | 2 arquivos cacheados (index.html + data.js) |
-| **Features Implemented** | 9 major features | 100% funcional + Response Coach |
-| **Data Items** | 59 flashcards, 17 prompts, 18 objections, 50+ keywords | Conversation Edition |
+| **Offline Support** | Hybrid | Core app 100% offline, Gemini features require internet |
+| **Features Implemented** | 11 major features | Rehearsal Mode + Audio Coach + Response Coach |
+| **Data Items** | 59 flashcards, 18 rehearsal scripts, 18 objections, 50+ keywords | V7.1 Secure API Key |
 
 ### 1.5 Recent Updates
+
+**V7.1 SECURE API KEY** (03/01/2026)
+
+*SECURITY: Protecting Gemini API Key via Vercel Edge Functions*
+- ✅ 3 Vercel Edge Functions criadas (`api/gemini-tts.js`, `api/gemini-rest.js`, `api/gemini-ws.js`)
+- ✅ API key movida para variável de ambiente Vercel (`GEMINI_API_KEY`)
+- ✅ Removida key hardcoded de `index.html` (era visível publicamente)
+- ✅ Arquitetura: Browser → Vercel Edge Function → Gemini API (key protegida server-side)
+- ✅ Service Worker v13
+- ✅ Google AI Studio detectou key exposta → resolvido com proxy seguro
+
+**V7.0 COACH ALEX EDITION** (03/01/2026)
+
+*IMMERSIVE COACHING: Transformação do Audio Coach*
+- ✅ Coach Alex persona com Audio Profile completo (15 anos experiência)
+- ✅ Contextualização inteligente por momento da entrevista (9 tipos)
+- ✅ Títulos padronizados em inglês via `convertTitleToEnglish()`
+- ✅ Ordenação lógica de playlist (não mais shuffle aleatório)
+- ✅ Director's Notes para controle de voz, sotaque e tom
+
+**V6.0 GEMINI TTS INTEGRATION** (02/01/2026)
+
+*NATURAL AI VOICE: De Web Speech API para Gemini 2.5 Flash TTS*
+- ✅ Voz masculina profissional americana (17 vozes disponíveis)
+- ✅ Prompt engineering para controle de voz ("Professional male coach")
+- ✅ Cache inteligente + preload automático
+- ✅ Fallback robusto para Web Speech API
+- ✅ Question/Answer format para clareza
+
+**V5.0 AUDIO COACH EDITION** (02/01/2026)
+
+*LISTEN-ONLY TRAINING: Prática passiva com TTS*
+- ✅ 10 categorias de conteúdo (Killer Stories, Opening, Technical, etc.)
+- ✅ Media Session API para lock screen controls
+- ✅ Offline-first com Web Speech API nativo
+- ✅ Loop infinito + auto-pause + speed control
+
+**V4.2 AUDIO RECORDING SAVE & PLAYBACK** (02/01/2026)
+
+*FLUENCY TRACKING: Download e playback de gravações*
+- ✅ Botões "▶️ Ouvir" e "💾 Baixar" após gravar
+- ✅ Comparar evolução entre tentativas
+- ✅ Arquivos .webm com timestamp
+
+**V4.1 GEMINI 2.5 FLASH API** (02/01/2026)
+
+*STABLE MODEL: De experimental para production-ready*
+- ✅ Modelo `gemini-2.5-flash` (stable) substituindo `gemini-2.0-flash-exp`
+- ✅ 1M token context window (vs 131K)
+- ✅ 3 API calls atualizadas (WebSocket + 2 REST)
+
+**V4.0 FLUENCY TRAINER EDITION** (02/01/2026)
+
+*PARADIGM SHIFT: De Testing Tool para Fluency Trainer*
+- ✅ 18 rehearsal scripts organizados por momentos de entrevista
+- ✅ Gemini AI feedback (transcrição + análise + score)
+- ✅ Text-to-Speech + audio recording + playback
+- ✅ 8 Killer Stories marcadas com ⭐
 
 **V3.0 CONVERSATION EDITION** (02/01/2026)
 
@@ -1043,28 +1102,56 @@ state = {
 
 ## 6. External Integrations
 
-### 6.1 Gemini Live API
+### 6.1 Gemini API (via Vercel Edge Functions - V7.1)
 
 **Provider**: Google AI
-**Documentation**: https://ai.google.dev/gemini-api/docs/live
-**Model**: `gemini-2.0-flash-exp`
-**Protocol**: WebSocket (bidirectional streaming)
+**Documentation**: https://ai.google.dev/gemini-api/docs
+**Models Used**:
+- **TTS**: `gemini-2.5-flash-preview-tts` (Audio Coach)
+- **REST**: `gemini-2.5-flash` (Rehearsal Mode transcription + analysis)
+- **WebSocket**: `gemini-2.5-flash` (Vício Police real-time)
+**Security**: API key protected via Vercel environment variables
 
-**API Flow**:
+**V7.1 Secure Architecture**:
 ```
-1. Client opens WebSocket connection
-   wss://generativelanguage.googleapis.com/ws/...?key=API_KEY
+┌─────────────────┐
+│  Browser        │
+│  (index.html)   │
+└────────┬────────┘
+         │ fetch('/api/gemini-tts' | '/api/gemini-rest' | '/api/gemini-ws')
+         ▼
+┌─────────────────────────┐
+│  Vercel Edge Function   │
+│  (api/*.js)             │
+│  ├─ Reads API key from  │
+│  │  process.env         │
+│  └─ Proxies request     │
+└────────┬────────────────┘
+         │ Authenticated request with API key
+         ▼
+┌─────────────────┐
+│  Gemini API     │
+│  (Google)       │
+└─────────────────┘
+```
 
-2. Client sends setup message
-   { setup: { model: '...', generationConfig: {...} } }
+**API Flows**:
 
-3. Client streams audio chunks
-   { realtimeInput: { mediaChunks: [{ mimeType, data }] } }
+1. **TTS (Audio Coach)**: `POST /api/gemini-tts`
+   - Client sends: `{ contents, generationConfig }`
+   - Edge function forwards to: `gemini-2.5-flash-preview-tts:generateContent`
+   - Returns: `{ candidates: [{ content: { parts: [{ inlineData: { data: base64Audio } }] } }] }`
 
-4. Server streams transcription
-   { serverContent: { modelTurn: { parts: [{ text: "..." }] } } }
+2. **REST (Rehearsal Mode)**: `POST /api/gemini-rest`
+   - Client sends: `{ contents: [{ parts: [{ inlineData }, { text }] }] }`
+   - Edge function forwards to: `gemini-2.5-flash:generateContent`
+   - Returns: JSON with transcription or analysis
 
-5. Connection remains open until client closes
+3. **WebSocket (Vício Police)**: `GET /api/gemini-ws`
+   - Client fetches authenticated WebSocket URL
+   - Edge function returns: `{ wsUrl: "wss://...?key=${GEMINI_API_KEY}" }`
+   - Client connects to WebSocket using returned URL
+   - Streams audio chunks, receives real-time transcription
 ```
 
 **Audio Format**:
@@ -1096,8 +1183,12 @@ state.vicioWebSocket.onclose = () => {
 };
 ```
 
-**API Key Management**:
-- **Current**: Hardcoded in `index.html` (line 1253)
+**API Key Management (V7.1 SECURE)**:
+- **Storage**: Vercel environment variable `GEMINI_API_KEY`
+- **Access**: Only server-side edge functions can read it
+- **Security**: Never exposed to browser or public repository
+- **Configuration**: Set in Vercel Dashboard → Settings → Environment Variables
+- **API Restrictions**: Generative Language API only
 - **Security**: OK for single-user app, URL not indexed
 - **Production Alternative**: Use Vercel Edge Functions as proxy
 

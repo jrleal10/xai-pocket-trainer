@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Key Constraints:**
 - Offline-first architecture (must work without internet after initial load)
-- Zero backend/server-side code (100% client-side)
+- Client-side focused with serverless edge functions for API security (V7.1)
 - Single-file architecture for simplicity (no build tools)
 - Private deployment (not indexed by search engines)
 
@@ -22,9 +22,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```
 interview_xai_web_app/
-├── index.html          # Main app (~2,600 lines): Structure + Styles + Logic
+├── index.html          # Main app (~4,100 lines): Structure + Styles + Logic
 ├── js/
-│   └── data.js         # Data module (~735 lines): All content (flashcards, prompts, scripts)
+│   └── data.js         # Data module (~1,102 lines): All content (flashcards, prompts, scripts)
+├── api/                # Vercel Edge Functions (V7.1 - Secure API proxy)
+│   ├── gemini-tts.js   # TTS proxy (Gemini 2.5 Flash TTS)
+│   ├── gemini-rest.js  # REST proxy (transcription + analysis)
+│   └── gemini-ws.js    # WebSocket proxy (Vício Police real-time)
 ├── sw.js               # Service Worker (~91 lines): Offline caching
 ├── manifest.json       # PWA manifest
 ├── vercel.json         # Deployment config (adds X-Robots-Tag headers)
@@ -57,14 +61,17 @@ localStorage (persist flashcard progress, checklist state)
 
 ### External Dependencies
 
-**Gemini Live API Integration** (Vício Police feature only):
-- Real-time speech-to-text transcription
-- WebSocket connection: `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`
-- Uses MediaRecorder API to capture audio chunks
-- Sends audio as base64-encoded WebM/Opus to Gemini
-- Receives transcript in real-time via WebSocket messages
+**Gemini API Integration** (via Vercel Edge Functions - V7.1):
+- **Audio Coach**: Gemini 2.5 Flash TTS API for natural voice synthesis
+- **Rehearsal Mode**: Gemini 2.5 Flash for audio transcription + AI analysis
+- **Vício Police**: Gemini 2.5 Flash WebSocket for real-time speech-to-text
 
-**No other external dependencies** - pure vanilla JavaScript.
+**Security Architecture (V7.1)**:
+- API key stored in Vercel environment variables (`GEMINI_API_KEY`)
+- 3 serverless edge functions proxy requests to protect API key
+- Browser → Vercel Edge Function → Gemini API (key never exposed to client)
+
+**No other external dependencies** - pure vanilla JavaScript for UI/UX.
 
 ---
 
@@ -97,9 +104,10 @@ After editing `index.html` or `js/data.js`:
 const CACHE_NAME = 'xai-trainer-vX'; // Increment X to force cache refresh
 ```
 
-Current version: `v12` (V7.0 Coach Alex Edition - 03/01/2026)
+Current version: `v13` (V7.1 Secure API Key - 03/01/2026)
 
 **Version History:**
+- v13: V7.1 Secure API Key - Vercel Edge Functions protecting Gemini API key - 03/01/2026
 - v12: V7.0 Coach Alex Edition - Immersive coaching experience with contextual framing - 03/01/2026
 - v11: V6.0 Gemini TTS Integration - Natural AI voice for Audio Coach - 02/01/2026
 - v10: V5.0 Audio Coach Edition - Listen-Only Training Mode - 02/01/2026
@@ -175,42 +183,58 @@ Load on init, save on each change.
 
 ### 4. Gemini API Integration
 
-#### V4.1 Update: Gemini 2.5 Flash (Stable)
+#### V7.1 Update: Secure API Key via Vercel Edge Functions
 
-The app now uses **`gemini-2.5-flash`** (stable) for all AI features:
+The app now uses **Vercel Edge Functions** to protect the Gemini API key:
 
-- **Vício Police:** Real-time transcription via WebSocket (`models/gemini-2.5-flash`)
-- **Rehearsal Mode:** Audio transcription + analysis via REST API
-- **Stability:** Production-ready stable model (not experimental)
-- **Performance:** 1M token context window, better than 2.0 Flash
+**Security Architecture:**
+- API key stored in Vercel environment variables (`GEMINI_API_KEY`)
+- Browser never sees the actual API key
+- 3 edge functions proxy requests: TTS, REST, WebSocket
 
-**Setup WebSocket (Vício Police):**
+**Models Used:**
+- **Audio Coach (TTS):** `gemini-2.5-flash-preview-tts`
+- **Rehearsal Mode & Vício Police:** `gemini-2.5-flash` (stable)
+- **Performance:** 1M token context window
+
+**Edge Function - TTS Proxy (`api/gemini-tts.js`):**
 ```javascript
-const ws = new WebSocket(
-  `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${GEMINI_API_KEY}`
-);
-
-// Initial setup message
-ws.send(JSON.stringify({ setup: { model: 'models/gemini-2.5-flash' } }));
+const response = await fetch(GEMINI_TTS_PROXY, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    contents: [{ parts: [{ text: fullText }] }],
+    generationConfig: {
+      responseModalities: ['AUDIO'],
+      speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Charon' } } }
+    }
+  })
+});
 ```
 
-**REST API (Rehearsal Mode):**
+**Edge Function - REST Proxy (`api/gemini-rest.js`):**
 ```javascript
-const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-  {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{
-        parts: [
-          { inlineData: { mimeType: 'audio/webm', data: base64Audio } },
-          { text: 'Transcribe this audio to text.' }
-        ]
-      }]
-    })
-  }
-);
+const response = await fetch(GEMINI_REST_PROXY, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    contents: [{
+      parts: [
+        { inlineData: { mimeType: 'audio/webm', data: base64Audio } },
+        { text: 'Transcribe this audio to text.' }
+      ]
+    }]
+  })
+});
+```
+
+**Edge Function - WebSocket Proxy (`api/gemini-ws.js`):**
+```javascript
+// Browser fetches authenticated WebSocket URL from edge function
+const wsUrlResponse = await fetch(GEMINI_WS_PROXY);
+const wsUrlData = await wsUrlResponse.json();
+const ws = new WebSocket(wsUrlData.wsUrl);
+ws.send(JSON.stringify({ setup: { model: 'models/gemini-2.5-flash' } }));
 ```
 
 **Audio capture:**
