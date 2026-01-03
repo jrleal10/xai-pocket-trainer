@@ -1,7 +1,7 @@
 // xAI Pocket Trainer - Service Worker
 // Enables offline functionality and PWA installation
 
-const CACHE_NAME = 'xai-trainer-v14'; // V8.0: Audio Analysis in Rehearsal Mode - Full audio feedback (pronunciation, pace, confidence)
+const CACHE_NAME = 'xai-trainer-v15'; // V8.0.1: Audio Analysis - Enhanced error logging and debugging
 const urlsToCache = [
   '/',
   '/index.html',

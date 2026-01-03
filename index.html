@@ -5008,16 +5008,39 @@ Be encouraging but direct. This is final interview prep - honest feedback helps 
 
       const data = await response.json();
 
+      // Debug: Log full response
+      console.log('Gemini API Response:', JSON.stringify(data, null, 2));
+
+      // Check for API errors
+      if (data.error) {
+        console.error('Gemini API Error:', data.error);
+        throw new Error(`API Error: ${data.error.message || JSON.stringify(data.error)}`);
+      }
+
       if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
         const text = data.candidates[0].content.parts[0].text;
+        console.log('Gemini Response Text:', text);
+
         // Extract JSON from response
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-          return JSON.parse(jsonMatch[0]);
+          try {
+            const parsedJSON = JSON.parse(jsonMatch[0]);
+            console.log('Parsed JSON:', parsedJSON);
+            return parsedJSON;
+          } catch (parseError) {
+            console.error('JSON Parse Error:', parseError);
+            console.error('Attempted to parse:', jsonMatch[0]);
+            throw new Error('Resposta da API não está em formato JSON válido');
+          }
+        } else {
+          console.error('No JSON found in response text');
+          throw new Error('Resposta da API não contém JSON');
         }
       }
 
-      throw new Error('Não foi possível analisar a resposta');
+      console.error('Invalid response structure:', data);
+      throw new Error('Formato de resposta inesperado da API');
     }
 
     function displayAIFeedback(transcript, feedback, script) {
