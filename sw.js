@@ -1,7 +1,7 @@
 // xAI Pocket Trainer - Service Worker
 // Enables offline functionality and PWA installation
 
-const CACHE_NAME = 'xai-trainer-v13'; // V7.1: Secure API Key - Vercel edge functions protecting Gemini API key
+const CACHE_NAME = 'xai-trainer-v14'; // V8.0: Audio Analysis in Rehearsal Mode - Full audio feedback (pronunciation, pace, confidence)
 const urlsToCache = [
   '/',
   '/index.html',

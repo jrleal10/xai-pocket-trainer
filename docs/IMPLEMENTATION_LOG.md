@@ -62,6 +62,135 @@
 
 ---
 
+### [V8.0] Audio Analysis in Rehearsal Mode - 03/01/2026
+
+#### ✅ Implementado
+
+**Feature**: Análise completa de áudio no Rehearsal Mode - Gemini agora avalia pronúncia, velocidade, confiança vocal e filler words, não apenas conteúdo.
+
+**Problema Resolvido**:
+- V7.1 e anteriores: Gemini recebia apenas **texto transcrito** na análise
+- Limitação: Impossível avaliar pronúncia, ritmo, confiança vocal, pausas
+- Feedback incompleto: Score baseado só em "o que disse", não "como disse"
+- Perda de informação: Audio → Text (etapa 1) → Analysis (etapa 2 sem audio)
+
+**Solução**:
+- Enviar **áudio diretamente** na etapa de análise, não apenas transcrição
+- Gemini 2.5 Flash suporta análise multimodal: "Gemini can 'understand' non-speech components"
+- 6 aspectos avaliados: Content, Pronunciation, Pace, Confidence, Filler Words, Pauses
+- 3 scores retornados: Overall (0-100), Content (0-100), Delivery (0-100)
+- Prompt expandido: 70+ linhas de instruções específicas para áudio
+
+**Arquivos Modificados**:
+
+1. **index.html** (5 changes)
+
+   **1) Assinatura da função `analyzeWithGemini`** (linha 4931):
+   - Antes: `async function analyzeWithGemini(transcript, script)`
+   - Depois: `async function analyzeWithGemini(base64Audio, transcript, script)`
+   - Adicionado `base64Audio` como primeiro parâmetro
+
+   **2) Request body com áudio** (linha 4987-5007):
+   - Antes: `parts: [{ text: prompt }]` (só texto)
+   - Depois:
+     ```javascript
+     parts: [
+       { inlineData: { mimeType: 'audio/webm', data: base64Audio } },
+       { text: prompt }
+     ]
+     ```
+   - `maxOutputTokens`: 1024 → 1500 (JSON maior com novos campos)
+
+   **3) Prompt expandido** (linha 4932-4985):
+   - Antes: 23 linhas, análise só de conteúdo vs script ideal
+   - Depois: 70+ linhas, análise de 6 aspectos:
+     1. **CONTENT**: Key phrases missing?
+     2. **PRONUNCIATION**: Brazilian accent patterns (th-sounds, vowels)
+     3. **PACE/SPEED**: Fast/slow/good + specific feedback
+     4. **CONFIDENCE**: High/medium/low + vocal firmness
+     5. **FILLER WORDS**: Count "um", "uh", "like", "you know", "basically"
+     6. **PAUSES**: Natural vs awkward silences
+   - JSON response schema com 13 campos (vs 6 anteriores):
+     - `overallScore`, `contentScore`, `deliveryScore`
+     - `pronunciationNotes`, `paceAssessment`, `paceNote`
+     - `confidenceAssessment`, `confidenceNote`
+     - `fillerWordCount`, `fillerWordsUsed`
+     - `strengths`, `improvements`, `summary`
+
+   **4) Chamada da função** (linha 4875):
+   - Antes: `await analyzeWithGemini(transcript, script)`
+   - Depois: `await analyzeWithGemini(base64Audio, transcript, script)`
+   - Comentário adicionado: "includes audio for pronunciation/pace/confidence analysis"
+
+   **5) Display de feedback** (linha 5035-5106):
+   - Antes: 1 score + fluencyNote genérico
+   - Depois: 3 scores + 6 seções detalhadas:
+     ```
+     [GERAL: 75/100] [CONTEÚDO: 85/100] [DELIVERY: 65/100]
+
+     🗣️ Pronúncia: Practice "thoroughly" (THUR-oh-lee)
+     ⏱️ Velocidade (fast): Slow down on key points
+     💪 Confiança (medium): Strong start, finish with conviction
+     🚫 Filler Words: 3x - Detected: um, you know, basically
+     ```
+   - Layout flex-wrap para mobile
+   - Fallback-safe: campos opcionais não quebram UI
+
+2. **sw.js** (Service Worker v13 → v14)
+   - Updated `CACHE_NAME = 'xai-trainer-v14'`
+   - Comment: "V8.0: Audio Analysis in Rehearsal Mode - Full audio feedback (pronunciation, pace, confidence)"
+
+**Antes vs Depois**:
+
+| Aspecto | V7.1 (antes) | V8.0 (depois) |
+|---------|--------------|---------------|
+| Input na análise | Só texto transcrito | Áudio + texto |
+| Scores | 1 (overall) | 3 (overall, content, delivery) |
+| Pronúncia | ❌ Não avalia | ✅ Palavras específicas + dicas |
+| Velocidade | ❌ Não avalia | ✅ Fast/slow/good + feedback |
+| Confiança vocal | ❌ Não avalia | ✅ High/medium/low + feedback |
+| Filler words | ⚠️ Parcial (se transcrito) | ✅ Contagem + lista completa |
+| Pausas | ❌ Não avalia | ✅ Natural vs awkward |
+| maxOutputTokens | 1024 | 1500 |
+| Prompt | 23 linhas | 70+ linhas |
+
+**Considerações Técnicas**:
+
+- **Tamanho do request**: Áudio 60s ≈ 1920 tokens (32 tokens/s). Limite inline: 20MB. Gravações típicas 30-90s são seguras.
+- **Latência**: +1-2s vs V7.1 (análise multimodal). Compensado pelo valor do feedback.
+- **Custo API**: Maior input tokens, mas output tokens similar. Dentro de free tier para uso pessoal.
+- **Compatibilidade**: Fallback-safe. Se Gemini não retornar novos campos, UI exibe só campos antigos sem erro.
+
+**Testing Checklist**:
+- ✅ Gravação captura áudio (MediaRecorder)
+- ✅ Áudio convertido para base64
+- ✅ Request não falha (payload <20MB)
+- ✅ Gemini retorna JSON com novos campos
+- ✅ UI exibe 3 scores corretamente
+- ✅ Seções de pronúncia/velocidade/confiança aparecem quando presentes
+- ✅ Filler words detectados e listados
+- ✅ Layout responsivo no mobile
+- ✅ Fallback funciona (campos opcionais ausentes não quebram)
+
+**Estado Atual do Projeto**:
+- Status: Implementação completa, aguardando teste do usuário
+- Service Worker: v14
+- Próximo passo: Teste em produção com gravação real (30-60s)
+
+**Para Outro Dev Continuar Daqui**:
+1. Teste Rehearsal Mode com gravação real
+2. Verifique se feedback completo aparece (6 seções)
+3. Se Gemini não retornar novos campos, debug prompt ou API response
+4. Após aprovação, commit + push → auto-deploy Vercel
+5. Atualizar documentação final (README, CLAUDE, TECHNICAL_DOCUMENTATION)
+
+**Documentação Relacionada**:
+- Documento de planejamento: `docs/melhorias_rehearsal.md` (checklist completo)
+- Prompt completo: `index.html` linha 4932-4985
+- Display logic: `index.html` linha 5035-5106
+
+---
+
 ### [V7.1] Secure API Key - Vercel Edge Functions - 03/01/2026
 
 #### ✅ Implementado

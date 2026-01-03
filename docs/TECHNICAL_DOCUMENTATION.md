@@ -2,7 +2,7 @@
 
 > **Comprehensive technical documentation for developers**
 >
-> **Version**: 7.1 (Secure API Key)
+> **Version**: 8.0 (Audio Analysis in Rehearsal Mode)
 > **Last Updated**: 03/01/2026
 > **Status**: Production Ready
 
@@ -61,18 +61,29 @@ The **xAI Pocket Trainer** is a Progressive Web App (PWA) designed to help João
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| **Total Lines of Code** | ~5,272 lines | index.html (~4,100) + data.js (~1,102) + edge functions (~70) |
-| **index.html Size** | ~130 KB | Estrutura + Lógica + UI + V7.0 Coach Alex + V7.1 Secure API |
+| **Total Lines of Code** | ~5,380 lines | index.html (~4,200) + data.js (~1,102) + edge functions (~70) + docs (~8) |
+| **index.html Size** | ~135 KB | Estrutura + Lógica + UI + V7.0 Coach Alex + V7.1 Secure API + V8.0 Audio Analysis |
 | **js/data.js Size** | ~52 KB | Dados + Rehearsal Scripts + Keywords |
 | **api/ Edge Functions** | ~170 lines | 3 serverless functions (TTS, REST, WebSocket proxies) |
-| **Bundle Size Total** | ~182 KB | +39 KB após V7.0 Coach Alex Edition |
-| **Load Time** | <2s on 4G | Service Worker v13 otimizado |
+| **Bundle Size Total** | ~187 KB | +5 KB após V8.0 (prompt expandido) |
+| **Load Time** | <2s on 4G | Service Worker v14 otimizado |
 | **Lighthouse Score** | 95+ (PWA) | Mantido após melhorias |
 | **Offline Support** | Hybrid | Core app 100% offline, Gemini features require internet |
-| **Features Implemented** | 11 major features | Rehearsal Mode + Audio Coach + Response Coach |
-| **Data Items** | 59 flashcards, 18 rehearsal scripts, 18 objections, 50+ keywords | V7.1 Secure API Key |
+| **Features Implemented** | 11 major features | Rehearsal Mode (V8.0) + Audio Coach + Response Coach |
+| **Data Items** | 59 flashcards, 18 rehearsal scripts, 18 objections, 50+ keywords | V8.0 Full Audio Analysis |
 
 ### 1.5 Recent Updates
+
+**V8.0 AUDIO ANALYSIS IN REHEARSAL MODE** (03/01/2026)
+
+*ENHANCEMENT: Complete audio feedback - pronunciation, pace, confidence, filler words*
+- ✅ Multimodal analysis: Audio sent directly to Gemini, not just transcription
+- ✅ 6 aspects evaluated: Content, Pronunciation, Pace, Confidence, Filler Words, Pauses
+- ✅ 3 scores returned: Overall (0-100), Content (0-100), Delivery (0-100)
+- ✅ Brazilian accent awareness: Specific phonetic tips for th-sounds, vowels, consonants
+- ✅ Expanded prompt: 70+ lines of detailed audio analysis instructions
+- ✅ Enhanced UI: 6 new feedback sections with color-coded emojis
+- ✅ Service Worker v14: Cache updated for new version
 
 **V7.1 SECURE API KEY** (03/01/2026)
 

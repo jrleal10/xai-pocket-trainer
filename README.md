@@ -1,7 +1,7 @@
 # xAI Pocket Trainer
 
 > Progressive Web App para preparação da entrevista na xAI
-> **Versão**: V7.1 "Secure API Key" (03/01/2026)
+> **Versão**: V8.0 "Audio Analysis in Rehearsal Mode" (03/01/2026)
 > **Data da Entrevista**: 05 de janeiro de 2026 às 17:00 BRT
 > **Entrevistador**: Jeffrey Weichsel (Human Data Manager)
 
@@ -26,7 +26,7 @@ Este app não é apenas para **testar** se você sabe as respostas. É para **tr
 **O que o app oferece:**
 
 - ✅ **Audio Coach** - Coaching imersivo com voz natural AI (Coach Alex persona) - V7.0 ATUALIZADO!
-- ✅ **Rehearsal Mode** - Leia scripts ideais, grave sua voz, receba feedback AI em tempo real (V4.0)
+- ✅ **Rehearsal Mode** - Leia scripts ideais, grave sua voz, receba feedback AI completo: pronúncia, velocidade, confiança vocal (V8.0 ATUALIZADO!)
 - ✅ **Memorizar** conceitos-chave, histórias e frases usando flashcards interativos
 - ✅ **Treinar concisão** com timer visual de 45 segundos (3 tempos: 45s/60s/90s)
 - ✅ **Praticar objeções** difíceis com quiz de 18 objeções + feedback instantâneo
@@ -74,9 +74,9 @@ Este app não é apenas para **testar** se você sabe as respostas. É para **tr
 
 ---
 
-## 🎭 Modo Rehearsal (V4.0 Fluency Trainer Edition)
+## 🎭 Modo Rehearsal (V8.0 Full Audio Analysis Edition)
 
-**O modo mais importante do app!** Aqui você não tenta adivinhar a resposta - você **lê, repete e memoriza** scripts ideais com feedback AI em tempo real.
+**O modo mais importante do app!** Aqui você não tenta adivinhar a resposta - você **lê, repete e memoriza** scripts ideais com feedback AI completo em tempo real (conteúdo + pronúncia + velocidade + confiança vocal).
 
 ### Filosofia: Read → Repeat → Memorize → Speak Naturally
 
@@ -115,11 +115,14 @@ Diferente de outras ferramentas que testam se você sabe a resposta, o Rehearsal
    - Fale o script naturalmente (não precisa decorar palavra por palavra!)
    - Toque em "⏹️ Parar" quando terminar
 
-7. **Receba feedback AI**:
+7. **Receba feedback AI completo (V8.0 NOVO!)**:
    - **Transcrição**: O que você realmente falou (Gemini Live transcrição)
-   - **Score de Similaridade**: Quão próximo você chegou do script ideal (0-100%)
-   - **Key Phrases Cobertos**: Quais frases-chave você incluiu ✅ e quais faltaram ❌
-   - **Análise de Conteúdo**: Feedback estruturado sobre o que funcionou e o que melhorar
+   - **3 Scores**: Geral (0-100), Conteúdo (0-100), Delivery (0-100) - NOVO!
+   - **Key Phrases**: Quais frases-chave você incluiu ✅ e quais faltaram ❌
+   - **🗣️ Pronúncia**: Palavras específicas que precisam de prática + dicas fonéticas - NOVO!
+   - **⏱️ Velocidade**: Fast/Slow/Good + feedback sobre ritmo - NOVO!
+   - **💪 Confiança Vocal**: High/Medium/Low + feedback sobre firmeza na voz - NOVO!
+   - **🚫 Filler Words**: Contagem de vícios ("um", "uh", "you know") + lista detectada - NOVO!
    - **Sugestões**: Dicas específicas para próxima tentativa
 
 8. **Ouça sua gravação**:
@@ -854,6 +857,30 @@ C:\Projetos\interview_xai_web_app\
 ---
 
 ### Histórico de Versões
+
+**V8.0 Audio Analysis in Rehearsal Mode** (03/01/2026) - Full Audio Feedback
+- **Complete Audio Analysis**: Gemini agora analisa o áudio diretamente, não apenas a transcrição
+- **6 Aspectos Avaliados**: Conteúdo, Pronúncia, Velocidade, Confiança Vocal, Filler Words, Pausas
+- **3 Scores Detalhados**: Geral (0-100), Conteúdo (0-100), Delivery (0-100)
+- **Feedback de Pronúncia**: Palavras específicas para praticar + dicas fonéticas para sotaque brasileiro
+- **Assessment de Velocidade**: Fast/Slow/Good + feedback sobre ritmo da fala
+- **Assessment de Confiança**: High/Medium/Low + feedback sobre firmeza vocal
+- **Detecção de Filler Words**: Contagem automática de vícios ("um", "uh", "you know", "basically")
+- **Prompt Expandido**: 70+ linhas de instruções para análise multimodal profunda
+- **Cache v14**: Service Worker atualizado para nova versão
+
+**V7.1 Secure API Key** (03/01/2026) - Vercel Edge Functions
+- **3 Edge Functions**: API key protegida em variáveis de ambiente Vercel
+- **Zero Exposure**: Key nunca aparece no código cliente ou repositório
+- **Proxies Seguros**: `/api/gemini-tts`, `/api/gemini-rest`, `/api/gemini-ws`
+- **Resolução de Segurança**: Google AI Studio bloqueou key exposta publicamente
+
+**V7.0 Coach Alex Edition** (03/01/2026) - Immersive Coaching Experience
+- **Coach Alex Persona**: Voz de executive coach experiente em todos os scripts
+- **Contextual Framing**: Introduções específicas para cada momento ("Now, the most important question...")
+- **Logical Flow**: Playlist ordenada seguindo ordem cronológica da entrevista
+- **English Standardization**: Todos os títulos padronizados em inglês
+- **Cache Upgrade**: v12 com invalidação por `itemId-voice-rate`
 
 **V6.0 Gemini TTS Integration** (02/01/2026) - Natural AI Voice for Audio Coach
 - **Gemini 2.5 Flash TTS API**: Voz natural e profissional em American English

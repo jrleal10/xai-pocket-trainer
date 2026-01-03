@@ -83,9 +83,10 @@ open index.html
 const CACHE_NAME = 'xai-trainer-vX'; // Increment X
 ```
 
-**Current version:** `v13` (V7.1 - 03/01/2026)
+**Current version:** `v14` (V8.0 - 03/01/2026)
 
 **Version History:**
+- v14: V8.0 Audio Analysis in Rehearsal Mode (03/01/2026)
 - v13: V7.1 Secure API Key via Edge Functions (03/01/2026)
 - v12: V7.0 Coach Alex immersive coaching (03/01/2026)
 - v11: V6.0 Gemini TTS integration (02/01/2026)
@@ -135,6 +136,38 @@ const ws = new WebSocket(wsUrl);
 ---
 
 ## Feature Highlights
+
+### V8.0: Audio Analysis in Rehearsal Mode (03/01/2026)
+
+**Complete audio feedback** - Gemini analyzes the actual recording, not just text:
+- Multimodal analysis: `inlineData` with audio/webm sent to Gemini API
+- 6 aspects evaluated: Content, Pronunciation, Pace, Confidence, Filler Words, Pauses
+- 3 scores returned: Overall (0-100), Content (0-100), Delivery (0-100)
+- Brazilian accent awareness: Specific tips for th-sounds, word-final consonants, vowel patterns
+- Filler word detection: Counts "um", "uh", "like", "you know", "basically", "right?"
+- Pace assessment: fast/slow/good with specific feedback on speaking speed
+- Confidence assessment: high/medium/low with vocal firmness feedback
+- Expanded prompt: 70+ lines of detailed audio analysis instructions
+- maxOutputTokens: 1024 → 1500 (larger JSON response)
+
+**Example Output:**
+```
+Score: 75/100 | Content: 85/100 | Delivery: 65/100
+
+✅ Strengths: Mentioned Joule, good structure
+📝 Improvements: Include more technical details
+
+🗣️ Pronunciation: Practice "thoroughly" (THUR-oh-lee)
+⏱️ Speed (fast): Slow down on "5 years as Partner"
+💪 Confidence (medium): Strong start, finish with conviction
+🚫 Filler Words: 3x - Detected: um, you know, basically
+```
+
+**Technical Implementation:**
+- `analyzeWithGemini(base64Audio, transcript, script)` - audio as first param
+- Request body includes both `inlineData` (audio) and `text` (prompt)
+- UI displays 6 new feedback sections with color-coded emojis
+- Fallback-safe: Missing fields don't break display
 
 ### V7.0: Coach Alex Edition (03/01/2026)
 
