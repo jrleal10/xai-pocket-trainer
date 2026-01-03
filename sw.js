@@ -1,7 +1,7 @@
 // xAI Pocket Trainer - Service Worker
 // Enables offline functionality and PWA installation
 
-const CACHE_NAME = 'xai-trainer-v12'; // V7.0: Coach Alex Persona - Immersive coaching experience with contextual framing
+const CACHE_NAME = 'xai-trainer-v13'; // V7.1: Secure API Key - Vercel edge functions protecting Gemini API key
 const urlsToCache = [
   '/',
   '/index.html',
