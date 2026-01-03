@@ -1,6 +1,7 @@
 # xAI Pocket Trainer
 
 > Progressive Web App para preparação da entrevista na xAI
+> **Versão**: V7.0 "Coach Alex Edition" (03/01/2026)
 > **Data da Entrevista**: 05 de janeiro de 2026 às 17:00 BRT
 > **Entrevistador**: Jeffrey Weichsel (Human Data Manager)
 
@@ -24,7 +25,7 @@ Este app não é apenas para **testar** se você sabe as respostas. É para **tr
 
 **O que o app oferece:**
 
-- ✅ **Audio Coach** - Ouça scripts e respostas ideais enquanto dirige, cozinha ou descansa (V5.0 - NOVO!)
+- ✅ **Audio Coach** - Coaching imersivo com voz natural AI (Coach Alex persona) - V7.0 ATUALIZADO!
 - ✅ **Rehearsal Mode** - Leia scripts ideais, grave sua voz, receba feedback AI em tempo real (V4.0)
 - ✅ **Memorizar** conceitos-chave, histórias e frases usando flashcards interativos
 - ✅ **Treinar concisão** com timer visual de 45 segundos (3 tempos: 45s/60s/90s)
@@ -179,19 +180,38 @@ Diferente de outras ferramentas que testam se você sabe a resposta, o Rehearsal
 
 ---
 
-## 🎧 Modo Audio Coach (V6.0 - Gemini TTS Edition)
+## 🎧 Modo Audio Coach (V7.0 - Coach Alex Edition)
 
-**Pratique passivamente com voz de IA natural e profissional!** O Audio Coach lê scripts e respostas ideais em voz alta usando Gemini TTS API, oferecendo qualidade de áudio muito superior ao TTS nativo do navegador.
+**Coaching imersivo com persona de mentor profissional!** O Audio Coach V7.0 transforma a experiência de voz robotizada para uma **sessão real de coaching** com Coach Alex, usando Gemini TTS API + prompt engineering avançado.
+
+### 🎭 Novidades V7.0 (03/01/2026)
+
+**Coach Alex Persona**:
+- Mentor executivo experiente (15 anos preparando profissionais de finanças)
+- Voz natural americana (17 vozes disponíveis: Charon, Fenrir, Kore, etc.)
+- Três modos de entrega: Guiding (contextualização), Question (Jeffrey), Modeling (resposta ideal)
+
+**Contextualização Inteligente**:
+- Cada script tem introdução relevante ao momento da entrevista
+- "Let's practice this important moment..." → Pergunta → "Here's exactly how to respond..."
+- Transições suaves entre contexto, pergunta e resposta modelo
+- Key phrases reminder ao final de cada script
+
+**Ordenação Lógica**:
+- Playlist "All" segue ordem natural da entrevista (não mais aleatório!)
+- Fluxo: Opening → About Me → Stories → Bridges → Quick → Closing → Objections
+- Internaliza não apenas respostas, mas o **fluxo da conversa**
 
 ### Filosofia: Listen → Internalize → Speak
 
-Diferente do Rehearsal Mode (ativo), o Audio Coach é para **prática passiva**:
+Diferente do Rehearsal Mode (ativo), o Audio Coach é para **prática passiva imersiva**:
 
 1. **Selecione categoria** de conteúdo (Killer Stories, Opening, Technical, etc.)
-2. **Pressione Play** e ouça scripts sendo lidos em voz alta
-3. **Internalize** pronúncia, ritmo e estrutura das respostas
-4. **Repita mentalmente** enquanto escuta
-5. **Pratique em qualquer situação** - sem precisar olhar tela ou falar
+2. **Escolha voz** do Coach Alex (17 opções - recomendado: Charon ou Fenrir)
+3. **Pressione Play** e ouça scripts em contexto de coaching real
+4. **Internalize** não só o conteúdo, mas o tom, ritmo e estrutura profissional
+5. **Repita mentalmente** enquanto escuta o coaching
+6. **Pratique em qualquer situação** - dirigindo, caminhando, cozinhando
 
 ### Como Usar
 

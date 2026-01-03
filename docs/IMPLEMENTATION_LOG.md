@@ -62,6 +62,134 @@
 
 ---
 
+### [V7.0] Coach Alex Edition - Immersive Coaching Experience - 03/01/2026
+
+#### ✅ Implementado
+
+**Feature**: Transformação do Audio Coach em experiência de coaching imersiva com persona Coach Alex, contextualização inteligente e ordenação lógica da playlist.
+
+**Problema Resolvido**:
+- Audio Coach V6.0 tinha voz natural mas experiência "fria" e descontextualizada
+- Títulos misturados PT/EN confundiam o TTS
+- Playlist aleatória não internalizava fluxo natural da entrevista
+- Faltava sensação de coaching real (apenas "Question:" → "Answer:")
+
+**Solução**:
+- Coach Alex persona completa com Audio Profile, Scene e Director's Notes
+- Contextualização por momento (9 tipos: opening, about-me, stories, bridges, quick, etc.)
+- Títulos padronizados em inglês via função `convertTitleToEnglish()`
+- Ordenação lógica seguindo fluxo da entrevista (não mais shuffle)
+
+**Arquivos Modificados**:
+
+1. **index.html** (~4.100 linhas total)
+
+   **New Helper Functions** (linhas ~3640-3767):
+   - `convertTitleToEnglish()`: Mapeia 20+ títulos PT/misturados → inglês puro
+   - `buildCoachingText(item)`: Monta texto com contexto + pergunta + resposta + reminder
+     - 9 contextos específicos por momento
+     - Detecção automática de perguntas vs situações
+     - Adiciona key phrases reminder ao final
+
+   **Updated Audio Profile** (linhas ~3459-3482):
+   - Simplificado de 50+ linhas para ~20 linhas
+   - Removeu especificação de gênero (deixa voiceName controlar)
+   - Foco em delivery modes (Guiding, Question, Modeling) e pacing
+
+   **Updated buildAudioPlaylist()** (linhas ~3771-3871):
+   - Array `momentOrder` corrigido com valores reais do data.js
+   - Ordenação lógica para categoria "all" (não mais shuffle)
+   - Killer stories também ordenadas logicamente
+   - Contextos adicionados para `bridges` e `quick`
+
+   **Updated playCurrentItem()** (linha ~3973):
+   - Agora usa `buildCoachingText(item)` em vez de formato simples
+
+   **Cache Versioning** (linhas ~3773, ~3992):
+   - Cache key: `v7.0-${item.id}-${voice}-${rate}`
+   - Invalida cache V6.0 automaticamente
+
+2. **sw.js**
+   - `CACHE_NAME` bumped para 'xai-trainer-v12'
+
+3. **docs/melhorias_audio_coach.md**
+   - Documentação completa da implementação V7.0
+   - Checklists atualizados com status de conclusão
+   - Resumo de implementação e impacto no UX
+
+#### 🐛 Bug Fixes (03/01/2026)
+
+**Problema**: Duplicate fetch URLs impedindo Gemini TTS de funcionar
+
+**Causa**: Edição manual criou linhas duplicadas com URLs diferentes em 3 locais:
+- `generateSpeechWithGemini()`: tinha URL TTS + URL flash-exp
+- Rehearsal analysis: tinha 2 fetch() consecutivos
+- Vício Police setup: tinha 2 model: keys no mesmo objeto
+
+**Solução**: Removidas todas as duplicações, mantendo apenas:
+- Audio Coach TTS: `gemini-2.5-flash-preview-tts`
+- Rehearsal/Vício Police: `gemini-2.5-flash`
+
+**Problema**: Ordenação da playlist não funcionando
+
+**Causa**: `momentOrder` tinha valores teóricos (core-pitch, equity, technical, differentiation) que não existiam no data.js
+
+**Solução**: Corrigido `momentOrder` para usar valores reais:
+```javascript
+['opening', 'about-me', 'stories', 'bridges', 'quick', 'closing', 'objections']
+```
+
+#### 📊 Impacto no UX
+
+**Antes (V6.0)**:
+```
+"Question: Tell Me About Yourself - Versão Completa
+Suggested Answer: I'm a finance professional..."
+```
+
+**Depois (V7.0)**:
+```
+"Now, the most important question of the interview. Jeffrey will ask you
+to introduce yourself. This is your chance to frame the entire conversation
+around your equity experience.
+
+Jeffrey will ask: 'Tell me about yourself.'
+
+Here's exactly how you should respond. Notice how we lead with Joule:
+
+I'm a finance professional with 20 years of experience...
+
+Remember the key phrases: five years, partner at Joule, investment committee."
+```
+
+#### 🎯 Resultado
+
+O Audio Coach agora oferece:
+1. **Imersão**: Sensação de sessão real com mentor experiente
+2. **Contexto**: Cada script tem introdução relevante
+3. **Naturalidade**: Transições suaves contexto → pergunta → resposta
+4. **Estrutura**: Playlist segue ordem natural da entrevista
+5. **Memorização**: Ênfase em key phrases ajuda retenção
+
+Usuário pode ouvir entrevista completa em ordem (40-50 minutos) internalizando não só respostas, mas o **fluxo natural** da conversa.
+
+#### 🔧 Para Outro Dev Continuar Daqui
+
+**Estado Atual**: V7.0 completo e funcional (com correções de bugs)
+
+**Melhorias Futuras Possíveis**:
+1. Adicionar campo `keyPhrases` aos rehearsalScripts para reminders automáticos
+2. Expandir `momentContexts` com mais variações de introdução
+3. Adicionar modo "Mock Interview" com AI como Jeffrey (voz dual-speaker)
+4. Implementar analytics de uso (tempo ouvindo, scripts mais repetidos)
+
+**Atenção**:
+- Gemini TTS requer API key válida com acesso ao modelo `gemini-2.5-flash-preview-tts`
+- Se erro 403, verificar permissões da API key em https://aistudio.google.com/apikey
+- Fallback para Web Speech API funciona automaticamente se Gemini falhar
+
+---
+
 ### [V6.0] Gemini TTS Integration - Natural AI Voice for Audio Coach - 02/01/2026
 
 #### ✅ Implementado

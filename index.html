@@ -3455,14 +3455,30 @@
     // ============================================
 
     async function generateSpeechWithGemini(text) {
-      // Director's notes for professional male voice
-      const directorNotes = `# AUDIO PROFILE: Professional Interview Coach
-A mature, authoritative male voice with an American accent. Clear, confident delivery suitable for business interview preparation.
+      // V7.0: Enhanced Audio Profile - Coach Alex Persona
+      const directorNotes = `# AUDIO PROFILE: Coach Alex - The Interview Prep Mentor
 
-## DIRECTOR'S NOTES
-Style: Professional, confident, and authoritative. The tone should be supportive yet firm, like an experienced executive coach.
-Accent: American English (General American accent).
-Gender: Male voice with a mature, professional tone.
+A seasoned executive interview coach with 15 years of experience preparing finance professionals for high-stakes tech interviews. Alex has helped dozens of candidates land roles at top AI companies. Warm, authoritative style - believes in you but demands your best.
+
+## THE SCENE: Private Coaching Session
+Evening of January 4th, 2026—the night before João's final interview at xAI. Focused one-on-one video session. Alex is walking João through each moment of tomorrow's interview with Jeffrey Weichsel, providing context and modeling exactly how to respond. Final rehearsal before the big day.
+
+### DELIVERY INSTRUCTIONS
+
+**Three Modes:**
+1. **GUIDING** (context): Conversational, encouraging, warm. "Let's practice this..."
+2. **QUESTION** (presenting Jeffrey's question): Professional, direct, neutral-curious tone
+3. **MODELING** (ideal response): Confident, polished, natural emphasis on key phrases
+
+**Pacing:**
+- Brief pause (0.5s) between sections
+- Emphasis on KEY PHRASES: "FIVE years at Joule", "SEVEN ratios", "investment committee"
+- Slightly slower on critical phrases to aid memorization
+
+**Accent:** American English (General American)
+
+### CONTEXT
+João Leal, 45, Brazilian finance professional. 5 years Partner at Joule (GARP equity fund), 15 years at Banco ABC Brasil. Interview with Jeffrey Weichsel (xAI Human Data Manager) on Jan 5, 2026. Needs to internalize responses with fluency and natural American pacing.
 `;
 
       // Speed instructions based on rate
@@ -3596,18 +3612,154 @@ Gender: Male voice with a mature, professional tone.
       }
     }
 
+    // ============================================
+    // V7.0: COACHING TEXT BUILDER FUNCTIONS
+    // ============================================
+
+    function convertTitleToEnglish(title) {
+      const titleMap = {
+        // Opening
+        'Cumprimento Inicial': 'Opening Greeting',
+        'Transição Pós-Cumprimento': 'Post-Greeting Transition',
+
+        // About Me
+        'Tell Me About Yourself - Versão Completa': 'Tell me about yourself',
+        'Tell Me About Yourself - Versão 45s': 'Tell me about yourself - concise version',
+
+        // Core Pitch
+        'Experiência em Equity - Foco Joule': 'Tell me about your equity experience',
+        'Bridge Crédito-Equity via M&M': 'How does your credit background relate to equity?',
+        'História ABC - Validação do Modelo': 'Tell me about a time you validated a financial model',
+        'Perspectiva Emerging Markets': 'What unique perspective do you bring?',
+
+        // Technical
+        'DCF Walkthrough': 'Walk me through a DCF',
+        'EV/EBITDA vs P/E': 'When would you use EV/EBITDA versus P/E?',
+        'Quality of Earnings': 'How do you assess earnings quality?',
+
+        // Differentiation
+        'Por que contratar você vs CFA?': 'Why should we hire you over someone with a CFA?',
+        'Por que saindo da Joule?': 'Why are you leaving Joule?',
+        'Idade como vantagem': 'You are 45. Is that a concern?',
+
+        // Closing
+        'Perguntas para Jeffrey': 'Do you have any questions for me?',
+        'Fechamento Final': 'Final Closing Statement',
+        'Closing Statement': 'Final Closing Statement',
+
+        // Objections
+        'Por que xAI?': 'Why xAI?'
+      };
+
+      // Return mapping or original title if already in English
+      return titleMap[title] || title;
+    }
+
+    function buildCoachingText(item) {
+      // Moment contexts for coaching framing
+      const momentContexts = {
+        'opening': {
+          intro: "Let's start with the opening moment. First impressions matter—this is when you establish rapport with Jeffrey.",
+          transition: "Greet him naturally, like this:"
+        },
+        'about-me': {
+          intro: "Now, the most important question of the interview. Jeffrey will ask you to introduce yourself. This is your chance to frame the entire conversation around your equity experience.",
+          transition: "Here's exactly how you should respond. Notice how we lead with Joule:"
+        },
+        'core-pitch': {
+          intro: "Let's practice your core value proposition. This is where you differentiate yourself from other candidates.",
+          transition: "Deliver it with confidence, like this:"
+        },
+        'stories': {
+          intro: "Time for a killer story. Stories are memorable—Jeffrey will remember these details when making his decision.",
+          transition: "Here's how you tell it:"
+        },
+        'equity': {
+          intro: "Let's reinforce your equity experience. Remember: lead with Joule, not with credit.",
+          transition: "Here's your response:"
+        },
+        'technical': {
+          intro: "Now a technical question. Jeffrey may test your fundamental analysis knowledge. Stay calm and structured.",
+          transition: "Here's a clear, confident answer:"
+        },
+        'bridges': {
+          intro: "Now let's practice a critical bridge. This is where you connect different parts of your background and show how they complement each other.",
+          transition: "Here's how you make the connection:"
+        },
+        'quick': {
+          intro: "Time for a quick practical question. Jeffrey wants to cover logistics. Be clear and direct.",
+          transition: "Answer confidently:"
+        },
+        'differentiation': {
+          intro: "This question is about why YOU specifically. What makes you different from candidates with CFAs or PhDs?",
+          transition: "Here's how you reframe it as a strength:"
+        },
+        'closing': {
+          intro: "We're approaching the end of the interview. The closing is crucial—it's your last chance to address concerns and leave a strong impression.",
+          transition: "End with confidence, like this:"
+        },
+        'objections': {
+          intro: "Let's prepare for a tough objection. Jeffrey might challenge you on this. Stay calm, don't get defensive.",
+          transition: "Here's how you handle it professionally:"
+        }
+      };
+
+      const context = momentContexts[item.moment] || {
+        intro: "Let's practice this section.",
+        transition: "Here's how you should respond:"
+      };
+
+      // Convert title to English if necessary
+      const englishTitle = convertTitleToEnglish(item.title);
+
+      // Determine if it's a direct question
+      const isQuestion = englishTitle.includes('?') ||
+                         englishTitle.toLowerCase().startsWith('tell me') ||
+                         englishTitle.toLowerCase().startsWith('why') ||
+                         englishTitle.toLowerCase().startsWith('what') ||
+                         englishTitle.toLowerCase().startsWith('how') ||
+                         englishTitle.toLowerCase().startsWith('walk me');
+
+      let textToSpeak;
+
+      if (isQuestion) {
+        // Format for direct questions
+        textToSpeak = `${context.intro}
+
+Jeffrey will ask: "${englishTitle}"
+
+${context.transition}
+
+${item.script}`;
+      } else {
+        // Format for situations/moments (opening, closing, etc.)
+        textToSpeak = `${context.intro}
+
+${context.transition}
+
+${item.script}`;
+      }
+
+      // Add reminder of key phrases if they exist
+      if (item.keyPhrases && item.keyPhrases.length > 0) {
+        const topPhrases = item.keyPhrases.slice(0, 3).join(', ');
+        textToSpeak += `\n\nRemember the key phrases: ${topPhrases}.`;
+      }
+
+      return textToSpeak;
+    }
+
     async function preloadNextItem() {
       const nextIndex = state.audioCoachCurrentIndex + 1;
       if (nextIndex < state.audioCoachPlaylist.length) {
         const nextItem = state.audioCoachPlaylist[nextIndex];
-        const cacheKey = `${nextItem.id}-${state.audioCoachVoiceName}-${state.audioCoachSpeechRate}`;
+        const cacheKey = `v7.0-${nextItem.id}-${state.audioCoachVoiceName}-${state.audioCoachSpeechRate}`;
 
         // Only preload if not already in cache
         if (!state.audioCoachAudioCache.has(cacheKey)) {
           try {
-            const textToSpeak = `Question: ${nextItem.title}
-
-Suggested Answer: ${nextItem.script}`;
+            // V7.0: Use coaching text builder
+            const textToSpeak = buildCoachingText(nextItem);
             const base64Audio = await generateSpeechWithGemini(textToSpeak);
             state.audioCoachAudioCache.set(cacheKey, base64Audio);
             console.log(`Preloaded audio for: ${nextItem.title}`);
@@ -3624,34 +3776,80 @@ Suggested Answer: ${nextItem.script}`;
       state.audioCoachPlaylist = [];
       state.audioCoachCurrentIndex = 0;
 
+      // V7.0: Logical ordering of interview moments (based on actual data.js values)
+      const momentOrder = [
+        'opening',          // 0:00-1:00 - Greetings
+        'about-me',         // 1:00-3:00 - Tell me about yourself
+        'stories',          // 3:00-6:00 - Killer stories (Joule, ABC, EM)
+        'bridges',          // 6:00-9:00 - Bridges (M&M, EM perspective, Why xAI, Why leaving)
+        'quick',            // 9:00-11:00 - Quick questions (Availability, Remote, Salary, Concerns)
+        'closing',          // 11:00-14:00 - Questions & closing
+        'objections'        // Variable - Tough questions (added separately)
+      ];
+
       // Build playlist from rehearsalScripts
       if (category === 'all') {
-        state.audioCoachPlaylist = [...rehearsalScripts];
-        // Shuffle
-        for (let i = state.audioCoachPlaylist.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [state.audioCoachPlaylist[i], state.audioCoachPlaylist[j]] =
-            [state.audioCoachPlaylist[j], state.audioCoachPlaylist[i]];
-        }
-      } else if (category === 'killer') {
-        state.audioCoachPlaylist = rehearsalScripts.filter(s => s.isKiller);
-      } else {
-        state.audioCoachPlaylist = rehearsalScripts.filter(s => s.moment === category);
-      }
+        // V7.0: Sort by moment order (not random!)
+        state.audioCoachPlaylist = [...rehearsalScripts].sort((a, b) => {
+          const orderA = momentOrder.indexOf(a.moment);
+          const orderB = momentOrder.indexOf(b.moment);
 
-      // Add objections if category is 'objections' or 'all'
-      if (category === 'objections' || category === 'all') {
+          // Debug log
+          console.log(`Sorting: ${a.title} (${a.moment}, order: ${orderA}) vs ${b.title} (${b.moment}, order: ${orderB})`);
+
+          // If same moment, maintain original order
+          if (orderA === orderB) {
+            return 0;
+          }
+
+          return orderA - orderB;
+        });
+
+        // Log final playlist order
+        console.log('Final playlist order:', state.audioCoachPlaylist.map(s => `${s.moment}: ${s.title}`));
+
+        // Add objections at the end
         objections.forEach(obj => {
           state.audioCoachPlaylist.push({
             id: `objection-${obj.id}`,
             title: `Objection: ${obj.objection}`,
-            script: `Question: ${obj.objection}\n\nBest Response: ${obj.idealScript}`,
+            script: obj.idealScript,
             duration: '60s',
             moment: 'objections',
             momentLabel: '💣 Objections',
-            isKiller: false
+            isKiller: false,
+            keyPhrases: []
           });
         });
+
+      } else if (category === 'killer') {
+        // Killer stories also ordered logically
+        state.audioCoachPlaylist = rehearsalScripts
+          .filter(s => s.isKiller)
+          .sort((a, b) => {
+            const orderA = momentOrder.indexOf(a.moment);
+            const orderB = momentOrder.indexOf(b.moment);
+            return orderA - orderB;
+          });
+
+      } else if (category === 'objections') {
+        // Only objections
+        objections.forEach(obj => {
+          state.audioCoachPlaylist.push({
+            id: `objection-${obj.id}`,
+            title: `Objection: ${obj.objection}`,
+            script: obj.idealScript,
+            duration: '60s',
+            moment: 'objections',
+            momentLabel: '💣 Objections',
+            isKiller: false,
+            keyPhrases: []
+          });
+        });
+
+      } else {
+        // Specific category - maintain original order
+        state.audioCoachPlaylist = rehearsalScripts.filter(s => s.moment === category);
       }
 
       updatePlaylistUI();
@@ -3757,10 +3955,8 @@ Suggested Answer: ${nextItem.script}`;
       state.audioCoachIsPaused = false;
       updateAudioCoachUI();
 
-      // Build text to speak with clear Question/Answer format
-      const textToSpeak = `Question: ${item.title}
-
-Suggested Answer: ${item.script}`;
+      // V7.0: Use coaching text builder for contextual framing
+      const textToSpeak = buildCoachingText(item);
 
       // Try Gemini TTS first, fallback to Web Speech API if fails
       if (state.audioCoachUseGemini) {
@@ -3779,8 +3975,8 @@ Suggested Answer: ${item.script}`;
       showAudioLoadingIndicator();
 
       try {
-        // Check cache first
-        const cacheKey = `${item.id}-${state.audioCoachVoiceName}-${state.audioCoachSpeechRate}`;
+        // V7.0: Cache key includes version to invalidate old cache
+        const cacheKey = `v7.0-${item.id}-${state.audioCoachVoiceName}-${state.audioCoachSpeechRate}`;
         let base64Audio;
 
         if (state.audioCoachAudioCache.has(cacheKey)) {

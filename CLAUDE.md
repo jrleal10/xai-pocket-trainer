@@ -97,9 +97,10 @@ After editing `index.html` or `js/data.js`:
 const CACHE_NAME = 'xai-trainer-vX'; // Increment X to force cache refresh
 ```
 
-Current version: `v11` (V6.0 Gemini TTS Integration - 02/01/2026)
+Current version: `v12` (V7.0 Coach Alex Edition - 03/01/2026)
 
 **Version History:**
+- v12: V7.0 Coach Alex Edition - Immersive coaching experience with contextual framing - 03/01/2026
 - v11: V6.0 Gemini TTS Integration - Natural AI voice for Audio Coach - 02/01/2026
 - v10: V5.0 Audio Coach Edition - Listen-Only Training Mode - 02/01/2026
 - v7: Updated to Gemini 2.5 Flash (stable model) - 02/01/2026
@@ -927,6 +928,96 @@ JavaScript timers (`setInterval`) are not perfectly accurate (±10-50ms drift). 
 - **Service Worker Cache:** Entire app cached on first visit (~500 KB including icons)
 - **Offline Load:** <100ms (served from cache)
 - **Animation Performance:** CSS animations used for smooth 60fps (avoid JavaScript animations)
+
+---
+
+## V7.0: Coach Alex Edition - Immersive Coaching Experience
+
+**Release Date:** 03/01/2026
+**Spec Document:** `docs/melhorias_audio_coach.md`
+
+### Overview
+
+V7.0 transforms Audio Coach from a simple TTS reader into an **immersive coaching experience** with Coach Alex persona, contextual framing, and logical playlist ordering.
+
+### Key Improvements
+
+1. **Coach Alex Persona** - Complete Audio Profile with:
+   - Seasoned executive interview coach (15 years experience)
+   - The Scene: Private coaching session the night before interview
+   - Three delivery modes: Guiding, Question, Modeling
+   - Natural emphasis on key phrases
+
+2. **Contextual Framing** - Each script includes:
+   - Moment-specific introduction
+   - Question presentation (as Jeffrey would ask)
+   - Transition phrase before ideal response
+   - Key phrases reminder at the end
+
+3. **Title Standardization** - All titles converted to English:
+   - "Cumprimento Inicial" → "Opening Greeting"
+   - "Tell Me About Yourself - Versão Completa" → "Tell me about yourself"
+   - Eliminates PT/EN mixing for consistent voice output
+
+4. **Logical Playlist Ordering** - Category "All" now follows interview flow:
+   - opening → about-me → stories → bridges → quick → closing → objections
+   - No more random shuffling
+   - Internalizes conversation flow, not just individual responses
+
+### Implementation Details
+
+**New Functions** (`index.html`):
+- `convertTitleToEnglish()` (lines ~3644-3681): Maps 20+ PT/mixed titles to English
+- `buildCoachingText()` (lines ~3683-3767): Builds contextual coaching text with 9 moment-specific intros
+- Updated `buildAudioPlaylist()` (lines ~3771-3871): Sorts by logical moment order
+- Updated `playCurrentItem()` (line ~3973): Uses buildCoachingText instead of raw script
+
+**Audio Profile Changes** (`index.html` lines ~3459-3482):
+- Simplified from 50+ lines to ~20 lines (better Gemini TTS compatibility)
+- Removed gender specification (lets voiceName parameter control)
+- Focuses on delivery modes and pacing instead of persona details
+
+**Cache Versioning** (lines ~3773, ~3992):
+- Cache key now: `v7.0-${item.id}-${voice}-${rate}`
+- Automatically invalidates V6.0 cache
+
+**Service Worker**: Bumped to v12
+
+### User Experience Impact
+
+**Before (V6.0):**
+```
+"Question: Tell Me About Yourself - Versão Completa
+
+Suggested Answer: I'm a finance professional..."
+```
+
+**After (V7.0):**
+```
+"Now, the most important question of the interview. Jeffrey will ask you
+to introduce yourself. This is your chance to frame the entire conversation
+around your equity experience.
+
+Jeffrey will ask: 'Tell me about yourself.'
+
+Here's exactly how you should respond. Notice how we lead with Joule:
+
+I'm a finance professional with 20 years of experience. For the last 5 years,
+I've been a partner at Joule Asset Management...
+
+Remember the key phrases: five years, partner at Joule, investment committee."
+```
+
+### Bug Fixes (03/01/2026)
+
+Fixed duplicate fetch URLs that were preventing Gemini TTS from working:
+- `generateSpeechWithGemini()`: Removed duplicate gemini-2.0-flash-exp URL
+- Rehearsal analysis: Removed duplicate fetch line
+- Vício Police setup: Removed duplicate model specification
+
+Corrected `momentOrder` array to match actual data.js values:
+- Changed from theoretical values (core-pitch, equity, technical, differentiation)
+- To actual values used in data (opening, about-me, stories, bridges, quick, closing, objections)
 
 ---
 

@@ -1,7 +1,7 @@
 // xAI Pocket Trainer - Service Worker
 // Enables offline functionality and PWA installation
 
-const CACHE_NAME = 'xai-trainer-v11'; // V6.0: Gemini TTS Integration - Natural AI voice for Audio Coach
+const CACHE_NAME = 'xai-trainer-v12'; // V7.0: Coach Alex Persona - Immersive coaching experience with contextual framing
 const urlsToCache = [
   '/',
   '/index.html',
