@@ -1,7 +1,7 @@
 // xAI Pocket Trainer - Service Worker
 // Enables offline functionality and PWA installation
 
-const CACHE_NAME = 'xai-trainer-v16'; // V8.0.2: Audio Analysis - Fix markdown code blocks + increase token limit
+const CACHE_NAME = 'xai-trainer-v17'; // V8.0 STABLE: Audio Analysis - Production ready
 const urlsToCache = [
   '/',
   '/index.html',

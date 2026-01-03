@@ -5010,9 +5010,6 @@ IMPORTANT: Return ONLY the raw JSON object. Do NOT wrap it in markdown code bloc
 
       const data = await response.json();
 
-      // Debug: Log full response
-      console.log('Gemini API Response:', JSON.stringify(data, null, 2));
-
       // Check for API errors
       if (data.error) {
         console.error('Gemini API Error:', data.error);
@@ -5021,18 +5018,15 @@ IMPORTANT: Return ONLY the raw JSON object. Do NOT wrap it in markdown code bloc
 
       if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
         let text = data.candidates[0].content.parts[0].text;
-        console.log('Gemini Response Text:', text);
 
         // Remove markdown code blocks if present (```json ... ``` or ``` ... ```)
         text = text.replace(/```(?:json)?\s*/g, '').replace(/```\s*$/g, '');
-        console.log('Text after removing markdown:', text);
 
         // Extract JSON from response
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           try {
             const parsedJSON = JSON.parse(jsonMatch[0]);
-            console.log('Parsed JSON:', parsedJSON);
             return parsedJSON;
           } catch (parseError) {
             console.error('JSON Parse Error:', parseError);
