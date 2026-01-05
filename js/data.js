@@ -1060,7 +1060,8 @@ const rehearsalScripts = [
     momentLabel: '🎬 Opening',
     title: 'Cumprimento Inicial',
     duration: '5-10s',
-    script: `Hello Jeffrey, nice to meet you. Thank you for taking the time to speak with me today.`,
+    script: `Hello Jeffrey, nice to meet you. Thank you for taking the time - and happy New Year!
+It is an exciting time at xAI with everything coming up.`,
     tips: [
       'Sorriso natural',
       'Contato visual com a câmera',
