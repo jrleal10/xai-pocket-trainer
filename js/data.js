@@ -1061,7 +1061,7 @@ const rehearsalScripts = [
     title: 'Cumprimento Inicial',
     duration: '5-10s',
     script: `Hello Jeffrey, nice to meet you. Thank you for taking the time - and happy New Year!
-It is an exciting time at xAI with everything coming up.`,
+2026 will be a game-changing year for AI, and I'm excited to be part of the team building that future!`,
     tips: [
       'Sorriso natural',
       'Contato visual com a câmera',
@@ -1333,11 +1333,11 @@ PERGUNTA 3 (Se sobrar tempo):
     momentLabel: '🏁 Closing',
     title: 'Fechamento Final',
     duration: '20s',
-    script: `Jeffrey, thank you for your time. I'm genuinely excited about this—it's exactly where my experience meets what you need.
+    script: `Jeffrey, thank you for your time. I'm genuinely excited about this opportunity.
 
-I can contribute to your current fundamental analysis projects immediately, and I bring differentiated expertise for what's coming next.
+Making Grok the best AI at finance - that's the meaningful, high-impact work I want to be part of, and I know I can deliver.
 
-I'm ready to start. Looking forward to hearing next steps.`,
+I'm ready to start from day one. Looking forward to the next steps.`,
     tips: [
       'Seja confiante mas não arrogante',
       '"Ready to start" - termine com disponibilidade',
